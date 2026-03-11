@@ -9,8 +9,8 @@ import {
   ChevronRight,
   BadgeCheck,
 } from "lucide-react";
+import SafeImage from "@/components/SafeImage";
 import { useFrontendData } from "@/lib/use-frontend-data";
-import { toCloudinaryUrl } from "@/lib/cloudinary";
 
 export default function HeroCarouselWithRightCards() {
   const data = useFrontendData();
@@ -55,8 +55,8 @@ export default function HeroCarouselWithRightCards() {
                 {slides.map((s) => (
                   <div key={s.id} className="relative h-full min-w-full">
                     <div className="relative h-full min-h-[420px]">
-                      <img
-                        src={toCloudinaryUrl(s.image)}
+                      <SafeImage
+                        src={s.image}
                         alt="Carousel background"
                         className="absolute inset-0 h-full w-full object-cover"
                       />
@@ -154,8 +154,8 @@ export default function HeroCarouselWithRightCards() {
               >
                 <div className="grid min-h-[220px] grid-cols-12 gap-4 p-4 sm:min-h-[250px] sm:p-6">
                   <div className="col-span-12 flex items-center justify-center sm:col-span-5">
-                    <img
-                      src={toCloudinaryUrl(c.image)}
+                    <SafeImage
+                      src={c.image}
                       alt={c.title}
                       className="h-[140px] w-full max-w-[220px] rounded-xl object-cover shadow-sm transition-transform duration-300 group-hover:scale-[1.03] sm:h-[120px] sm:w-[160px]"
                     />

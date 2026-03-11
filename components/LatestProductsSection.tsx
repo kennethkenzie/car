@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { Heart, ShoppingBag, Star } from "lucide-react";
+import SafeImage from "@/components/SafeImage";
 import { addToCart } from "@/lib/cart";
 import { useFrontendData } from "@/lib/use-frontend-data";
 import { toCloudinaryUrl } from "@/lib/cloudinary";
@@ -76,8 +77,8 @@ export default function LatestProductsSection() {
                 </button>
 
                 <Link href={p.href} aria-label={p.name}>
-                  <img
-                    src={toCloudinaryUrl(p.image)}
+                  <SafeImage
+                    src={p.image}
                     alt={p.name}
                     className="h-[240px] w-full object-cover transition-transform duration-300 group-hover:scale-[1.03]"
                   />

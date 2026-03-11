@@ -1,8 +1,8 @@
 "use client";
 
 import Link from "next/link";
+import SafeImage from "@/components/SafeImage";
 import { useFrontendData } from "@/lib/use-frontend-data";
-import { toCloudinaryUrl } from "@/lib/cloudinary";
 
 export default function CategoryTilesSection() {
   const data = useFrontendData();
@@ -30,8 +30,8 @@ export default function CategoryTilesSection() {
                     aria-label={t.label}
                   >
                     <div className="aspect-[4/3] overflow-hidden rounded-xl bg-gray-100">
-                      <img
-                        src={toCloudinaryUrl(t.image)}
+                      <SafeImage
+                        src={t.image}
                         alt={t.label}
                         className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.04]"
                       />

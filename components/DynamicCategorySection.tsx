@@ -2,8 +2,8 @@
 
 import Link from "next/link";
 import { Image as ImageIcon } from "lucide-react";
+import SafeImage from "@/components/SafeImage";
 import { useFrontendData } from "@/lib/use-frontend-data";
-import { toCloudinaryUrl } from "@/lib/cloudinary";
 
 export default function DynamicCategorySection() {
     const data = useFrontendData();
@@ -40,8 +40,8 @@ export default function DynamicCategorySection() {
                         >
                             <div className="mb-3 flex h-16 w-16 items-center justify-center overflow-hidden rounded-full bg-gray-50 p-2 ring-1 ring-gray-100 transition-all group-hover:ring-[#f6c400]">
                                 {cat.thumbnail ? (
-                                    <img
-                                        src={toCloudinaryUrl(cat.thumbnail)}
+                                    <SafeImage
+                                        src={cat.thumbnail}
                                         alt={cat.title}
                                         className="h-full w-full object-contain transition-transform duration-300 group-hover:scale-110"
                                     />

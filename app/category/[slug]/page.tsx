@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useParams } from "next/navigation";
 import { Star } from "lucide-react";
 import NavBar from "@/components/NavBar";
-import { toCloudinaryUrl } from "@/lib/cloudinary";
+import SafeImage from "@/components/SafeImage";
 import { getCategoryPageData } from "@/lib/catalog";
 import { useFrontendData } from "@/lib/use-frontend-data";
 
@@ -57,8 +57,8 @@ export default function CategoryPage() {
               </div>
 
               <div className="overflow-hidden rounded-[28px] border border-gray-200 bg-gray-50">
-                <img
-                  src={toCloudinaryUrl(category.image)}
+                <SafeImage
+                  src={category.image}
                   alt={category.title}
                   className="h-[260px] w-full object-cover"
                 />
@@ -84,8 +84,8 @@ export default function CategoryPage() {
                 className="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm"
               >
                 <Link href={product.href} className="block bg-gray-50">
-                  <img
-                    src={toCloudinaryUrl(product.image)}
+                  <SafeImage
+                    src={product.image}
                     alt={product.name}
                     className="h-[240px] w-full object-cover"
                   />

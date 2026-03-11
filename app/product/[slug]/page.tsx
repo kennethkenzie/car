@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 import NavBar from "@/components/NavBar";
 import RelatedProductsCarousel from "@/components/RelatedProductsCarousel";
+import SafeImage from "@/components/SafeImage";
 import { addToCart } from "@/lib/cart";
 import { useFrontendData } from "@/lib/use-frontend-data";
 import { toCloudinaryUrl } from "@/lib/cloudinary";
@@ -79,8 +80,8 @@ export default function ProductDetailsPage() {
                           : "border-gray-200 hover:border-gray-400"
                         }`}
                     >
-                      <img
-                        src={toCloudinaryUrl(item.image)}
+                      <SafeImage
+                        src={item.image}
                         alt={item.alt}
                         className="h-full w-full object-cover"
                       />
@@ -102,8 +103,8 @@ export default function ProductDetailsPage() {
                     </div>
 
                     <div className="flex min-h-[520px] items-center justify-center rounded-xl bg-[#fafafa] p-6">
-                      <img
-                        src={toCloudinaryUrl(selectedImage?.image ?? gallery[0]?.image ?? "")}
+                      <SafeImage
+                        src={selectedImage?.image ?? gallery[0]?.image ?? ""}
                         alt={selectedImage?.alt ?? gallery[0]?.alt ?? "Product image"}
                         className="max-h-[500px] w-auto max-w-full object-contain"
                       />
@@ -363,8 +364,8 @@ export default function ProductDetailsPage() {
 
               <div className="mt-4 rounded-xl border border-gray-300 p-3">
                 <div className="flex items-center gap-3">
-                  <img
-                    src={toCloudinaryUrl("https://images.unsplash.com/photo-1585515656973-94d1ea4f5b0b?auto=format&fit=crop&w=400&q=80")}
+                  <SafeImage
+                    src="https://images.unsplash.com/photo-1585515656973-94d1ea4f5b0b?auto=format&fit=crop&w=400&q=80"
                     alt="Related cooker"
                     className="h-24 w-24 rounded-lg object-cover"
                   />

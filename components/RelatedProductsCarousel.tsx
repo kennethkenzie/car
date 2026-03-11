@@ -3,8 +3,8 @@
 import { useRef } from "react";
 import Link from "next/link";
 import { ChevronLeft, ChevronRight, Star } from "lucide-react";
+import SafeImage from "@/components/SafeImage";
 import { useFrontendData } from "@/lib/use-frontend-data";
-import { toCloudinaryUrl } from "@/lib/cloudinary";
 
 type RelatedProduct = {
   id: string;
@@ -111,8 +111,8 @@ export default function RelatedProductsCarousel() {
                   >
                     <Link href={product.href} className="group block">
                       <div className="flex h-[170px] items-center justify-center overflow-hidden bg-white">
-                        <img
-                          src={toCloudinaryUrl(product.image)}
+                        <SafeImage
+                          src={product.image}
                           alt={product.title}
                           className="max-h-full w-auto max-w-full object-contain transition-transform duration-300 group-hover:scale-[1.03]"
                         />

@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import NavBar from "@/components/NavBar";
+import SafeImage from "@/components/SafeImage";
 import {
   CartItem,
   cartSubtotal,
@@ -11,7 +12,6 @@ import {
   removeFromCart,
   updateQty,
 } from "@/lib/cart";
-import { toCloudinaryUrl } from "@/lib/cloudinary";
 
 export default function CartPage() {
   const [items, setItems] = useState<CartItem[]>(() => readCart());
@@ -62,8 +62,8 @@ export default function CartPage() {
                     className="grid grid-cols-1 gap-4 rounded-lg border border-gray-200 p-4 sm:grid-cols-[110px_minmax(0,1fr)]"
                   >
                     <Link href={item.href} className="block">
-                      <img
-                        src={toCloudinaryUrl(item.image)}
+                      <SafeImage
+                        src={item.image}
                         alt={item.name}
                         className="h-[100px] w-[100px] rounded-md object-cover"
                       />

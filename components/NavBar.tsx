@@ -15,9 +15,9 @@ import {
   UserPlus,
   ChevronRight,
 } from "lucide-react";
+import SafeImage from "@/components/SafeImage";
 import { cartCount, cartSubtotal } from "@/lib/cart";
 import { useFrontendData } from "@/lib/use-frontend-data";
-import { toCloudinaryUrl } from "@/lib/cloudinary";
 
 
 export default function NavBar() {
@@ -70,8 +70,8 @@ export default function NavBar() {
         <div className="mx-auto grid max-w-[1400px] grid-cols-12 items-center gap-4 px-4 py-3">
           <div className="col-span-12 flex items-center justify-center gap-3 sm:col-span-3 sm:justify-start">
             <Link href="/" aria-label="Easy Spares Home">
-              <img
-                src={toCloudinaryUrl(nav.logoUrl)}
+              <SafeImage
+                src={nav.logoUrl}
                 alt={nav.logoAlt}
                 className="h-10 w-auto object-contain sm:h-12"
               />
@@ -165,8 +165,8 @@ export default function NavBar() {
                         >
                           <span className="flex items-center gap-3">
                             {cat.thumbnail ? (
-                              <img
-                                src={toCloudinaryUrl(cat.thumbnail)}
+                              <SafeImage
+                                src={cat.thumbnail}
                                 alt=""
                                 className="h-5 w-5 object-contain"
                               />

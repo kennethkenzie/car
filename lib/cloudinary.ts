@@ -51,6 +51,10 @@ function buildPlaceholderDataUri(url: string) {
   )}`;
 }
 
+export function getImageFallbackUrl(url: string) {
+  return buildPlaceholderDataUri(url);
+}
+
 export function toCloudinaryUrl(url: string): string {
   if (!url) return url;
   if (url.startsWith("/") || url.startsWith("data:")) return url;
