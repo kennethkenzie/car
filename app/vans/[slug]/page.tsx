@@ -15,7 +15,9 @@ export default async function VanDetailPage({ params }: { params: Promise<{ slug
   const similar = await getSimilarVehiclesReal(slug, "VAN");
   const features = Array.isArray(vehicle.features)
     ? vehicle.features
-    : (vehicle.features || "").split(/\r?\n/).map((feature: string) => feature.trim()).filter(Boolean);
+    : typeof vehicle.features === "string"
+      ? (vehicle.features as string).split(/\r?\n/).map((feature: string) => feature.trim()).filter(Boolean)
+      : [];
 
   return (
     <div className="bg-[#f8fafc] min-h-screen">
