@@ -42,6 +42,7 @@ export default function InventoryPage() {
       </div>
 
       <DataTable
+        loading={query.isLoading}
         data={query.data ?? []}
         searchKey="make"
         columns={[

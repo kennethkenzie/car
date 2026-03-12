@@ -13,9 +13,10 @@ interface DataTableProps<T> {
   data: T[];
   columns: Column<T>[];
   searchKey?: keyof T;
+  loading?: boolean;
 }
 
-export function DataTable<T>({ data, columns, searchKey }: DataTableProps<T>) {
+export function DataTable<T>({ data, columns, searchKey, loading }: DataTableProps<T>) {
   const [searchQuery, setSearchQuery] = useState("");
 
   const filteredData = searchKey
@@ -56,7 +57,19 @@ export function DataTable<T>({ data, columns, searchKey }: DataTableProps<T>) {
             </tr>
           </thead>
           <tbody>
-            {filteredData.length > 0 ? (
+            {loading ? (
+              <tr>
+                <td
+                  colSpan={columns.length}
+                  className="px-8 py-12 text-center text-sm text-gray-500"
+                >
+                  <div className="flex items-center justify-center gap-2">
+                    <div className="h-4 w-4 animate-spin rounded-full border-2 border-gray-300 border-t-black" />
+                    Fetching records...
+                  </div>
+                </td>
+              </tr>
+            ) : filteredData.length > 0 ? (
               filteredData.map((item, index) => (
                 <tr
                   key={index}
