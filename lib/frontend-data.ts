@@ -182,7 +182,7 @@ export type FrontendData = {
 export const defaultFrontendData: FrontendData = {
   navbar: {
     logoUrl: "/logo.png",
-    logoAlt: "Easy Spares",
+    logoAlt: "Car Bazaar",
     searchPlaceholder: "Search here...",
     topLinks: [
       { label: "Home", href: "/", icon: "home" },
@@ -200,26 +200,26 @@ export const defaultFrontendData: FrontendData = {
     slides: [
       {
         id: "s1",
-        image: "https://images.unsplash.com/photo-1591799264318-7e6ef8ddb7ea?auto=format&fit=crop&w=1600&q=80",
-        title: "Professional TV Spare Parts And Repair Tools",
-        description: "Stock fast-moving components, workshop essentials, and tested electronics accessories from one storefront.",
-        ctaLabel: "Shop Now",
+        image: "/slider-1.png",
+        title: "Discover Your Dream Car at Car Bazaar",
+        description: "Explore our premium collection of luxury sedans and sports cars. Quality and trust in every mile.",
+        ctaLabel: "View Inventory",
         ctaHref: "#",
       },
       {
         id: "s2",
-        image: "https://images.unsplash.com/photo-1581092160562-40aa08e78837?auto=format&fit=crop&w=1600&q=80",
-        title: "Reliable Parts For Everyday Repairs",
-        description: "Browse boards, remotes, backlights, and tools selected for technicians, installers, and resellers.",
-        ctaLabel: "Explore Deals",
+        image: "/slider-2.png",
+        title: "Rugged Versatility for Every Adventure",
+        description: "Our SUV and 4x4 collection is built for power and comfort. Find the perfect companion for your journey.",
+        ctaLabel: "Explore SUVs",
         ctaHref: "#",
       },
       {
         id: "s3",
-        image: "https://images.unsplash.com/photo-1498049794561-7780e7231661?auto=format&fit=crop&w=1600&q=80",
-        title: "Hot Deals On Popular Electronics",
-        description: "Highlight your top campaigns with strong hero messaging, direct links, and product-first imagery.",
-        ctaLabel: "View Offers",
+        image: "/slider-3.png",
+        title: "Professional Maintenance & Service",
+        description: "Our high-tech service center ensures your vehicle remains in peak condition. Reliability you can count on.",
+        ctaLabel: "Book Service",
         ctaHref: "#",
       },
     ],
@@ -319,7 +319,7 @@ export const defaultFrontendData: FrontendData = {
   },
   productDetails: {
     title: "Instant Pot Duo Plus 9-in-1 Multicooker, Pressure Cooker, Slow Cook, Rice Maker, Steamer, Saute, Yogurt, Warmer & Sterilizer, Stainless Steel, 6 Quarts",
-    storeLabel: "Visit Modern Electronics Ltd",
+    storeLabel: "Visit Car Bazaar Ltd",
     rating: 4.4,
     ratingsLabel: "52,048 ratings",
     bestsellerLabel: "#1 Best Seller",

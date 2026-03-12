@@ -26,7 +26,7 @@ function buildPlaceholderLabel(url: string) {
     const parsed = new URL(url);
     const raw =
       parsed.pathname.split("/").filter(Boolean).pop()?.split(".")[0] ??
-      "modern electronics";
+      "car bazaar";
 
     return raw
       .replace(/[-_]+/g, " ")
@@ -34,12 +34,12 @@ function buildPlaceholderLabel(url: string) {
       .trim()
       .slice(0, 32);
   } catch {
-    return "modern electronics";
+    return "car bazaar";
   }
 }
 
 function buildPlaceholderDataUri(url: string) {
-  const label = buildPlaceholderLabel(url) || "modern electronics";
+  const label = buildPlaceholderLabel(url) || "car bazaar";
   const seed = Array.from(label).reduce((acc, char) => acc + char.charCodeAt(0), 0);
   const hue = seed % 360;
   const accent = (hue + 36) % 360;
@@ -55,7 +55,7 @@ function buildPlaceholderDataUri(url: string) {
       <circle cx="980" cy="180" r="140" fill="hsl(${accent} 80% 80% / 0.45)" />
       <circle cx="220" cy="720" r="190" fill="hsl(${hue} 70% 75% / 0.30)" />
       <text x="80" y="430" fill="#111827" font-family="Arial, Helvetica, sans-serif" font-size="72" font-weight="700">
-        Modern Electronics
+        Car Bazaar
       </text>
       <text x="80" y="510" fill="#374151" font-family="Arial, Helvetica, sans-serif" font-size="36">
         ${label}

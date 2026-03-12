@@ -46,24 +46,24 @@ export default function ProductDetailsPage() {
             </Link>
             <span className="mx-1">{">"}</span>
             <Link
-              href="/electronics"
+              href="/cars"
               className="hover:text-[#0b63ce] hover:underline"
             >
-              Electronics
+              Cars
             </Link>
             <span className="mx-1">{">"}</span>
             <Link
-              href="/electronics/kitchen-appliances"
+              href="/cars/luxury"
               className="hover:text-[#0b63ce] hover:underline"
             >
-              Kitchen Appliances
+              Luxury
             </Link>
             <span className="mx-1">{">"}</span>
             <Link
-              href="/electronics/kitchen-appliances/multicookers"
+              href="/cars/luxury/sedans"
               className="hover:text-[#0b63ce] hover:underline"
             >
-              Multicookers
+              Sedans
             </Link>
           </div>
 
@@ -322,12 +322,12 @@ export default function ProductDetailsPage() {
 
                 <div className="mt-4 grid grid-cols-[70px_minmax(0,1fr)] gap-y-2 text-[13px]">
                   <div className="text-gray-600">Ships from</div>
-                  <div className="text-gray-900">Modern Electronics Ltd</div>
+                  <div className="text-gray-900">Car Bazaar Ltd</div>
 
                   <div className="text-gray-600">Sold by</div>
                   <div>
                     <Link href="#" className="text-[#0b63ce] hover:underline">
-                      Modern Electronics Ltd
+                      Car Bazaar Ltd
                     </Link>
                   </div>
 

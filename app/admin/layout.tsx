@@ -2,327 +2,206 @@
 
 import DashboardFooter from "./DashboardFooter";
 import Link from "next/link";
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
+import { usePathname } from "next/navigation";
 import {
-  AlertTriangle,
-  ArrowDownRight,
   ArrowUpRight,
-  BarChart3,
-  Bell,
-  Boxes,
-  CheckCircle2,
-  ChevronDown,
+  Car,
   ChevronRight,
-  ClipboardList,
-  CreditCard,
-  DollarSign,
-  Eye,
-  FileText,
   Grid2X2,
   LayoutDashboard,
-  Menu,
+  List,
   MessageSquare,
-  Moon,
-  MoreVertical,
   Package,
-  Percent,
   Plus,
-  RefreshCcw,
-  Search,
   Settings,
-  ShoppingCart,
-  Star,
+  SlidersHorizontal,
   Store,
   Tag,
-  Truck,
+  UserCircle2,
   Users,
-  Warehouse,
 } from "lucide-react";
 
-type NavChild = {
-  label: string;
-  href?: string;
-};
-
 type NavItem = {
+  href: string;
   label: string;
-  icon: React.ReactNode;
-  badge?: string;
-  active?: boolean;
-  arrow?: boolean;
-  children?: NavChild[];
+  icon: React.ComponentType<{ className?: string }>;
 };
 
-function SidebarItem({
-  item,
-  defaultOpen = false,
-}: {
-  item: NavItem;
-  defaultOpen?: boolean;
-}) {
-  const hasChildren = !!item.children?.length;
-  const [open, setOpen] = useState(defaultOpen);
-
+function NavLink({
+  href,
+  label,
+  icon: Icon,
+  active,
+}: NavItem & { active: boolean }) {
   return (
-    <div className="w-full">
-      <button
-        onClick={() => hasChildren && setOpen(!open)}
-        className={[
-          "flex w-full items-center justify-between rounded-xl px-3 py-2.5 text-left transition",
-          item.active
-            ? "bg-[#374151] text-white"
-            : "text-gray-300 hover:bg-white hover:text-black",
-        ].join(" ")}
-      >
-        <span className="flex items-center gap-3">
-          <span className={item.active ? "text-white" : "text-gray-400"}>
-            {item.icon}
-          </span>
-          <span className={item.active ? "font-semibold text-white" : "font-medium"}>
-            {item.label}
-          </span>
-        </span>
-
-        {hasChildren ? (
-          <ChevronDown
-            size={16}
-            className={`transition-transform duration-200 \${
-              open ? "rotate-180" : ""
-            }`}
-          />
-        ) : item.badge ? (
-          <span className="rounded-full bg-white px-2.5 py-1 text-[12px] font-bold text-red-600">
-            {item.badge}
-          </span>
-        ) : item.arrow ? (
-          <ChevronRight size={16} className="text-gray-400" />
-        ) : null}
-      </button>
-
-      {hasChildren && open ? (
-        <div className="ml-9 mt-1 space-y-1 border-l border-gray-700 pl-4">
-          {item.children?.map((child) => (
-            <Link
-              key={child.label}
-              href={child.href || "#"}
-              className="block rounded-lg px-3 py-2 text-[14px] text-gray-300 transition hover:bg-white hover:text-black"
-            >
-              {child.label}
-            </Link>
-          ))}
-        </div>
-      ) : null}
-    </div>
+    <Link
+      href={href}
+      className={[
+        "flex items-center justify-between rounded-2xl px-5 py-4 text-sm font-bold transition-all",
+        active
+          ? "bg-[#4228c4] text-white shadow-xl shadow-[#4228c4]/20"
+          : "text-gray-400 hover:bg-gray-50 hover:text-gray-900",
+      ].join(" ")}
+    >
+      <span className="flex items-center gap-3">
+        <Icon className="h-4 w-4 shrink-0" />
+        {label}
+      </span>
+      {active ? <ChevronRight className="h-4 w-4 text-white/50" /> : null}
+    </Link>
   );
 }
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
+  const pathname = usePathname();
+
+  const dashboardItems: NavItem[] = useMemo(
+    () => [
+      { href: "/admin", label: "Overview", icon: LayoutDashboard },
+      { href: "/admin/inventory", label: "Inventory", icon: List },
+      { href: "/admin/enquiries", label: "Enquiries", icon: MessageSquare },
+      { href: "/admin/team", label: "Team", icon: Users },
+      { href: "/admin/dealers", label: "Dealers", icon: Store },
+      { href: "/admin/profile", label: "Profile", icon: UserCircle2 },
+    ],
+    []
+  );
+
   const commerceItems: NavItem[] = useMemo(
     () => [
-      { label: "Overview", icon: <LayoutDashboard size={18} />, active: true },
-      { label: "Orders", icon: <ShoppingCart size={18} /> },
-      {
-        label: "Products",
-        icon: <Package size={18} />,
-        children: [
-          { label: "All Products", href: "/admin/products" },
-          { label: "Add New Product", href: "/admin/products/add" },
-          { label: "Brand", href: "/admin/products/brand" },
-          { label: "Categories", href: "/admin/products/category" },
-          { label: "Units", href: "/admin/products/units" },
-          { label: "Attribute Sets", href: "/admin/products/attributes" },
-          { label: "Bulk Import", href: "/admin/products/import" },
-          { label: "Bulk Export", href: "/admin/products/export" },
-        ],
-      },
-      { label: "Categories", icon: <Grid2X2 size={18} /> },
-      { label: "Customers", icon: <Users size={18} /> },
-      { label: "Inventory", icon: <Warehouse size={18} /> },
-      { label: "Shipping", icon: <Truck size={18} /> },
-      { label: "Returns", icon: <RefreshCcw size={18} /> },
+      { href: "/admin/products/brand", label: "Brands", icon: Tag },
+      { href: "/admin/products/category", label: "Categories", icon: Grid2X2 },
+      { href: "/admin/storefront/slider", label: "Homepage Slider", icon: SlidersHorizontal },
     ],
     []
   );
 
-  const salesItems: NavItem[] = useMemo(
-    () => [
-      { label: "Revenue", icon: <DollarSign size={18} /> },
-      { label: "Discounts", icon: <Percent size={18} /> },
-      { label: "Coupons", icon: <Tag size={18} /> },
-      { label: "Transactions", icon: <CreditCard size={18} /> },
-      { label: "Reports", icon: <BarChart3 size={18} /> },
-    ],
-    []
-  );
-
-  const storefrontItems: NavItem[] = useMemo(
-    () => [
-      {
-        label: "StoreFront",
-        icon: <Store size={18} />,
-        children: [{ label: "Slider", href: "/admin/storefront/slider" }],
-      },
-      { label: "Reviews", icon: <Star size={18} /> },
-      { label: "Messages", icon: <MessageSquare size={18} />, badge: "12" },
-      { label: "Pages", icon: <FileText size={18} /> },
-      { label: "Fulfillment", icon: <Boxes size={18} />, arrow: true },
-    ],
-    []
-  );
+  const title = useMemo(() => {
+    const current = [...dashboardItems, ...commerceItems].find((item) =>
+      pathname === item.href || (item.href !== "/admin" && pathname.startsWith(item.href))
+    );
+    return current?.label ?? "Admin";
+  }, [commerceItems, dashboardItems, pathname]);
 
   return (
-    <div className="min-h-screen bg-[#f7f7f8] text-[#111827]">
-      <div className="grid min-h-screen grid-cols-1 xl:grid-cols-[280px_minmax(0,1fr)]">
-        {/* Sidebar */}
-        <aside className="hidden border-r border-gray-700 bg-[#1f2937] xl:flex xl:flex-col">
-          <div className="flex items-center justify-between px-6 py-6">
-            <div className="flex items-center gap-3">
-              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-white text-[#1f2937]">
-                <ShoppingCart size={18} />
-              </div>
-              <div>
-                <div className="text-[16px] font-bold tracking-tight text-white">
-                  Modern Electronics Ltd
-                </div>
-                <div className="text-[12px] text-gray-400">Seller Admin</div>
-              </div>
+    <div className="min-h-screen bg-[#f6f7fb] text-[#111827]">
+      <div className="flex min-h-screen">
+        <aside className="hidden h-screen w-72 shrink-0 border-r border-gray-100 bg-white p-8 xl:flex xl:flex-col">
+          <Link href="/admin" className="mb-12 flex items-center gap-3 group">
+            <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-black text-white shadow-lg shadow-black/20 transition-transform group-hover:scale-105">
+              <Car className="h-5 w-5" />
             </div>
+            <div className="flex flex-col">
+              <span className="text-lg font-extrabold leading-none tracking-tight text-gray-900 uppercase italic">
+                Car Bazaar
+              </span>
+              <span className="mt-0.5 text-[10px] font-bold uppercase tracking-[0.24em] text-gray-400">
+                Bond Dashboard
+              </span>
+            </div>
+          </Link>
+
+          <div>
+            <p className="mb-3 px-2 text-[10px] font-bold uppercase tracking-[0.24em] text-gray-300">
+              Dashboard
+            </p>
+            <nav className="space-y-2">
+              {dashboardItems.map((item) => (
+                <NavLink
+                  key={item.href}
+                  {...item}
+                  active={
+                    pathname === item.href ||
+                    (item.href !== "/admin" && pathname.startsWith(item.href))
+                  }
+                />
+              ))}
+            </nav>
           </div>
 
-          <div className="px-4">
-            <div className="flex gap-3">
+          <div className="mt-8">
+            <p className="mb-3 px-2 text-[10px] font-bold uppercase tracking-[0.24em] text-gray-300">
+              Storefront
+            </p>
+            <nav className="space-y-2">
+              {commerceItems.map((item) => (
+                <NavLink
+                  key={item.href}
+                  {...item}
+                  active={pathname === item.href || pathname.startsWith(`${item.href}/`)}
+                />
+              ))}
+            </nav>
+          </div>
+
+          <div className="mt-8 rounded-[28px] bg-[#111827] p-5 text-white shadow-xl">
+            <div className="text-[11px] font-bold uppercase tracking-[0.24em] text-white/50">
+              Quick Action
+            </div>
+            <div className="mt-2 text-lg font-bold leading-tight">
+              Register inventory or refresh homepage content
+            </div>
+            <div className="mt-4 space-y-2">
               <Link
-                href="/admin/products/add"
-                className="flex h-12 flex-1 items-center justify-center gap-2 rounded-xl bg-white px-4 text-[15px] font-medium text-[#1f2937] shadow-sm transition-colors hover:bg-gray-50"
+                href="/admin/inventory/new"
+                className="inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-white px-4 py-3 text-sm font-bold text-[#111827] transition hover:bg-gray-100"
               >
-                <Plus size={18} />
-                Add Product
+                <Plus className="h-4 w-4" />
+                Add Inventory
               </Link>
-              <button className="flex h-12 w-12 items-center justify-center rounded-xl border border-gray-700 bg-[#111827] text-white transition-colors hover:bg-black">
-                <ClipboardList size={18} />
-              </button>
+              <Link
+                href="/admin/storefront/slider"
+                className="inline-flex w-full items-center justify-center gap-2 rounded-2xl border border-white/15 px-4 py-3 text-sm font-bold text-white transition hover:bg-white/10"
+              >
+                <Settings className="h-4 w-4" />
+                Edit Slider
+              </Link>
             </div>
           </div>
 
-          <div className="mt-8 flex-1 overflow-y-auto px-4 pb-6">
-            <div>
-              <p className="px-2 text-[13px] font-semibold uppercase tracking-[0.08em] text-gray-400">
-                Ecommerce
-              </p>
-              <div className="mt-3 space-y-1.5">
-                {commerceItems.map((item) => (
-                  <SidebarItem
-                    key={item.label}
-                    item={item}
-                    defaultOpen={item.label === "Products"}
-                  />
-                ))}
-              </div>
-            </div>
-
-            <div className="mt-8">
-              <p className="px-2 text-[13px] font-semibold uppercase tracking-[0.08em] text-gray-400">
-                Sales & Marketing
-              </p>
-              <div className="mt-3 space-y-1.5">
-                {salesItems.map((item) => (
-                  <SidebarItem key={item.label} item={item} />
-                ))}
-              </div>
-            </div>
-
-            <div className="mt-8">
-              <p className="px-2 text-[13px] font-semibold uppercase tracking-[0.08em] text-gray-400">
-                Store Management
-              </p>
-              <div className="mt-3 space-y-1.5">
-                {storefrontItems.map((item) => (
-                  <SidebarItem
-                    key={item.label}
-                    item={item}
-                    defaultOpen={item.label === "StoreFront"}
-                  />
-                ))}
-              </div>
-            </div>
-          </div>
-
-          <div className="border-t border-gray-700 px-6 py-5">
-            <div className="flex items-center gap-3">
-              <img
-                src="https://i.pravatar.cc/80?img=12"
-                alt="Store owner"
-                className="h-11 w-11 rounded-full object-cover ring-2 ring-white/20"
-              />
-              <div className="min-w-0 flex-1">
-                <div className="truncate text-[15px] font-medium text-white">
-                  Kenneth Store
-                </div>
-                <div className="truncate text-[13px] text-gray-400">
-                  seller@modernelectronics.com
-                </div>
-              </div>
-              <button className="text-gray-400 hover:text-white transition-colors">
-                <MoreVertical size={18} />
-              </button>
+          <div className="mt-auto rounded-[28px] border border-gray-100 bg-gray-50 p-5">
+            <div className="text-sm font-bold text-gray-900">Kenneth Store</div>
+            <div className="mt-1 text-xs font-medium text-gray-500">
+              seller@modernelectronics.com
             </div>
           </div>
         </aside>
 
-        {/* Main */}
-        <main className="flex min-w-0 flex-col">
-          {/* Topbar */}
-          <header className="border-b border-[#e5e7eb] bg-white px-4 py-3 md:px-6 xl:px-8">
+        <main className="flex min-w-0 flex-1 flex-col">
+          <header className="sticky top-0 z-20 border-b border-gray-100 bg-white/90 px-4 py-5 backdrop-blur md:px-6 xl:px-10">
             <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
-              <div className="flex min-w-0 items-center gap-3">
-                <button className="inline-flex h-11 w-11 items-center justify-center rounded-xl border border-[#e5e7eb] bg-white text-[#111827] xl:hidden">
-                  <Menu size={18} />
-                </button>
-
-                <div className="hidden items-center gap-2 rounded-xl border border-[#e5e7eb] bg-[#f9fafb] px-3 py-2 text-[14px] text-[#374151] md:flex">
-                  <span className="font-medium">Store:</span>
-                  <span>Easy Spares Electronics</span>
-                  <ChevronDown size={16} />
+              <div>
+                <div className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.24em] text-gray-300">
+                  <span>Portal</span>
+                  <ChevronRight className="h-3 w-3" />
+                  <span className="text-[#4228c4]">{title}</span>
                 </div>
-
-                <div className="flex min-w-[220px] max-w-[520px] flex-1 items-center gap-3 rounded-xl border border-[#e5e7eb] bg-[#fafafa] px-4 py-2.5">
-                  <Search size={18} className="text-[#6b7280]" />
-                  <input
-                    type="text"
-                    placeholder="Search orders, products, customers..."
-                    className="w-full bg-transparent text-[15px] outline-none placeholder:text-[#8b8f97]"
-                  />
-                </div>
+                <h1 className="mt-2 text-2xl font-extrabold tracking-tight text-gray-900">
+                  {title}
+                </h1>
               </div>
 
-              <div className="flex flex-wrap items-center gap-3">
-                <button className="hidden rounded-xl border border-[#e5e7eb] bg-white px-4 py-2.5 text-[14px] font-medium text-[#111827] md:inline-flex">
-                  View Store
-                </button>
-                <button className="hidden rounded-xl bg-[#ff9900] px-4 py-2.5 text-[14px] font-semibold text-white md:inline-flex">
-                  Create Offer
-                </button>
-                <button className="flex h-11 w-11 items-center justify-center rounded-xl border border-[#e5e7eb] bg-white text-[#111827]">
-                  <Bell size={18} />
-                </button>
-                <button className="flex h-11 w-11 items-center justify-center rounded-xl border border-[#e5e7eb] bg-white text-[#111827]">
-                  <Settings size={18} />
-                </button>
-                <button className="flex h-11 w-11 items-center justify-center rounded-xl border border-[#e5e7eb] bg-white text-[#111827]">
-                  <Moon size={18} />
-                </button>
-                <img
-                  src="https://i.pravatar.cc/80?img=32"
-                  alt="User avatar"
-                  className="h-11 w-11 rounded-full object-cover ring-2 ring-white"
-                />
+              <div className="flex items-center gap-3">
+                <Link
+                  href="/"
+                  className="inline-flex items-center gap-2 rounded-xl border border-gray-200 bg-white px-4 py-2.5 text-sm font-semibold text-gray-700 transition hover:border-black hover:text-black"
+                >
+                  Back to Website
+                  <ArrowUpRight className="h-4 w-4" />
+                </Link>
+                <Link
+                  href="/admin/inventory/new"
+                  className="inline-flex items-center gap-2 rounded-xl bg-[#4228c4] px-4 py-2.5 text-sm font-semibold text-white shadow-lg shadow-[#4228c4]/20 transition hover:bg-[#3621a1]"
+                >
+                  <Plus className="h-4 w-4" />
+                  Add Item
+                </Link>
               </div>
             </div>
           </header>
 
-          <div className="flex-1 px-4 py-5 md:px-6 xl:px-8">
-            {children}
-          </div>
+          <div className="flex-1 px-4 py-6 md:px-6 xl:px-10">{children}</div>
           <DashboardFooter />
         </main>
       </div>

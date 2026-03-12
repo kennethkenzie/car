@@ -788,7 +788,7 @@ values
     'navbar',
     jsonb_build_object(
       'logoUrl', '/logo.png',
-      'logoAlt', 'Modern Electronics Ltd',
+      'logoAlt', 'Car Bazaar',
       'searchPlaceholder', 'Search here...'
     ),
     'Top navbar branding and search placeholder'
@@ -796,7 +796,7 @@ values
   (
     'latest_products_section',
     jsonb_build_object(
-      'title', 'Latest',
+      'title', 'Latest Arrivals',
       'ctaLabel', 'View all',
       'ctaHref', '/products'
     ),
