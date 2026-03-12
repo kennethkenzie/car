@@ -31,7 +31,7 @@ export default function LoginPage() {
           <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gold-600 shadow-lg shadow-gold-500/30" style={{ backgroundColor: '#D4AF37' }}>
             <Car className="text-white" size={24} />
           </div>
-          <span className="text-xl font-bold tracking-tight text-white uppercase italic">Car Bazaar</span>
+          <span className="font-display text-xl font-semibold tracking-tight text-white uppercase">Car Baazar</span>
         </div>
 
         {/* Content */}
@@ -74,7 +74,7 @@ export default function LoginPage() {
 
         {/* Footer Credit */}
         <div className="relative z-10 mt-12 text-sm text-slate-500/80">
-          &copy; 2024 Car Bazaar Ltd. All rights reserved. Built with precision.
+          &copy; 2026 Car Bazaar Ltd. All rights reserved. Built with precision.
         </div>
       </div>
 
@@ -90,7 +90,7 @@ export default function LoginPage() {
             <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gold-600" style={{ backgroundColor: '#D4AF37' }}>
               <Car className="text-white" size={24} />
             </div>
-            <span className="text-xl font-bold tracking-tight text-slate-900 uppercase italic">Car Bazaar</span>
+            <span className="font-display text-xl font-semibold tracking-tight text-slate-900 uppercase">Car Baazar</span>
           </div>
 
           <div className="space-y-2">

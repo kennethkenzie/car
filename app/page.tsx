@@ -1,5 +1,6 @@
 import { Header } from "@/components/Header";
 import { SearchHero } from "@/components/SearchHero";
+import { Footer } from "@/components/Footer";
 import TrustBar from "@/components/TrustBar";
 import DynamicCategorySection from "@/components/DynamicCategorySection";
 import CategoryTilesSection from "@/components/CategoryTilesSection";
@@ -14,6 +15,7 @@ export default function Home() {
       <DynamicCategorySection />
       <CategoryTilesSection />
       <LatestProductsSection />
+      <Footer />
     </main>
   );
 }

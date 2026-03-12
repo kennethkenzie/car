@@ -12,6 +12,7 @@ import {
   Check,
 } from "lucide-react";
 import { Header } from "@/components/Header";
+import { Footer } from "@/components/Footer";
 import RelatedProductsCarousel from "@/components/RelatedProductsCarousel";
 import SafeImage from "@/components/SafeImage";
 import { addToCart } from "@/lib/cart";
@@ -388,6 +389,7 @@ export default function ProductDetailsPage() {
         </div>
       </section>
       <RelatedProductsCarousel />
+      <Footer />
     </>
   );
 }

@@ -10,6 +10,14 @@
 
 @font-face {
   font-family: "Poppins";
+  src: url("/fonts/Poppins-Light.ttf") format("truetype");
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Poppins";
   src: url("/fonts/Poppins-Italic.ttf") format("truetype");
   font-weight: 400;
   font-style: italic;
@@ -79,6 +87,8 @@
   --radius: 0.75rem;
   --font-sans: "Poppins", Arial, Helvetica, sans-serif;
   --font-display: "Poppins", Arial, Helvetica, sans-serif;
+  --brand-600: 250 66% 46%;
+  --shadow-soft: 0 2px 4px 0 rgba(0, 0, 0, 0.05), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
 }
 
 @layer base {

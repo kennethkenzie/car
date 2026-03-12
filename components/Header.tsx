@@ -35,7 +35,7 @@ export function Header() {
       <div className="mx-auto flex max-w-[1440px] items-center justify-between px-6 py-4">
         <Link href="/" className="flex items-center gap-2 font-bold text-black text-xl tracking-tight">
           <Car className="h-8 w-8" />
-          <span className="font-extrabold">Car Bazaar</span>
+          <span className="font-display font-semibold uppercase">Car Baazar</span>
         </Link>
 
         <nav className="hidden items-center gap-6 lg:flex">

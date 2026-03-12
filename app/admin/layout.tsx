@@ -14,7 +14,6 @@ import {
   MessageSquare,
   Package,
   Plus,
-  Settings,
   SlidersHorizontal,
   Store,
   Tag,
@@ -93,8 +92,8 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
               <Car className="h-5 w-5" />
             </div>
             <div className="flex flex-col">
-              <span className="text-lg font-extrabold leading-none tracking-tight text-gray-900 uppercase italic">
-                Car Bazaar
+              <span className="font-display text-lg font-semibold leading-none tracking-tight text-gray-900 uppercase">
+                Car Baazar
               </span>
               <span className="mt-0.5 text-[10px] font-bold uppercase tracking-[0.24em] text-gray-400">
                 Bond Dashboard
@@ -133,31 +132,6 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                 />
               ))}
             </nav>
-          </div>
-
-          <div className="mt-8 rounded-[28px] bg-[#111827] p-5 text-white shadow-xl">
-            <div className="text-[11px] font-bold uppercase tracking-[0.24em] text-white/50">
-              Quick Action
-            </div>
-            <div className="mt-2 text-lg font-bold leading-tight">
-              Register inventory or refresh homepage content
-            </div>
-            <div className="mt-4 space-y-2">
-              <Link
-                href="/admin/inventory/new"
-                className="inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-white px-4 py-3 text-sm font-bold text-[#111827] transition hover:bg-gray-100"
-              >
-                <Plus className="h-4 w-4" />
-                Add Inventory
-              </Link>
-              <Link
-                href="/admin/storefront/slider"
-                className="inline-flex w-full items-center justify-center gap-2 rounded-2xl border border-white/15 px-4 py-3 text-sm font-bold text-white transition hover:bg-white/10"
-              >
-                <Settings className="h-4 w-4" />
-                Edit Slider
-              </Link>
-            </div>
           </div>
 
           <div className="mt-auto rounded-[28px] border border-gray-100 bg-gray-50 p-5">

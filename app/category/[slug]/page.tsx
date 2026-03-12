@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useParams } from "next/navigation";
 import { Star } from "lucide-react";
 import { Header } from "@/components/Header";
+import { Footer } from "@/components/Footer";
 import SafeImage from "@/components/SafeImage";
 import { getCategoryPageData } from "@/lib/catalog";
 import { useFrontendData } from "@/lib/use-frontend-data";
@@ -125,6 +126,7 @@ export default function CategoryPage() {
           </div>
         </section>
       </main>
+      <Footer />
     </>
   );
 }

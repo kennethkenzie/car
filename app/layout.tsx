@@ -5,7 +5,7 @@ import { AuthProvider } from "@/components/providers/AuthProvider";
 import { QueryProvider } from "@/components/providers/QueryProvider";
 
 export const metadata: Metadata = {
-  title: "Car Bazaar | High-End Car Bond",
+  title: "Car Baazar | High-End Car Bond",
   description: "Premium car dealership and bond management system.",
 };
 

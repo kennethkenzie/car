@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { Header } from "@/components/Header";
+import { Footer } from "@/components/Footer";
 import SafeImage from "@/components/SafeImage";
 import {
   CartItem,
@@ -112,6 +113,7 @@ export default function CartPage() {
           )}
         </div>
       </section>
+      <Footer />
     </>
   );
 }
