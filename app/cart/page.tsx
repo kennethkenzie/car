@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
-import NavBar from "@/components/NavBar";
+import { Header } from "@/components/Header";
 import SafeImage from "@/components/SafeImage";
 import {
   CartItem,
@@ -31,7 +31,7 @@ export default function CartPage() {
 
   return (
     <>
-      <NavBar />
+      <Header />
       <section className="w-full bg-white">
         <div className="mx-auto max-w-[1200px] px-4 py-6">
           <div className="mb-6 flex items-center justify-between">

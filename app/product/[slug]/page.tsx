@@ -11,7 +11,7 @@ import {
   Star,
   Check,
 } from "lucide-react";
-import NavBar from "@/components/NavBar";
+import { Header } from "@/components/Header";
 import RelatedProductsCarousel from "@/components/RelatedProductsCarousel";
 import SafeImage from "@/components/SafeImage";
 import { addToCart } from "@/lib/cart";
@@ -37,7 +37,7 @@ export default function ProductDetailsPage() {
 
   return (
     <>
-      <NavBar />
+      <Header />
       <section className="w-full bg-white">
         <div className="mx-auto max-w-[1500px] px-4 py-6 lg:px-6">
           <div className="mb-4 text-[13px] text-gray-500">

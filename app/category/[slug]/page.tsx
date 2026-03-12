@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { Star } from "lucide-react";
-import NavBar from "@/components/NavBar";
+import { Header } from "@/components/Header";
 import SafeImage from "@/components/SafeImage";
 import { getCategoryPageData } from "@/lib/catalog";
 import { useFrontendData } from "@/lib/use-frontend-data";
@@ -20,7 +20,7 @@ export default function CategoryPage() {
 
   return (
     <>
-      <NavBar />
+      <Header />
       <main className="min-h-screen bg-[#f7f7f7]">
         <section className="border-b border-gray-200 bg-white">
           <div className="mx-auto max-w-[1400px] px-4 py-8">
