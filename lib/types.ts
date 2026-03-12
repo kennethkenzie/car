@@ -15,6 +15,7 @@ export interface Vehicle {
   features?: string[];
   description?: string;
   status: "PUBLISHED" | "DRAFT" | "SOLD" | "ARCHIVED";
+  dealerId: string;
 }
 
 export interface Dealer {

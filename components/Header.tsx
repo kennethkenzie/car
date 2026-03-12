@@ -32,7 +32,7 @@ export function Header() {
         }`}
     >
       <TopContactBar />
-      <div className="mx-auto flex max-w-[1440px] items-center justify-between px-6 py-4">
+      <div className="mx-auto flex max-w-[1440px] items-center justify-between px-6 py-5">
         <Link href="/" className="flex items-center gap-2 font-bold text-black text-xl tracking-tight">
           <Car className="h-8 w-8" />
           <span className="font-display font-semibold uppercase">Car Baazar</span>
@@ -55,7 +55,7 @@ export function Header() {
             <Heart className="h-5 w-5" />
           </button>
           <Link href="/login">
-            <button className="flex items-center gap-2 rounded-xl bg-black px-5 py-2.5 text-sm font-semibold text-white shadow-md shadow-black/20 transition-all duration-200 hover:-translate-y-0.5 hover:bg-neutral-800">
+            <button className="flex items-center gap-2 rounded-xl bg-black px-5 py-3 text-sm font-semibold text-white shadow-md shadow-black/20 transition-all duration-200 hover:-translate-y-0.5 hover:bg-neutral-800">
               <User className="h-4 w-4" />
               Login
             </button>
@@ -63,7 +63,7 @@ export function Header() {
         </div>
 
         <button
-          className="rounded-xl p-2 text-gray-900 md:hidden hover:bg-gray-100 transition"
+          className="rounded-xl p-3 text-gray-900 md:hidden hover:bg-gray-100 transition"
           aria-label="Open menu"
           onClick={() => setOpen((v) => !v)}
         >
@@ -79,7 +79,7 @@ export function Header() {
               <Link
                 key={link.label}
                 href={link.href}
-                className="rounded-xl px-4 py-3 text-lg font-bold text-gray-800 hover:text-[#4228c4] hover:bg-gray-50 transition-all"
+                className="rounded-xl px-4 py-3 text-lg font-normal text-gray-800 hover:text-[#4228c4] hover:bg-gray-50 hover:font-bold transition-all"
                 onClick={() => setOpen(false)}
               >
                 {link.label}

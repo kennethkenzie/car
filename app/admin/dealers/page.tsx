@@ -99,7 +99,7 @@ export default function DealersPage() {
         <div className="space-y-8">
             <div className="flex items-center justify-between">
                 <div>
-                    <h1 className="text-3xl font-black text-gray-900 tracking-tight">Dealer Management</h1>
+                    <h1 className="text-3xl font-bold text-gray-900 tracking-tight">Dealer Management</h1>
                     <p className="text-sm text-gray-500 font-medium mt-1">Register and manage dealership locations.</p>
                 </div>
                 <button
@@ -226,7 +226,7 @@ export default function DealersPage() {
                 </div>
             )}
 
-            <div className="bg-white rounded-[2.5rem] p-8 border border-gray-100 shadow-sm">
+            <div className="bg-white rounded-2xl p-8 border border-gray-100 shadow-sm">
                 <DataTable
                     loading={isLoading}
                     data={dealers}

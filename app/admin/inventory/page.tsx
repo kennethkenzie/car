@@ -6,7 +6,7 @@ import { fetchDealerInventory, deleteVehicleReal, publishVehicleReal, archiveVeh
 import { formatGBP } from "@/lib/utils";
 import { useQuery } from "@tanstack/react-query";
 import Link from "next/link";
-import { Plus } from "lucide-react";
+import { Plus, Car } from "lucide-react";
 
 const STATUS_COLORS: Record<string, string> = {
   PUBLISHED: "bg-green-500/10 text-green-600 border border-green-500/20",
@@ -51,12 +51,20 @@ export default function InventoryPage() {
             label: "Vehicle",
             render: (v: any) => (
               <div className="flex items-center gap-4">
-                <div className="h-12 w-16 rounded-lg bg-gray-100 flex items-center justify-center overflow-hidden">
-                  {v.images?.[0] ? <img src={typeof v.images[0] === 'string' ? v.images[0] : v.images[0].url} alt="" className="h-full w-full object-cover" /> : <Plus className="h-4 w-4 text-gray-300" />}
+                <div className="h-12 w-16 rounded-xl bg-gray-50 flex items-center justify-center overflow-hidden border border-gray-100">
+                  {v.images?.[0] ? (
+                    <img 
+                      src={typeof v.images[0] === 'string' ? v.images[0] : v.images[0].url} 
+                      alt="" 
+                      className="h-full w-full object-cover" 
+                    />
+                  ) : (
+                    <Car className="h-5 w-5 text-gray-300" />
+                  )}
                 </div>
                 <div>
                   <p className="font-bold text-gray-900 leading-none mb-1">{v.make} {v.model}</p>
-                  <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">{v.trim}</p>
+                  <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">{v.trim || 'Standard'}</p>
                 </div>
               </div>
             )
@@ -65,27 +73,31 @@ export default function InventoryPage() {
           {
             key: "price",
             label: "Price",
-            render: (v: any) => <span className="font-black text-gray-900">{formatGBP(v.price)}</span>
+            render: (v: any) => (
+              <span className="font-bold text-[#4228c4]">
+                UGX {Number(v.price).toLocaleString()}
+              </span>
+            )
           },
           {
             key: "mileage",
             label: "Mileage",
-            render: (v: any) => <span className="text-gray-500">{v.mileage.toLocaleString()} mi</span>
+            render: (v: any) => <span className="text-gray-500 font-medium">{v.mileage.toLocaleString()} mi</span>
           },
           {
             key: "status",
             label: "Status",
             render: (v: any) => (
-              <span className={`inline-flex px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest ${STATUS_COLORS[v.status] ?? "bg-gray-100 text-gray-500"}`}>
+              <span className={`inline-flex px-3 py-1 rounded-lg text-[10px] font-bold uppercase tracking-widest ${STATUS_COLORS[v.status] ?? "bg-gray-100 text-gray-500"}`}>
                 {v.status}
               </span>
             )
           },
           {
             key: "actions",
-            label: "Action",
+            label: "Management",
             render: (v: any) => (
-              <div className="flex flex-wrap items-center gap-3 text-xs">
+              <div className="flex flex-wrap items-center gap-4 text-xs">
                 <Link
                   href={`/admin/inventory/${v.id}/edit`}
                   className="inline-flex items-center font-bold text-[#4228c4] hover:underline"
@@ -95,7 +107,7 @@ export default function InventoryPage() {
                 {v.status === 'PUBLISHED' ? (
                   <button
                     onClick={async () => {
-                      if (confirm("Unpublish this listing? It will be moved to archived.")) {
+                      if (confirm("Move this listing to archives?")) {
                         try {
                           await archiveVehicleReal(v.id);
                           query.refetch();
@@ -125,7 +137,7 @@ export default function InventoryPage() {
                 )}
                 <button
                   onClick={async () => {
-                    if (confirm("Permanently delete this listing?")) {
+                    if (confirm("Permanently delete this vehicle listing? This cannot be undone.")) {
                       try {
                         await deleteVehicleReal(v.id);
                         query.refetch();

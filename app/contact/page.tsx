@@ -13,7 +13,7 @@ export default function ContactPage() {
             
             <main className="mx-auto max-w-6xl px-6 py-32">
                 <div className="text-center mb-16">
-                    <h1 className="text-4xl font-black tracking-tight text-gray-900 sm:text-5xl mb-4 italic uppercase">
+                    <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl mb-4 italic uppercase">
                         Get in Touch
                     </h1>
                     <p className="text-lg font-medium text-gray-500">
@@ -29,9 +29,9 @@ export default function ContactPage() {
                                 <Phone className="h-6 w-6" />
                             </div>
                             <div>
-                                <h3 className="font-black text-lg tracking-tight uppercase text-gray-900">Call us</h3>
+                                <h3 className="font-bold text-lg tracking-tight uppercase text-gray-900">Call us</h3>
                                 <p className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-1">Mon-Sat from 8am to 7pm</p>
-                                <p className="font-black text-black">+256 700 111 222</p>
+                                <p className="font-bold text-black">+256 700 111 222</p>
                             </div>
                         </div>
 
@@ -40,9 +40,9 @@ export default function ContactPage() {
                                 <Mail className="h-6 w-6" />
                             </div>
                             <div>
-                                <h3 className="font-black text-lg tracking-tight uppercase text-gray-900">Email us</h3>
+                                <h3 className="font-bold text-lg tracking-tight uppercase text-gray-900">Email us</h3>
                                 <p className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-1">We'll respond within 24 hours</p>
-                                <p className="font-black text-black">support@carbaazar.co.ug</p>
+                                <p className="font-bold text-black">support@carbaazar.co.ug</p>
                             </div>
                         </div>
 
@@ -51,16 +51,16 @@ export default function ContactPage() {
                                 <MapPin className="h-6 w-6" />
                             </div>
                             <div>
-                                <h3 className="font-black text-lg tracking-tight uppercase text-gray-900">Visit us</h3>
+                                <h3 className="font-bold text-lg tracking-tight uppercase text-gray-900">Visit us</h3>
                                 <p className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-1">Our flagship bond in Kampala</p>
-                                <p className="font-black text-black italic uppercase">Plot 12, Kampala Road, Uganda</p>
+                                <p className="font-bold text-black italic uppercase">Plot 12, Kampala Road, Uganda</p>
                             </div>
                         </div>
                     </div>
 
                     {/* Contact Form */}
                     <div className="lg:col-span-2">
-                        <form className="grid gap-6 rounded-[2.5rem] border border-gray-100 bg-white p-10 shadow-sm">
+                        <form className="grid gap-6 rounded-2xl border border-gray-100 bg-white p-10 shadow-sm">
                             <div className="grid md:grid-cols-2 gap-8">
                                 <Input label="First Name" placeholder="John" />
                                 <Input label="Last Name" placeholder="Doe" />
@@ -76,7 +76,7 @@ export default function ContactPage() {
                                 />
                             </div>
                             
-                            <Button className="w-full md:w-auto h-14 px-10 flex items-center justify-center gap-2 rounded-2xl bg-black text-white font-black uppercase text-xs tracking-widest shadow-xl shadow-black/20 hover:bg-neutral-800 transition-all active:scale-95">
+                            <Button className="w-full md:w-auto h-14 px-10 flex items-center justify-center gap-2 rounded-2xl bg-black text-white font-bold uppercase text-xs tracking-widest shadow-xl shadow-black/20 hover:bg-neutral-800 transition-all active:scale-95">
                                 <Send className="h-4 w-4" />
                                 Send Message
                             </Button>

@@ -37,10 +37,10 @@ function NavLink({
     <Link
       href={href}
       className={[
-        "flex items-center justify-between rounded-2xl px-5 py-4 text-sm font-bold transition-all",
+        "flex items-center justify-between rounded-2xl px-5 py-4 text-sm transition-all",
         active
-          ? "bg-[#4228c4] text-white shadow-xl shadow-[#4228c4]/20"
-          : "text-gray-400 hover:bg-gray-50 hover:text-gray-900",
+          ? "bg-[#4228c4] text-white shadow-xl shadow-[#4228c4]/20 font-bold"
+          : "text-gray-400 font-normal hover:bg-gray-50 hover:text-gray-900 hover:font-bold",
       ].join(" ")}
     >
       <span className="flex items-center gap-3">

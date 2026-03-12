@@ -33,7 +33,7 @@ export default async function VehicleDetailPage({ params }: { params: Promise<{ 
           <div className="grid gap-12 lg:grid-cols-[1fr_400px]">
             <div className="space-y-12">
               {/* Header Info */}
-              <div className="bg-white rounded-[2.5rem] p-10 shadow-sm border border-gray-100">
+              <div className="bg-white rounded-2xl p-10 shadow-sm border border-gray-100">
                 <div className="flex items-center gap-2 mb-4">
                   <span className="bg-[#4228c4]/10 text-[#4228c4] px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest">
                     Verified Stock
@@ -56,36 +56,36 @@ export default async function VehicleDetailPage({ params }: { params: Promise<{ 
                       <Calendar className="h-6 w-6" />
                     </div>
                     <p className="text-[9px] font-bold text-gray-300 uppercase tracking-widest mt-2">Year</p>
-                    <p className="text-sm font-black text-gray-900">{vehicle.year}</p>
+                    <p className="text-sm font-bold text-gray-900">{vehicle.year}</p>
                   </div>
                   <div className="flex flex-col items-center gap-1">
                     <div className="h-12 w-12 rounded-2xl bg-gray-50 flex items-center justify-center text-gray-400">
                       <Gauge className="h-6 w-6" />
                     </div>
                     <p className="text-[9px] font-bold text-gray-300 uppercase tracking-widest mt-2">Mileage</p>
-                    <p className="text-sm font-black text-gray-900">{vehicle.mileage.toLocaleString()}</p>
+                    <p className="text-sm font-bold text-gray-900">{vehicle.mileage.toLocaleString()}</p>
                   </div>
                   <div className="flex flex-col items-center gap-1">
                     <div className="h-12 w-12 rounded-2xl bg-gray-50 flex items-center justify-center text-gray-400">
                       <Fuel className="h-6 w-6" />
                     </div>
                     <p className="text-[9px] font-bold text-gray-300 uppercase tracking-widest mt-2">Fuel</p>
-                    <p className="text-sm font-black text-gray-900">{vehicle.fuel}</p>
+                    <p className="text-sm font-bold text-gray-900">{vehicle.fuel}</p>
                   </div>
                   <div className="flex flex-col items-center gap-1">
                     <div className="h-12 w-12 rounded-2xl bg-gray-50 flex items-center justify-center text-gray-400">
                       <Zap className="h-6 w-6" />
                     </div>
                     <p className="text-[9px] font-bold text-gray-300 uppercase tracking-widest mt-2">Trans</p>
-                    <p className="text-sm font-black text-gray-900">{vehicle.transmission}</p>
+                    <p className="text-sm font-bold text-gray-900">{vehicle.transmission}</p>
                   </div>
                 </div>
               </div>
 
               {/* Car History & Features */}
               <div className="grid gap-8">
-                <section className="bg-white rounded-[2.5rem] p-10 shadow-sm border border-gray-100/50">
-                  <h2 className="text-2xl font-black text-gray-900 mb-8 flex items-center gap-3">
+                <section className="bg-white rounded-2xl p-10 shadow-sm border border-gray-100/50">
+                  <h2 className="text-2xl font-bold text-gray-900 mb-8 flex items-center gap-3">
                     <History className="h-7 w-7 text-[#4228c4]" />
                     Car History
                   </h2>
@@ -104,8 +104,8 @@ export default async function VehicleDetailPage({ params }: { params: Promise<{ 
                   </div>
                 </section>
 
-                <section className="bg-white rounded-[2.5rem] p-10 shadow-sm border border-gray-100/50">
-                  <h2 className="text-2xl font-black text-gray-900 mb-8 tracking-tight">Key Features</h2>
+                <section className="bg-white rounded-2xl p-10 shadow-sm border border-gray-100/50">
+                  <h2 className="text-2xl font-bold text-gray-900 mb-8 tracking-tight">Key Features</h2>
                   <ul className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-4">
                     {features.map((feature) => (
                       <li key={feature} className="flex items-start gap-3 text-sm font-light text-gray-500">
@@ -116,8 +116,8 @@ export default async function VehicleDetailPage({ params }: { params: Promise<{ 
                   </ul>
                 </section>
 
-                <section className="bg-white rounded-[2.5rem] p-10 shadow-sm border border-gray-100/50">
-                  <h2 className="text-2xl font-black text-gray-900 mb-6 tracking-tight">About this car</h2>
+                <section className="bg-white rounded-2xl p-10 shadow-sm border border-gray-100/50">
+                  <h2 className="text-2xl font-bold text-gray-900 mb-6 tracking-tight">About this car</h2>
                   <p className="text-gray-500 leading-relaxed font-light whitespace-pre-wrap">
                     {vehicle.description}
                   </p>
@@ -127,17 +127,17 @@ export default async function VehicleDetailPage({ params }: { params: Promise<{ 
 
             <aside>
               <div className="sticky top-32 space-y-6">
-                <div className="bg-[#121212] rounded-[2.5rem] p-10 text-white shadow-[0_30px_60px_rgba(0,0,0,0.2)] overflow-hidden relative group">
+                <div className="bg-[#121212] rounded-2xl p-10 text-white shadow-[0_30px_60px_rgba(0,0,0,0.2)] overflow-hidden relative group">
                   <div className="absolute top-0 right-0 -translate-y-1/2 translate-x-1/2 w-64 h-64 bg-white/5 rounded-full blur-3xl group-hover:scale-110 transition-transform duration-700" />
 
                   <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-white/30 mb-2">Total Price</p>
-                  <p className="text-5xl font-bold mb-1">{formatGBP(vehicle.price)}</p>
+                  <p className="text-4xl font-bold mb-1">{formatGBP(vehicle.price)}</p>
                   <p className="text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-10">Monthly Estimated Finance Available</p>
 
                   <div className="space-y-4 relative z-10">
                     <EnquiryModal vehicleId={vehicle.id} dealerId={vehicle.dealerId} />
                     <button className="w-full bg-white/5 hover:bg-white/10 text-white border border-white/10 rounded-2xl py-4 font-bold text-sm transition-all active:scale-95">
-                      Apply for Finance
+                      Buy Now
                     </button>
                   </div>
 
@@ -152,7 +152,7 @@ export default async function VehicleDetailPage({ params }: { params: Promise<{ 
                   </div>
                 </div>
 
-                <div className="bg-white rounded-[2rem] p-8 border border-gray-100 shadow-sm">
+                <div className="bg-white rounded-2xl p-8 border border-gray-100 shadow-sm">
                   <div className="flex items-center gap-2 mb-4">
                     <div className="h-8 w-8 rounded-full bg-[#4228c4]/10 flex items-center justify-center text-[#4228c4]">
                       <Info size={16} />
@@ -162,7 +162,7 @@ export default async function VehicleDetailPage({ params }: { params: Promise<{ 
                   <p className="text-xs font-bold text-gray-400 leading-relaxed mb-6 uppercase tracking-wider">
                     Listed by a Car Bazaar Verified Dealer. View dealer details and other stock below.
                   </p>
-                  <button className="text-xs font-black text-[#4228c4] border-b-2 border-transparent hover:border-[#4228c4] transition-all uppercase tracking-widest">
+                  <button className="text-xs font-bold text-[#4228c4] border-b-2 border-transparent hover:border-[#4228c4] transition-all uppercase tracking-widest">
                     Visit Dealer Page →
                   </button>
                 </div>
@@ -173,8 +173,8 @@ export default async function VehicleDetailPage({ params }: { params: Promise<{ 
           {/* Similar Vehicles */}
           <section className="mt-32">
             <div className="flex items-center justify-between mb-12">
-              <h2 className="text-3xl font-black text-[#121212] tracking-tight">Similar Vehicles</h2>
-              <button className="text-[#4228c4] font-black hover:underline tracking-tight">
+              <h2 className="text-3xl font-bold text-[#121212] tracking-tight">Similar Vehicles</h2>
+              <button className="text-[#4228c4] font-bold hover:underline tracking-tight">
                 Browse all →
               </button>
             </div>

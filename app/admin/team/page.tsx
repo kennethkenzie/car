@@ -16,7 +16,7 @@ export default function TeamPage() {
     <div className="space-y-8">
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-3xl font-black tracking-tight text-gray-900">Team Management</h2>
+          <h2 className="text-3xl font-bold tracking-tight text-gray-900">Team Management</h2>
           <p className="mt-1 text-sm font-medium text-gray-500">Manage staff access and responsibilities.</p>
         </div>
         <button
@@ -30,7 +30,7 @@ export default function TeamPage() {
 
       {showAdd ? (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4 backdrop-blur-sm">
-          <div className="w-full max-w-md rounded-[2rem] bg-white p-8 shadow-2xl">
+          <div className="w-full max-w-md rounded-2xl bg-white p-8 shadow-2xl">
             <div className="mb-8 flex items-center justify-between">
               <h3 className="text-xl font-bold">Add Team Member</h3>
               <button onClick={() => setShowAdd(false)} className="text-gray-400 hover:text-black">
@@ -55,7 +55,7 @@ export default function TeamPage() {
         </div>
       ) : null}
 
-      <div className="rounded-[2.5rem] border border-gray-100 bg-white p-8 shadow-sm">
+      <div className="rounded-2xl border border-gray-100 bg-white p-8 shadow-sm">
         <div className="overflow-x-auto">
           <table className="w-full min-w-[760px]">
             <thead>

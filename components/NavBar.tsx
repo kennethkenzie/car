@@ -161,7 +161,7 @@ export default function NavBar() {
                         <Link
                           key={cat.id}
                           href={`/category/${cat.slug}`}
-                          className="flex items-center justify-between px-5 py-3 text-[13px] font-semibold text-gray-700 hover:bg-gray-50 hover:text-[#0b63ce]"
+                          className="flex items-center justify-between px-5 py-3 text-[13px] font-normal text-gray-700 hover:bg-gray-50 hover:text-[#0b63ce] hover:font-bold"
                         >
                           <span className="flex items-center gap-3">
                             {cat.thumbnail ? (
@@ -204,7 +204,7 @@ export default function NavBar() {
                   >
                     {promoLink.label}
                   </Link>
-                  <span className="absolute -top-2 left-1/2 -translate-x-1/2 rounded-[2px] bg-[#f6c400] px-2 py-[2px] text-[10px] font-black text-black">
+                  <span className="absolute -top-2 left-1/2 -translate-x-1/2 rounded-[2px] bg-[#f6c400] px-2 py-[2px] text-[10px] font-bold text-black">
                     New
                   </span>
                 </div>

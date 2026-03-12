@@ -134,7 +134,7 @@ export function VehicleSearchPage({ type }: { type: "CAR" | "VAN" }) {
                 <div className="mb-4 rounded-full bg-gray-100 p-6">
                   <SlidersHorizontal className="h-8 w-8 text-gray-300" />
                 </div>
-                <h3 className="text-xl font-black text-gray-900">No results found</h3>
+                <h3 className="text-xl font-bold text-gray-900">No results found</h3>
                 <p className="mt-2 text-gray-500 font-medium">Try adjusting your filters to find your perfect vehicle.</p>
                 <button
                   onClick={() => setFilters(INITIAL_FILTERS)}
@@ -152,7 +152,7 @@ export function VehicleSearchPage({ type }: { type: "CAR" | "VAN" }) {
       {showMobileFilters && (
         <div className="fixed inset-0 z-[60] flex flex-col bg-white lg:hidden">
           <div className="flex items-center justify-between border-b px-6 py-4">
-            <h2 className="text-lg font-black text-gray-900">Filters</h2>
+            <h2 className="text-lg font-bold text-gray-900">Filters</h2>
             <button onClick={() => setShowMobileFilters(false)} className="text-sm font-bold text-gray-400">Close</button>
           </div>
           <div className="flex-1 overflow-y-auto p-6">

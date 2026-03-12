@@ -17,7 +17,7 @@ export function VehicleGallery({ images, title }: { images: Array<string | { url
 
   return (
     <div className="space-y-4">
-      <div className="relative aspect-[16/9] w-full overflow-hidden rounded-[2.5rem] bg-gray-100 shadow-2xl group">
+      <div className="relative aspect-[16/9] w-full overflow-hidden rounded-2xl bg-gray-100 shadow-2xl group">
         <Image
           src={imageUrls[activeIdx]}
           alt={title}
@@ -43,7 +43,7 @@ export function VehicleGallery({ images, title }: { images: Array<string | { url
         </div>
 
         <div className="absolute top-6 right-6">
-          <button className="flex h-12 w-12 items-center justify-center rounded-2xl bg-black/50 text-white backdrop-blur-md hover:bg-black/70 transition-all">
+          <button className="flex h-12 w-12 items-center justify-center rounded-xl bg-black/50 text-white backdrop-blur-md hover:bg-black/70 transition-all">
             <Maximize2 size={20} />
           </button>
         </div>
@@ -58,7 +58,7 @@ export function VehicleGallery({ images, title }: { images: Array<string | { url
           <button
             key={idx}
             onClick={() => setActiveIdx(idx)}
-            className={`relative h-24 w-40 shrink-0 overflow-hidden rounded-2xl border-2 transition-all ${
+            className={`relative h-24 w-40 shrink-0 overflow-hidden rounded-xl border-2 transition-all ${
               activeIdx === idx ? "border-[#4228c4] ring-2 ring-[#4228c4]/20 scale-95" : "border-transparent opacity-60 hover:opacity-100"
             }`}
           >

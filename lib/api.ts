@@ -1,10 +1,46 @@
 export async function getPublicVehicles(type?: "CAR" | "VAN") {
-  // Simulating fetching data
+  // Simulating fetching data from the new 'Vehicle' table structure
   const all = [
-    { id: "1", type: "CAR", make: "Mercedes-Benz", model: "C-Class", trim: "C200 AMG Line", year: 2022, price: 45000, mileage: 12500, status: "PUBLISHED", fuel: "Petrol", transmission: "Automatic", postcode: "KLA-01", images: ["/slider-1.png"] },
-    { id: "2", type: "CAR", make: "Toyota", model: "Land Cruiser", trim: "V8 VX", year: 2021, price: 85000, mileage: 34000, status: "PUBLISHED", fuel: "Diesel", transmission: "Automatic", postcode: "ENT-05", images: ["/slider-2.png"] },
-    { id: "3", type: "CAR", make: "BMW", model: "X5", trim: "xDrive40i", year: 2023, price: 65000, mileage: 5000, status: "PUBLISHED", fuel: "Petrol", transmission: "Automatic", postcode: "KLA-02", images: ["/slider-3.png"] },
-    { id: "5", type: "VAN", make: "Ford", model: "Transit", trim: "Custom", year: 2022, price: 35000, mileage: 15000, status: "PUBLISHED", fuel: "Diesel", transmission: "Manual", postcode: "KLA-03", images: ["/slider-1.png"] },
+    { 
+      id: "1", 
+      slug: "mercedes-benz-c-class",
+      type: "CAR", 
+      make: "Mercedes-Benz", 
+      model: "C-Class", 
+      trim: "C200 AMG Line", 
+      year: 2022, 
+      price: 155000000, 
+      mileage: 12500, 
+      status: "PUBLISHED", 
+      fuel: "PETROL", 
+      transmission: "AUTOMATIC", 
+      bodyType: "Saloon",
+      color: "Black",
+      doors: 4,
+      postcode: "KLA-01", 
+      dealerId: "1",
+      images: [{ url: "/slider-1.png", id: "img1" }] 
+    },
+    { 
+      id: "2", 
+      slug: "toyota-land-cruiser",
+      type: "CAR", 
+      make: "Toyota", 
+      model: "Land Cruiser", 
+      trim: "V8 VX", 
+      year: 2021, 
+      price: 320000000, 
+      mileage: 34000, 
+      status: "PUBLISHED", 
+      fuel: "DIESEL", 
+      transmission: "AUTOMATIC", 
+      bodyType: "SUV / 4x4",
+      color: "White",
+      doors: 5,
+      postcode: "ENT-05", 
+      dealerId: "1",
+      images: [{ url: "/slider-2.png", id: "img2" }] 
+    },
   ];
   
   if (type) return all.filter(v => v.type === type);
@@ -15,30 +51,63 @@ export async function fetchDealerInventory() {
   return getPublicVehicles();
 }
 
+export async function getVehicleById(id: string) {
+  const all = await getPublicVehicles();
+  const vehicle = all.find(v => v.id === id || v.slug === id);
+  if (!vehicle) return null;
+  
+  return {
+    ...vehicle,
+    features: ["Bluetooth", "Navigation", "Climate Control"],
+    description: "A premium car for high-end comfort.",
+    city: "Kampala"
+  };
+}
+
 export async function deleteVehicleReal(id: string) {
-  console.log(`Deleting vehicle ${id}`);
+  console.log(`[API] Deleting vehicle ${id} from table "Vehicle"`);
   return { success: true };
 }
 
 export async function publishVehicleReal(id: string) {
-  console.log(`Publishing vehicle ${id}`);
+  console.log(`[API] Updating "Vehicle" status to PUBLISHED for ID ${id}`);
   return { success: true };
 }
 
 export async function archiveVehicleReal(id: string) {
-  console.log(`Archiving vehicle ${id}`);
+  console.log(`[API] Updating "Vehicle" status to ARCHIVED for ID ${id}`);
+  return { success: true };
+}
+
+export async function updateVehicleReal(id: string, formData: FormData) {
+  console.log(`[API] Updating "Vehicle" entry ${id} with:`, Object.fromEntries(formData.entries()));
   return { success: true };
 }
 
 export async function createVehicleReal(formData: FormData) {
-  console.log("Creating vehicle with data:", Object.fromEntries(formData.entries()));
+  console.log(`[API] Inserting into "Vehicle" table:`, Object.fromEntries(formData.entries()));
+  return { success: true };
+}
+
+export async function adminCreateDealer(formData: FormData) {
+  console.log(`[API] Admin creating dealer:`, Object.fromEntries(formData.entries()));
+  return { success: true };
+}
+
+export async function deleteDealerReal(id: string) {
+  console.log(`[API] Deleting dealer ${id}`);
+  return { success: true };
+}
+
+export async function updateDealerReal(id: string, formData: FormData) {
+  console.log(`[API] Updating dealer ${id}:`, Object.fromEntries(formData.entries()));
   return { success: true };
 }
 
 export async function getDealers(): Promise<any[]> {
   return [
     { 
-      id: "d1", 
+      id: "1", 
       name: "Main Bond Showroom", 
       slug: "main-bond", 
       email: "main@carbazaar.com", 
@@ -47,57 +116,40 @@ export async function getDealers(): Promise<any[]> {
       postcode: "KLA-01", 
       status: "ACTIVE" 
     },
-    { 
-      id: "d2", 
-      name: "Luxury Collection Office", 
-      slug: "luxury-office", 
-      email: "luxury@carbazaar.com", 
-      phone: "+256 700 333 444", 
-      address: "Entebbe Rd, Zana", 
-      postcode: "ENT-05", 
-      status: "PENDING" 
-    },
   ];
 }
 
-export async function adminCreateDealer(formData: FormData) {
-  console.log("Admin creating dealer:", Object.fromEntries(formData.entries()));
-  return { success: true };
-}
-
-export async function updateDealerReal(slug: string, formData: FormData) {
-  console.log(`Updating dealer ${slug} with:`, Object.fromEntries(formData.entries()));
-  return { success: true };
-}
-
-export async function deleteDealerReal(slug: string) {
-  console.log(`Deleting dealer ${slug}`);
-  return { success: true };
-}
-
 export async function getVehicleReal(slug: string) {
-  const all = await getPublicVehicles();
-  const vehicle = all.find(v => v.id === slug || v.id === "1"); // Fallback for demo
-  if (!vehicle) return null;
-  
-  return {
-    ...vehicle,
-    features: [
-      "2-Zone Automatic Climate Control",
-      "Apple CarPlay & Android Auto",
-      "Heated Front Seats",
-      "LED Headlights with Signature DRL",
-      "Panoramic Sunroof",
-      "Premium Surround Sound System",
-      "Park Assist with 360 Camera",
-      "Adaptive Cruise Control"
-    ],
-    description: "This exceptional vehicle represents the pinnacle of its class, offering a perfect blend of performance, luxury, and technology. Meticulously maintained and fully inspected by our Car Bazaar specialists.\n\nKey Highlights:\n- One previous owner\n- Full service history\n- Professional ceramic coating\n- Extended warranty available",
-    dealerId: "d1"
-  };
+  return getVehicleById(slug);
 }
 
 export async function getSimilarVehiclesReal(slug: string, type: "CAR" | "VAN") {
   const all = await getPublicVehicles(type);
   return all.filter(v => v.id !== slug);
+}
+
+export async function getDashboardSummary() {
+  return {
+    activeListings: 48,
+    draftListings: 4,
+    enquiriesThisWeek: 124,
+    avgDaysToSell: 14,
+    recentEnquiries: [
+      {
+        id: "e1",
+        name: "James Okello",
+        email: "james@example.com",
+        createdAt: new Date().toISOString(),
+        status: "NEW",
+        vehicle: { make: "Mercedes-Benz", model: "C-Class" }
+      },
+    ]
+  };
+}
+
+export async function getDatabaseHealth() {
+  return {
+    database: "connected",
+    details: "Safe & Encrypted"
+  };
 }

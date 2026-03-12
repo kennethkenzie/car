@@ -9,7 +9,7 @@ export default function ProfilePage() {
       </div>
 
       <div className="grid gap-6 xl:grid-cols-[minmax(0,1.1fr)_360px]">
-        <div className="rounded-[2.5rem] border border-gray-100 bg-white p-8 shadow-sm">
+        <div className="rounded-2xl border border-gray-100 bg-white p-8 shadow-sm">
           <div className="grid gap-5 md:grid-cols-2">
             <div>
               <label className="mb-2 block text-sm font-semibold text-gray-800">Store Name</label>
@@ -39,7 +39,7 @@ export default function ProfilePage() {
           </button>
         </div>
 
-        <aside className="rounded-[2.5rem] border border-gray-100 bg-[#111827] p-8 text-white shadow-xl">
+        <aside className="rounded-2xl border border-gray-100 bg-[#111827] p-8 text-white shadow-xl">
           <div className="text-xs font-bold uppercase tracking-[0.2em] text-white/50">Store Status</div>
           <div className="mt-3 text-3xl font-extrabold">Active</div>
           <p className="mt-3 text-sm leading-6 text-white/70">
