@@ -11,6 +11,10 @@ export async function getPublicVehicles(type?: "CAR" | "VAN") {
   return all;
 }
 
+export async function getDealerVehicles() {
+  return getPublicVehicles();
+}
+
 export async function deleteVehicleReal(id: string) {
   console.log(`Deleting vehicle ${id}`);
   return { success: true };

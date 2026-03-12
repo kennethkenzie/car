@@ -2,11 +2,13 @@
 
 import { DataTable } from "@/components/DataTable";
 import { useAuth } from "@/components/providers/AuthProvider";
-import { getDealerVehicles, deleteVehicleReal, publishVehicleReal, archiveVehicleReal } from "@/lib/api";
+import { getPublicVehicles, deleteVehicleReal, publishVehicleReal, archiveVehicleReal } from "@/lib/api";
 import { formatGBP } from "@/lib/utils";
 import { useQuery } from "@tanstack/react-query";
 import Link from "next/link";
 import { Plus } from "lucide-react";
+
+const getDealerVehicles = () => getPublicVehicles();
 
 const STATUS_COLORS: Record<string, string> = {
   PUBLISHED: "bg-green-500/10 text-green-600 border border-green-500/20",
