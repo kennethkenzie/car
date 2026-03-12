@@ -11,7 +11,7 @@ export async function getPublicVehicles(type?: "CAR" | "VAN") {
   return all;
 }
 
-export async function getDealerVehicles() {
+export async function fetchDealerInventory() {
   return getPublicVehicles();
 }
 
