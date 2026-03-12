@@ -23,7 +23,9 @@ export default function LatestProductsSection() {
     type: p.href.includes('/vans/') ? "VAN" : "CAR",
     postcode: "KAMPALA",
     images: [p.image],
-    status: "PUBLISHED"
+    status: "PUBLISHED",
+    dealerId: "1",
+    slug: p.id
   }));
 
   return (
