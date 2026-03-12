@@ -262,7 +262,7 @@ export const defaultFrontendData: FrontendData = {
       {
         title: "Repair tools & workshop essentials",
         tiles: [
-          { label: "Rework stations", image: "https://images.unsplash.com/photo-1581092583537-20d51b4b4f8f?auto=format&fit=crop&w=900&q=80", href: "/category/rework-stations" },
+          { label: "Rework stations", image: "https://images.pexels.com/photos/162553/keys-workshop-mechanic-tools-162553.jpeg?auto=compress&cs=tinysrgb&w=900", href: "/category/rework-stations" },
           { label: "Multimeters", image: "https://images.unsplash.com/photo-1586864387967-d02ef85d93e8?auto=format&fit=crop&w=900&q=80", href: "/category/multimeters" },
           { label: "Soldering irons", image: "https://images.unsplash.com/photo-1581092334631-7b0c5ed9c4d7?auto=format&fit=crop&w=900&q=80", href: "/category/soldering" },
           { label: "Signal finders", image: "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=900&q=80", href: "/category/signal-finders" },
@@ -285,7 +285,7 @@ export const defaultFrontendData: FrontendData = {
           { label: "HDMI & AV cables", image: "https://images.unsplash.com/photo-1602524816604-3d0f42c7b9a8?auto=format&fit=crop&w=900&q=80", href: "/category/cables" },
           { label: "TV remotes", image: "https://images.unsplash.com/photo-1617957743094-0c7c9dbe2c35?auto=format&fit=crop&w=900&q=80", href: "/category/remotes" },
           { label: "Wall mounts", image: "https://images.unsplash.com/photo-1581345331967-6d7ccacb7002?auto=format&fit=crop&w=900&q=80", href: "/category/wall-mounts" },
-          { label: "Power adapters", image: "https://images.unsplash.com/photo-1580508244245-c446ca981a47?auto=format&fit=crop&w=900&q=80", href: "/category/adapters" },
+          { label: "Power adapters", image: "https://images.pexels.com/photos/4219862/pexels-photo-4219862.jpeg?auto=compress&cs=tinysrgb&w=900", href: "/category/adapters" },
         ],
         cta: { label: "Explore accessories", href: "/accessories" },
       },
@@ -296,11 +296,61 @@ export const defaultFrontendData: FrontendData = {
     ctaLabel: "View all",
     ctaHref: "/products",
     products: [
-      { id: "p1", name: "25Q16 16Mbit SPI Serial Flash IC", shortDesc: "Stable memory chip for TV main boards, routers & repair jobs.", image: "https://images.unsplash.com/photo-1587829741301-dc798b83add3?auto=format&fit=crop&w=900&q=80", price: 12000, oldPrice: 27000, discountPercent: 55, rating: 4.2, href: "/product/25q16" },
-      { id: "p2", name: "LM2576S 3A Step-Down Buck Regulator", shortDesc: "3A DC-DC step-down regulator for power supply repairs.", image: "https://images.unsplash.com/photo-1555617981-dac3880eac6e?auto=format&fit=crop&w=900&q=80", price: 15000, oldPrice: 38000, discountPercent: 60, rating: 4.0, href: "/product/lm2576s" },
-      { id: "p3", name: "24C32 32-Kbit I2C Serial EEPROM", shortDesc: "Reliable EEPROM for firmware storage & calibration data.", image: "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=900&q=80", price: 9000, oldPrice: 36000, discountPercent: 75, rating: 3.8, href: "/product/24c32" },
-      { id: "p4", name: "TEA2025B Dual/Bridge Audio Amplifier IC", shortDesc: "Classic dual audio amp IC for speaker & radio boards.", image: "https://images.unsplash.com/photo-1580508244245-c446ca981a47?auto=format&fit=crop&w=900&q=80", price: 8000, oldPrice: 21000, discountPercent: 61, rating: 4.4, href: "/product/tea2025b" },
-      { id: "p5", name: "TDA2822M Dual Channel Audio Amplifier", shortDesc: "Compact amplifier for small speakers and signal projects.", image: "https://images.unsplash.com/photo-1581092583537-20d51b4b4f8f?auto=format&fit=crop&w=900&q=80", price: 5000, oldPrice: 25000, discountPercent: 80, rating: 4.1, href: "/product/tda2822m" },
+      { 
+        id: "v1", 
+        name: "Mercedes-Benz C-Class C200", 
+        shortDesc: "Premium luxury sedan with AMG line styling and panoramic roof.", 
+        image: "https://images.pexels.com/photos/120049/pexels-photo-120049.jpeg?auto=compress&cs=tinysrgb&w=800", 
+        price: 45000, 
+        oldPrice: 48000, 
+        discountPercent: 6, 
+        rating: 4.8, 
+        href: "/cars/mercedes-c-class" 
+      },
+      { 
+        id: "v2", 
+        name: "Audi A5 Sportback 40 TFSI", 
+        shortDesc: "Elegant coupe-inspired design with advanced technology features.", 
+        image: "https://images.pexels.com/photos/1149831/pexels-photo-1149831.jpeg?auto=compress&cs=tinysrgb&w=800", 
+        price: 38500, 
+        oldPrice: 41000, 
+        discountPercent: 6, 
+        rating: 4.7, 
+        href: "/cars/audi-a5" 
+      },
+      { 
+        id: "v3", 
+        name: "Volkswagen Golf R-Line", 
+        shortDesc: "The ultimate hatchback with sporty R-Line trim and efficient engine.", 
+        image: "https://images.pexels.com/photos/1519192/pexels-photo-1519192.jpeg?auto=compress&cs=tinysrgb&w=800", 
+        price: 24000, 
+        oldPrice: 26500, 
+        discountPercent: 9, 
+        rating: 4.9, 
+        href: "/cars/vw-golf" 
+      },
+      { 
+        id: "v4", 
+        name: "Ford Transit Custom Sport", 
+        shortDesc: "Reliable and powerful van with sporty exterior and comfortable cabin.", 
+        image: "https://images.pexels.com/photos/1545743/pexels-photo-1545743.jpeg?auto=compress&cs=tinysrgb&w=800", 
+        price: 28000, 
+        oldPrice: 31000, 
+        discountPercent: 10, 
+        rating: 4.6, 
+        href: "/vans/ford-transit" 
+      },
+      { 
+        id: "v5", 
+        name: "Toyota Land Cruiser V8", 
+        shortDesc: "Legendary off-road performance meets uncompromising luxury.", 
+        image: "https://images.pexels.com/photos/112460/pexels-photo-112460.jpeg?auto=compress&cs=tinysrgb&w=800", 
+        price: 85000, 
+        oldPrice: 92000, 
+        discountPercent: 7, 
+        rating: 5.0, 
+        href: "/cars/toyota-land-cruiser" 
+      },
     ],
   },
   relatedProducts: {

@@ -31,9 +31,42 @@ export async function createVehicleReal(formData: FormData) {
   return { success: true };
 }
 
-export async function getDealers() {
+export async function getDealers(): Promise<any[]> {
   return [
-    { id: "d1", name: "Main Bond Showroom" },
-    { id: "d2", name: "Luxury Collection Office" },
+    { 
+      id: "d1", 
+      name: "Main Bond Showroom", 
+      slug: "main-bond", 
+      email: "main@carbazaar.com", 
+      phone: "+256 700 111 222", 
+      address: "Plot 12, Kampala Rd", 
+      postcode: "KLA-01", 
+      status: "ACTIVE" 
+    },
+    { 
+      id: "d2", 
+      name: "Luxury Collection Office", 
+      slug: "luxury-office", 
+      email: "luxury@carbazaar.com", 
+      phone: "+256 700 333 444", 
+      address: "Entebbe Rd, Zana", 
+      postcode: "ENT-05", 
+      status: "PENDING" 
+    },
   ];
+}
+
+export async function adminCreateDealer(formData: FormData) {
+  console.log("Admin creating dealer:", Object.fromEntries(formData.entries()));
+  return { success: true };
+}
+
+export async function updateDealerReal(slug: string, formData: FormData) {
+  console.log(`Updating dealer ${slug} with:`, Object.fromEntries(formData.entries()));
+  return { success: true };
+}
+
+export async function deleteDealerReal(slug: string) {
+  console.log(`Deleting dealer ${slug}`);
+  return { success: true };
 }
