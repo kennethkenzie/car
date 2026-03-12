@@ -49,7 +49,7 @@ export function Footer() {
               <Car className="h-10 w-10" />
               <span className="font-display font-semibold uppercase">Car Baazar</span>
             </Link>
-            <p className="text-gray-300 font-medium leading-relaxed mb-8">
+            <p className="text-gray-300 font-normal leading-relaxed mb-8">
               Uganda's most trusted online marketplace for quality used vehicles.
               Find, finance and buy your next car entirely online.
             </p>
@@ -73,7 +73,7 @@ export function Footer() {
                 <ul className="space-y-4">
                   {section.links.map((link) => (
                     <li key={link.label}>
-                      <Link href={link.href} className="text-sm font-bold text-gray-300 transition-colors hover:text-white">
+                      <Link href={link.href} className="text-sm font-normal text-gray-300 transition-colors hover:text-white">
                         {link.label}
                       </Link>
                     </li>
@@ -85,12 +85,12 @@ export function Footer() {
         </div>
 
         <div className="mt-20 pt-8 border-t border-gray-800 flex flex-col md:flex-row items-center justify-between gap-6">
-          <p className="text-sm font-bold text-gray-300 underline decoration-gray-600 decoration-2 underline-offset-4 pointer-events-none">
+          <p className="text-sm font-normal text-gray-300 underline decoration-gray-600 decoration-2 underline-offset-4 pointer-events-none">
             © 2026 Car Baazar Marketplace Limited
           </p>
           <div className="flex gap-8">
-            <span className="text-xs font-bold text-gray-400 uppercase tracking-widest">UA Regulated</span>
-            <span className="text-xs font-bold text-gray-400 uppercase tracking-widest">BVRLA Certified</span>
+            <span className="text-xs font-normal text-gray-400 uppercase tracking-widest">UA Regulated</span>
+            <span className="text-xs font-normal text-gray-400 uppercase tracking-widest">BVRLA Certified</span>
           </div>
         </div>
       </div>
