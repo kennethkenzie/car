@@ -11,7 +11,7 @@ export default function CategoryTilesSection() {
 
   return (
     <section className="w-full bg-gray-50/50 py-12">
-      <div className="mx-auto max-w-[1400px] px-6">
+      <div className="mx-auto max-w-[1560px] px-6 xl:px-8">
         <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4">
           {cards.map((card, idx) => (
             <div

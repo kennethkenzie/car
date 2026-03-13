@@ -107,8 +107,8 @@ export default async function VehicleDetailPage({ params }: { params: Promise<{ 
                 <section className="bg-white rounded-2xl p-10 shadow-sm border border-gray-100/50">
                   <h2 className="text-2xl font-bold text-gray-900 mb-8 tracking-tight">Key Features</h2>
                   <ul className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-4">
-                    {features.map((feature) => (
-                      <li key={feature} className="flex items-start gap-3 text-sm font-light text-gray-500">
+                    {features.map((feature, index) => (
+                      <li key={`${feature}-${index}`} className="flex items-start gap-3 text-sm font-light text-gray-500">
                         <div className="h-2 w-2 rounded-full bg-[#4228c4] mt-1.5 shrink-0 shadow-sm shadow-[#4228c4]/40" />
                         {feature}
                       </li>

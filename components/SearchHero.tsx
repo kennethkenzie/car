@@ -37,7 +37,7 @@ export function SearchHero() {
       />
       <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/45 to-black/55" />
 
-      <div className="relative mx-auto max-w-[1440px] px-6">
+      <div className="relative mx-auto max-w-[1600px] px-6 xl:px-8">
         <div className="max-w-3xl mb-12">
           <h1 className="mb-6 text-5xl font-semibold leading-[1.1] tracking-tight text-white/95 lg:text-7xl">
             Find your next car.<br />
@@ -50,7 +50,7 @@ export function SearchHero() {
         </div>
 
         {/* Search Card */}
-        <div className="relative z-10 w-full max-w-5xl">
+        <div className="relative z-10 w-full max-w-6xl">
           <div className="rounded-md border border-white/30 bg-white/10 p-2 shadow-[0_20px_60px_rgba(0,0,0,0.35)] backdrop-blur-2xl lg:p-3">
             {/* Tabs */}
             <div className="mb-2 flex gap-2 px-4 pt-2">

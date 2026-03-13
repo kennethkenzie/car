@@ -1,39 +1,53 @@
 "use client";
 
 import Link from "next/link";
+import { useEffect, useState } from "react";
 import { ArrowRight } from "lucide-react";
 import { VehicleCard } from "@/components/VehicleCard";
 import { useFrontendData } from "@/lib/use-frontend-data";
 import { Vehicle } from "@/lib/types";
+import { getPublicVehicles } from "@/lib/api";
 
 export default function LatestProductsSection() {
   const data = useFrontendData();
   const section = data.latestProducts;
-  
-  // Transform mock data to Vehicle type for the demo
-  const vehicles: Vehicle[] = section.products.map(p => ({
-    id: p.id,
-    make: p.name.split(' ')[0],
-    model: p.name.split(' ').slice(1).join(' '),
-    trim: p.shortDesc,
-    year: 2022,
-    mileage: 12500,
-    fuel: "Petrol",
-    transmission: "Automatic",
-    price: p.price,
-    type: p.href.includes('/vans/') ? "VAN" : "CAR",
-    postcode: "KAMPALA",
-    images: [p.image],
-    status: "PUBLISHED",
-    dealerId: "1",
-    slug: p.id
-  }));
+  const [vehicles, setVehicles] = useState<Vehicle[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
-  if (vehicles.length === 0) return null;
+  useEffect(() => {
+    let active = true;
+
+    async function loadLatestVehicles() {
+      try {
+        setIsLoading(true);
+        const liveVehicles = await getPublicVehicles();
+        if (active) {
+          setVehicles((liveVehicles as Vehicle[]).slice(0, 4));
+        }
+      } catch (error) {
+        console.error("Failed to load latest vehicles.", error);
+        if (active) {
+          setVehicles([]);
+        }
+      } finally {
+        if (active) {
+          setIsLoading(false);
+        }
+      }
+    }
+
+    void loadLatestVehicles();
+
+    return () => {
+      active = false;
+    };
+  }, []);
+
+  if (!isLoading && vehicles.length === 0) return null;
 
   return (
     <section className="w-full bg-[#fcfcfc]">
-      <div className="mx-auto max-w-[1280px] px-6 py-20 lg:py-24">
+      <div className="mx-auto max-w-[1520px] px-6 py-20 lg:py-24 xl:px-8">
         <div className="mb-12 flex items-end justify-between">
           <div>
             <h2 className="text-4xl font-extrabold text-gray-900 tracking-tight">{section.title}</h2>
@@ -49,9 +63,14 @@ export default function LatestProductsSection() {
         </div>
 
         <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
-          {vehicles.map((v) => (
-            <VehicleCard key={v.id} vehicle={v} />
-          ))}
+          {isLoading
+            ? Array.from({ length: 4 }).map((_, index) => (
+                <div
+                  key={`latest-skeleton-${index}`}
+                  className="aspect-[16/10] animate-pulse rounded-[2rem] bg-gray-100"
+                />
+              ))
+            : vehicles.map((v) => <VehicleCard key={v.id} vehicle={v} />)}
         </div>
       </div>
     </section>

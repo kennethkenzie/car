@@ -2,8 +2,9 @@
 
 import DashboardFooter from "./DashboardFooter";
 import Link from "next/link";
-import { useMemo } from "react";
-import { usePathname } from "next/navigation";
+import { useMemo, useEffect } from "react";
+import { usePathname, useRouter } from "next/navigation";
+import { useAuth } from "@/components/providers/AuthProvider";
 import {
   ArrowUpRight,
   Car,
@@ -19,6 +20,7 @@ import {
   Tag,
   UserCircle2,
   Users,
+  Loader2,
 } from "lucide-react";
 
 type NavItem = {
@@ -37,10 +39,10 @@ function NavLink({
     <Link
       href={href}
       className={[
-        "flex items-center justify-between rounded-2xl px-5 py-4 text-sm transition-all",
+        "flex items-center justify-between rounded-xl px-5 py-4 text-sm transition-all",
         active
           ? "bg-[#4228c4] text-white shadow-xl shadow-[#4228c4]/20 font-bold"
-          : "text-gray-400 font-normal hover:bg-gray-50 hover:text-gray-900 hover:font-bold",
+          : "text-gray-500 font-medium hover:bg-white/5 hover:text-white",
       ].join(" ")}
     >
       <span className="flex items-center gap-3">
@@ -54,6 +56,14 @@ function NavLink({
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
+  const router = useRouter();
+  const { user, isLoading, signOut } = useAuth();
+
+  useEffect(() => {
+    if (!isLoading && !user) {
+      router.push("/login");
+    }
+  }, [user, isLoading, router]);
 
   const dashboardItems: NavItem[] = useMemo(
     () => [
@@ -83,26 +93,42 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     return current?.label ?? "Admin";
   }, [commerceItems, dashboardItems, pathname]);
 
+  const userInitial =
+    user?.name?.trim().charAt(0) || user?.email?.trim().charAt(0) || "U";
+
+  if (isLoading) {
+    return (
+      <div className="flex h-screen w-full items-center justify-center bg-gray-50">
+        <div className="flex flex-col items-center gap-4">
+          <Loader2 className="h-10 w-10 animate-spin text-[#4228c4]" />
+          <p className="text-sm font-bold text-gray-500 uppercase tracking-widest">Verifying Session...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (!user) return null;
+
   return (
     <div className="min-h-screen bg-[#f6f7fb] text-[#111827]">
       <div className="flex min-h-screen">
-        <aside className="hidden h-screen w-72 shrink-0 border-r border-gray-100 bg-white p-8 xl:flex xl:flex-col">
+        <aside className="hidden h-screen w-72 shrink-0 bg-[#0a0a0a] p-8 xl:flex xl:flex-col">
           <Link href="/admin" className="mb-12 flex items-center gap-3 group">
-            <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-black text-white shadow-lg shadow-black/20 transition-transform group-hover:scale-105">
+            <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-white text-black shadow-lg shadow-white/5 transition-transform group-hover:scale-105">
               <Car className="h-5 w-5" />
             </div>
             <div className="flex flex-col">
-              <span className="font-display text-lg font-semibold leading-none tracking-tight text-gray-900 uppercase">
+              <span className="font-display text-lg font-semibold leading-none tracking-tight text-white uppercase">
                 Car Baazar
               </span>
-              <span className="mt-0.5 text-[10px] font-bold uppercase tracking-[0.24em] text-gray-400">
+              <span className="mt-0.5 text-[10px] font-bold uppercase tracking-[0.24em] text-gray-600">
                 Bond Dashboard
               </span>
             </div>
           </Link>
 
           <div>
-            <p className="mb-3 px-2 text-[10px] font-bold uppercase tracking-[0.24em] text-gray-300">
+            <p className="mb-3 px-2 text-[10px] font-bold uppercase tracking-[0.24em] text-gray-700">
               Dashboard
             </p>
             <nav className="space-y-2">
@@ -120,7 +146,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           </div>
 
           <div className="mt-8">
-            <p className="mb-3 px-2 text-[10px] font-bold uppercase tracking-[0.24em] text-gray-300">
+            <p className="mb-3 px-2 text-[10px] font-bold uppercase tracking-[0.24em] text-gray-700">
               Storefront
             </p>
             <nav className="space-y-2">
@@ -134,10 +160,30 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             </nav>
           </div>
 
-          <div className="mt-auto rounded-[28px] border border-gray-100 bg-gray-50 p-5">
-            <div className="text-sm font-bold text-gray-900">Kenneth Store</div>
-            <div className="mt-1 text-xs font-medium text-gray-500">
-              seller@modernelectronics.com
+          <div className="mt-auto px-2">
+            <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-5">
+              <div className="flex items-center gap-3">
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#4228c4] text-[15px] font-bold text-white uppercase">
+                  {userInitial}
+                </div>
+                <div className="min-w-0 flex-1">
+                  <div className="truncate text-sm font-bold text-white">
+                    {user?.name || "Member"}
+                  </div>
+                  <div className="truncate text-[11px] font-medium text-gray-500">
+                    {user?.email}
+                  </div>
+                </div>
+              </div>
+              <button
+                onClick={async () => {
+                  await signOut();
+                  window.location.href = "/login";
+                }}
+                className="mt-4 flex w-full items-center justify-center gap-2 rounded-xl border border-white/10 bg-white/5 py-2 text-xs font-bold text-white transition hover:bg-red-500 hover:border-red-500"
+              >
+                Sign out
+              </button>
             </div>
           </div>
         </aside>

@@ -53,7 +53,7 @@ export default function DynamicCategorySection() {
             <div className="absolute left-0 top-0 -z-10 h-72 w-72 translate-x-[-10%] translate-y-[-10%] rounded-full bg-[#f6c400]/5 blur-[100px]" />
             <div className="absolute right-0 bottom-0 -z-10 h-96 w-96 translate-x-[10%] translate-y-[10%] rounded-full bg-[#0b63ce]/5 blur-[120px]" />
 
-            <div className="mx-auto max-w-[1400px] px-6">
+            <div className="mx-auto max-w-[1560px] px-6 xl:px-8">
                 <div className="mb-12 flex flex-col items-start justify-between gap-4 border-b border-gray-100 pb-8 sm:flex-row sm:items-end">
                     <div>
                         <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">

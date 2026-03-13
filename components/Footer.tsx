@@ -42,7 +42,7 @@ const sections = [
 export function Footer() {
   return (
     <footer className="bg-black pt-24 pb-12 border-t border-gray-800">
-      <div className="mx-auto max-w-[1440px] px-6">
+      <div className="mx-auto max-w-[1600px] px-6 xl:px-8">
         <div className="grid gap-12 lg:grid-cols-[1fr_2fr]">
           <div className="max-w-xs">
             <Link href="/" className="mb-6 flex items-center gap-2 text-2xl font-bold tracking-tighter text-gray-100">

@@ -188,7 +188,7 @@ export function VehicleWizard({ initialData, mode }: VehicleWizardProps) {
   if (submitted) {
     return (
       <div className="flex flex-col items-center justify-center py-24 text-center">
-        <div className="mb-6 flex h-20 w-20 items-center justify-center bg-[#4228c4] rounded-[2rem]">
+        <div className="mb-6 flex h-20 w-20 items-center justify-center bg-[#4228c4] rounded-3xl">
           <CheckCircle2 className="h-10 w-10 text-white" />
         </div>
         <h2 className="mb-2 text-2xl font-bold text-gray-900">
@@ -264,7 +264,7 @@ export function VehicleWizard({ initialData, mode }: VehicleWizardProps) {
       </div>
 
       {/* Form Steps */}
-      <div className="bg-white rounded-[2.5rem] p-8 border border-gray-100 shadow-sm">
+      <div className="bg-white rounded-2xl p-8 border border-gray-100 shadow-sm">
         {error && (
           <div className="mb-6 rounded-2xl bg-red-50 p-4 border border-red-100 text-sm text-red-600 flex items-center gap-3">
              <span className="font-bold">Error:</span> {error}
@@ -282,7 +282,7 @@ export function VehicleWizard({ initialData, mode }: VehicleWizardProps) {
                       key={t}
                       type="button"
                       onClick={() => set("type", t as "CAR" | "VAN")}
-                      className={`flex-1 flex gap-2 items-center justify-center rounded-2xl border-2 py-4 text-sm font-bold transition-all ${form.type === t ? "border-[#4228c4] bg-[#4228c4]/5 text-[#4228c4]" : "border-gray-100 text-gray-500 hover:border-gray-200"}`}
+                      className={`flex-1 flex gap-2 items-center justify-center rounded-2xl border-2 py-4 text-sm font-bold transition-all ${form.type === t ? "border-black bg-black text-white shadow-lg shadow-black/10" : "border-gray-100 text-gray-500 hover:border-black hover:text-black"}`}
                     >
                       {t === "CAR" ? <CarFront className="h-4 w-4" /> : <Car className="h-4 w-4" />}
                       {t === "CAR" ? "Car" : "Van"}
@@ -420,7 +420,7 @@ export function VehicleWizard({ initialData, mode }: VehicleWizardProps) {
             </div>
 
             {form.price && (
-              <div className="bg-[#4228c4]/5 rounded-[2rem] p-6 border border-[#4228c4]/10">
+              <div className="bg-[#4228c4]/5 rounded-xl p-6 border border-[#4228c4]/10">
                 <p className="text-xs font-bold uppercase tracking-widest text-[#4228c4] mb-2">Pricing Snapshot</p>
                 <p className="text-4xl font-extrabold text-[#4228c4]">
                   UGX {Number(form.price).toLocaleString()}
@@ -447,7 +447,7 @@ export function VehicleWizard({ initialData, mode }: VehicleWizardProps) {
             <button
               type="button"
               onClick={() => fileRef.current?.click()}
-              className="flex w-full flex-col items-center gap-4 rounded-[2.5rem] border-4 border-dashed border-gray-100 py-16 text-center hover:border-[#4228c4]/30 hover:bg-[#4228c4]/5 transition-all group"
+              className="flex w-full flex-col items-center gap-4 rounded-2xl border-4 border-dashed border-gray-100 py-16 text-center hover:border-[#4228c4]/30 hover:bg-[#4228c4]/5 transition-all group"
             >
               <div className="h-16 w-16 bg-gray-50 rounded-[1.5rem] flex items-center justify-center group-hover:scale-110 transition-transform">
                 <Upload className="h-8 w-8 text-gray-400 group-hover:text-[#4228c4]" />
@@ -505,7 +505,7 @@ export function VehicleWizard({ initialData, mode }: VehicleWizardProps) {
               />
             </Field>
 
-            <div className="rounded-[2rem] bg-gray-50 p-8 space-y-4">
+            <div className="rounded-2xl bg-gray-50 p-8 space-y-4">
               <p className="text-xs font-bold uppercase tracking-widest text-gray-400">Final Summary</p>
               <div className="flex items-start justify-between gap-4">
                   <div>

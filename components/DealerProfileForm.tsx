@@ -52,7 +52,7 @@ export function DealerProfileForm({ mode, user, dealer, onLinkedDealer }: Dealer
   const inputCls = "w-full border border-gray-100 bg-gray-50 px-4 py-3 rounded-xl text-sm font-bold text-gray-900 placeholder:text-gray-300 focus:outline-none focus:ring-2 focus:ring-[#4228c4]/20 transition";
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-6 bg-white p-8 rounded-[2rem] border border-gray-100 shadow-sm max-w-2xl">
+    <form onSubmit={handleSubmit} className="space-y-6 bg-white p-8 rounded-2xl border border-gray-100 shadow-sm max-w-2xl">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div className="space-y-1.5 col-span-full">
           <label className="text-[10px] font-bold text-gray-400 uppercase tracking-[0.2em] pl-1 flex items-center gap-2">

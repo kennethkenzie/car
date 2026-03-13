@@ -32,7 +32,7 @@ export function Header() {
         }`}
     >
       <TopContactBar />
-      <div className="mx-auto flex max-w-[1440px] items-center justify-between px-6 py-5">
+      <div className="mx-auto flex max-w-[1600px] items-center justify-between px-6 py-5 xl:px-8">
         <Link href="/" className="flex items-center gap-2 font-bold text-black text-xl tracking-tight">
           <Car className="h-8 w-8" />
           <span className="font-display font-semibold uppercase">Car Baazar</span>

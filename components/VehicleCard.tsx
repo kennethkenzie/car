@@ -60,7 +60,7 @@ export function VehicleCard({ vehicle, view = "grid" }: { vehicle: Vehicle; view
 
           <div className="flex items-center justify-between pt-4 border-t border-gray-50">
             <div>
-              <p className="text-xl font-extrabold text-gray-900">{formatGBP(vehicle.price)}</p>
+              <p className="text-lg font-bold text-gray-900">{formatGBP(vehicle.price)}</p>
               <p className="text-[10px] font-bold text-gray-400 uppercase tracking-wider">UGX 420,000 / mo</p>
             </div>
 

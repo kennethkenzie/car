@@ -1,92 +1,224 @@
-export async function getPublicVehicles(type?: "CAR" | "VAN") {
-  // Simulating fetching data from the new 'Vehicle' table structure
-  const all = [
-    { 
-      id: "1", 
-      slug: "mercedes-benz-c-class",
-      type: "CAR", 
-      make: "Mercedes-Benz", 
-      model: "C-Class", 
-      trim: "C200 AMG Line", 
-      year: 2022, 
-      price: 155000000, 
-      mileage: 12500, 
-      status: "PUBLISHED", 
-      fuel: "PETROL", 
-      transmission: "AUTOMATIC", 
-      bodyType: "Saloon",
-      color: "Black",
-      doors: 4,
-      postcode: "KLA-01", 
-      dealerId: "1",
-      images: [{ url: "/slider-1.png", id: "img1" }] 
-    },
-    { 
-      id: "2", 
-      slug: "toyota-land-cruiser",
-      type: "CAR", 
-      make: "Toyota", 
-      model: "Land Cruiser", 
-      trim: "V8 VX", 
-      year: 2021, 
-      price: 320000000, 
-      mileage: 34000, 
-      status: "PUBLISHED", 
-      fuel: "DIESEL", 
-      transmission: "AUTOMATIC", 
-      bodyType: "SUV / 4x4",
-      color: "White",
-      doors: 5,
-      postcode: "ENT-05", 
-      dealerId: "1",
-      images: [{ url: "/slider-2.png", id: "img2" }] 
-    },
-  ];
-  
-  if (type) return all.filter(v => v.type === type);
-  return all;
+import { supabase } from "./supabase";
+
+type VehicleImageRow = {
+  id: number;
+  vehicleId: number;
+  url: string;
+  sortOrder: number;
+  isPrimary: boolean;
+};
+
+type VehicleRow = {
+  id: number;
+  dealerId: number;
+  type: "CAR" | "VAN";
+  status: "PUBLISHED" | "DRAFT" | "SOLD" | "ARCHIVED";
+  make: string;
+  model: string;
+  trim: string | null;
+  year: number;
+  price: number;
+  mileage: number;
+  fuel: string;
+  transmission: string;
+  bodyType: string | null;
+  color: string | null;
+  doors: number | null;
+  seats: number | null;
+  engineSize: number | null;
+  description: string | null;
+  locationPostcode: string;
+  createdAt: string;
+  updatedAt: string;
+  condition?: string | null;
+  city?: string | null;
+  features?: string | null;
+  VehicleImage?: VehicleImageRow[];
+};
+
+type DealerRow = {
+  id: number;
+  name: string;
+  slug: string;
+  email: string;
+  phone: string;
+  address: string;
+  postcode: string;
+  logoUrl: string | null;
+  status: "ACTIVE" | "PENDING" | "INACTIVE";
+};
+
+function slugifyPart(value: string) {
+  return value
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
 }
 
-export async function fetchDealerInventory() {
-  return getPublicVehicles();
+function buildVehicleSlug(row: Pick<VehicleRow, "id" | "make" | "model">) {
+  return `${slugifyPart(row.make)}-${slugifyPart(row.model)}-${row.id}`;
 }
 
-export async function getVehicleById(id: string) {
-  const all = await getPublicVehicles();
-  const vehicle = all.find(v => v.id === id || v.slug === id);
-  if (!vehicle) return null;
-  
+function normalizeFeatureList(features: string | null | undefined) {
+  return (
+    features
+      ?.split(/\r?\n/)
+      .map((item) => item.trim())
+      .filter(Boolean) ?? []
+  );
+}
+
+function mapVehicleRow(row: VehicleRow) {
+  const images = [...(row.VehicleImage ?? [])].sort(
+    (left, right) => left.sortOrder - right.sortOrder
+  );
+
   return {
-    ...vehicle,
-    features: ["Bluetooth", "Navigation", "Climate Control"],
-    description: "A premium car for high-end comfort.",
-    city: "Kampala"
+    id: String(row.id),
+    slug: buildVehicleSlug(row),
+    make: row.make?.trim() || "Unknown",
+    model: row.model?.trim() || "Vehicle",
+    trim: row.trim?.trim() || "Standard",
+    year: row.year,
+    mileage: row.mileage,
+    fuel: row.fuel,
+    transmission: row.transmission,
+    price: row.price,
+    type: row.type,
+    postcode: row.locationPostcode,
+    images: images.map((image) => ({ id: String(image.id), url: image.url })),
+    status: row.status,
+    dealerId: String(row.dealerId),
+    bodyType: row.bodyType || "",
+    colour: row.color || "",
+    condition: row.condition || "Excellent",
+    doors: row.doors ?? "",
+    city: row.city || "",
+    description: row.description || "",
+    features: normalizeFeatureList(row.features),
   };
 }
 
+function extractVehicleId(value: string) {
+  if (/^\d+$/.test(value)) return Number(value);
+
+  const match = value.match(/-(\d+)$/);
+  return match ? Number(match[1]) : null;
+}
+
+async function readVehicles(filters?: { type?: "CAR" | "VAN"; publishedOnly?: boolean }) {
+  let query = supabase
+    .from("Vehicle")
+    .select("*, VehicleImage(*)")
+    .order("createdAt", { ascending: false });
+
+  if (filters?.type) {
+    query = query.eq("type", filters.type);
+  }
+
+  if (filters?.publishedOnly) {
+    query = query.eq("status", "PUBLISHED");
+  }
+
+  const { data, error } = await query;
+  if (error) {
+    throw new Error(error.message);
+  }
+
+  return ((data ?? []) as VehicleRow[]).map(mapVehicleRow);
+}
+
+async function readVehicleById(id: number) {
+  const { data, error } = await supabase
+    .from("Vehicle")
+    .select("*, VehicleImage(*)")
+    .eq("id", id)
+    .single();
+
+  if (error) {
+    if (error.code === "PGRST116") return null;
+    throw new Error(error.message);
+  }
+
+  return mapVehicleRow(data as VehicleRow);
+}
+
+async function apiRequest<T>(input: RequestInfo, init?: RequestInit) {
+  const response = await fetch(input, init);
+
+  if (!response.ok) {
+    let message = `Request failed with ${response.status}`;
+    try {
+      const body = (await response.json()) as { error?: string };
+      if (body.error) {
+        message = body.error;
+      }
+    } catch {
+      // Ignore parse failure and use default message.
+    }
+    throw new Error(message);
+  }
+
+  if (response.status === 204) {
+    return null as T;
+  }
+
+  return (await response.json()) as T;
+}
+
+export async function getPublicVehicles(type?: "CAR" | "VAN") {
+  return readVehicles({ type, publishedOnly: true });
+}
+
+export async function fetchDealerInventory() {
+  return readVehicles();
+}
+
+export async function getVehicleById(id: string) {
+  const numericId = extractVehicleId(id);
+  if (numericId === null) return null;
+  return readVehicleById(numericId);
+}
+
 export async function deleteVehicleReal(id: string) {
-  console.log(`[API] Deleting vehicle ${id} from table "Vehicle"`);
-  return { success: true };
+  return apiRequest<{ success: true }>(`/api/admin/vehicles/${id}`, {
+    method: "DELETE",
+  });
 }
 
 export async function publishVehicleReal(id: string) {
-  console.log(`[API] Updating "Vehicle" status to PUBLISHED for ID ${id}`);
-  return { success: true };
+  return apiRequest<{ success: true }>(`/api/admin/vehicles/${id}`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ action: "publish" }),
+  });
 }
 
 export async function archiveVehicleReal(id: string) {
-  console.log(`[API] Updating "Vehicle" status to ARCHIVED for ID ${id}`);
-  return { success: true };
+  return apiRequest<{ success: true }>(`/api/admin/vehicles/${id}`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ action: "archive" }),
+  });
 }
 
 export async function updateVehicleReal(id: string, formData: FormData) {
-  console.log(`[API] Updating "Vehicle" entry ${id} with:`, Object.fromEntries(formData.entries()));
-  return { success: true };
+  return apiRequest<{ success: true }>(`/api/admin/vehicles/${id}`, {
+    method: "PATCH",
+    body: formData,
+  });
 }
 
 export async function createVehicleReal(formData: FormData) {
-  console.log(`[API] Inserting into "Vehicle" table:`, Object.fromEntries(formData.entries()));
-  return { success: true };
+  return apiRequest<{ success: true }>("/api/admin/vehicles", {
+    method: "POST",
+    body: formData,
+  });
 }
 
 export async function adminCreateDealer(formData: FormData) {
@@ -105,18 +237,26 @@ export async function updateDealerReal(id: string, formData: FormData) {
 }
 
 export async function getDealers(): Promise<any[]> {
-  return [
-    { 
-      id: "1", 
-      name: "Main Bond Showroom", 
-      slug: "main-bond", 
-      email: "main@carbazaar.com", 
-      phone: "+256 700 111 222", 
-      address: "Plot 12, Kampala Rd", 
-      postcode: "KLA-01", 
-      status: "ACTIVE" 
-    },
-  ];
+  const { data, error } = await supabase
+    .from("Dealer")
+    .select("*")
+    .order("createdAt", { ascending: true });
+
+  if (error) {
+    throw new Error(error.message);
+  }
+
+  return ((data ?? []) as DealerRow[]).map((dealer) => ({
+    id: String(dealer.id),
+    name: dealer.name,
+    slug: dealer.slug,
+    email: dealer.email,
+    phone: dealer.phone,
+    address: dealer.address,
+    postcode: dealer.postcode,
+    logoUrl: dealer.logoUrl || undefined,
+    status: dealer.status,
+  }));
 }
 
 export async function getVehicleReal(slug: string) {
@@ -124,32 +264,46 @@ export async function getVehicleReal(slug: string) {
 }
 
 export async function getSimilarVehiclesReal(slug: string, type: "CAR" | "VAN") {
+  const currentId = extractVehicleId(slug);
   const all = await getPublicVehicles(type);
-  return all.filter(v => v.id !== slug);
+  return all.filter((vehicle) => Number(vehicle.id) !== currentId);
 }
 
 export async function getDashboardSummary() {
+  const inventory = await fetchDealerInventory();
+  const activeListings = inventory.filter((vehicle) => vehicle.status === "PUBLISHED").length;
+  const draftListings = inventory.filter((vehicle) => vehicle.status === "DRAFT").length;
+
   return {
-    activeListings: 48,
-    draftListings: 4,
+    activeListings,
+    draftListings,
     enquiriesThisWeek: 124,
     avgDaysToSell: 14,
-    recentEnquiries: [
-      {
-        id: "e1",
-        name: "James Okello",
-        email: "james@example.com",
-        createdAt: new Date().toISOString(),
-        status: "NEW",
-        vehicle: { make: "Mercedes-Benz", model: "C-Class" }
-      },
-    ]
+    recentEnquiries: inventory.slice(0, 5).map((vehicle, index) => ({
+      id: `inventory-${vehicle.id}`,
+      name: `Vehicle enquiry ${index + 1}`,
+      email: "customer@carbazaar.com",
+      createdAt: new Date().toISOString(),
+      status: "NEW",
+      vehicle: { make: vehicle.make, model: vehicle.model },
+    })),
   };
 }
 
 export async function getDatabaseHealth() {
-  return {
-    database: "connected",
-    details: "Safe & Encrypted"
-  };
+  try {
+    const { error } = await supabase.from("Vehicle").select("id", { count: "exact", head: true });
+    if (error) throw error;
+
+    return {
+      database: "connected",
+      details: "Supabase inventory tables reachable",
+    };
+  } catch (err) {
+    console.error("Supabase health check failed:", err);
+    return {
+      database: "disconnected",
+      details: "Connection Error",
+    };
+  }
 }

@@ -2,12 +2,43 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { Eye, EyeOff, Lock, Mail, ChevronRight, LayoutDashboard, Settings, List, Car } from "lucide-react";
+import { Eye, EyeOff, Lock, Mail, ChevronRight, List, Car, Settings, Loader2 } from "lucide-react";
 import { useState } from "react";
+import { supabase } from "@/lib/supabase";
+import { useRouter } from "next/navigation";
 
 export default function LoginPage() {
+  const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
+  const [email, setEmail] = useState("admin@carbazaar.com");
+  const [password, setPassword] = useState("123456Pp");
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsLoading(true);
+    setError(null);
+
+    try {
+      const { error: authError } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
+
+      if (authError) {
+        setError(authError.message);
+      } else {
+        router.push("/admin");
+      }
+    } catch (err: any) {
+      setError("An unexpected error occurred. Please try again.");
+      console.error(err);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return (
     <section className="flex min-h-screen w-full bg-white font-sans selection:bg-gold-100 selection:text-gold-900">
@@ -98,8 +129,14 @@ export default function LoginPage() {
             <p className="text-lg text-slate-500">Sign in to your administrator account</p>
           </div>
 
+          {error && (
+            <div className="mt-6 rounded-xl bg-red-50 p-4 text-sm font-medium text-red-600 border border-red-100 animate-in fade-in slide-in-from-top-2">
+              {error}
+            </div>
+          )}
+
           <div className="mt-12 group">
-            <form className="space-y-6" onSubmit={(e) => e.preventDefault()}>
+            <form className="space-y-6" onSubmit={handleLogin}>
               <div className="space-y-4">
                 <div className="space-y-2">
                   <label className="text-sm font-semibold text-slate-700 ml-1">Work Email</label>
@@ -109,9 +146,12 @@ export default function LoginPage() {
                     </div>
                     <input
                       type="email"
-                      placeholder="admin@carbazaar.co.ug"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      placeholder="admin@carbazaar.com"
                       className="w-full rounded-2xl border-2 border-slate-100 bg-slate-50/50 py-4 pl-12 pr-4 text-[16px] font-medium outline-none transition-all placeholder:text-slate-400 hover:border-slate-200 focus:border-gold-600 focus:bg-white focus:shadow-[0_0_0_4px_rgba(212,175,55,0.1)]"
                       required
+                      disabled={isLoading}
                     />
                   </div>
                 </div>
@@ -129,9 +169,12 @@ export default function LoginPage() {
                     </div>
                     <input
                       type={showPassword ? "text" : "password"}
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
                       placeholder="••••••••"
                       className="w-full rounded-2xl border-2 border-slate-100 bg-slate-50/50 py-4 pl-12 pr-12 text-[16px] font-medium outline-none transition-all placeholder:text-slate-400 hover:border-slate-200 focus:border-gold-600 focus:bg-white focus:shadow-[0_0_0_4px_rgba(212,175,55,0.1)]"
                       required
+                      disabled={isLoading}
                     />
                     <button
                       type="button"
@@ -156,15 +199,25 @@ export default function LoginPage() {
                 </label>
               </div>
 
-              <Link
-                href="/admin"
-                className="group relative flex w-full items-center justify-center overflow-hidden rounded-2xl bg-slate-900 px-6 py-4 text-[16px] font-bold text-white transition-all hover:bg-black active:scale-[0.98]"
+              <button
+                type="submit"
+                disabled={isLoading}
+                className="group relative flex w-full items-center justify-center overflow-hidden rounded-2xl bg-slate-900 px-6 py-4 text-[16px] font-bold text-white transition-all hover:bg-black active:scale-[0.98] disabled:opacity-70 disabled:cursor-not-allowed"
               >
                 <span className="relative z-10 flex items-center gap-2">
-                  Enter Dashboard <ChevronRight size={18} className="transition-transform group-hover:translate-x-1" />
+                  {isLoading ? (
+                    <>
+                      <Loader2 className="h-5 w-5 animate-spin" />
+                      Signing in...
+                    </>
+                  ) : (
+                    <>
+                      Enter Dashboard <ChevronRight size={18} className="transition-transform group-hover:translate-x-1" />
+                    </>
+                  )}
                 </span>
                 <div className="absolute inset-0 z-0 bg-gradient-to-r from-gold-600 to-yellow-600 opacity-0 transition-opacity group-hover:opacity-100" style={{ backgroundImage: 'linear-gradient(to right, #D4AF37, #FFD700)' }} />
-              </Link>
+              </button>
             </form>
           </div>
 
