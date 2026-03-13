@@ -2,7 +2,6 @@ import { Header } from "@/components/Header";
 import { SearchHero } from "@/components/SearchHero";
 import { Footer } from "@/components/Footer";
 import DynamicCategorySection from "@/components/DynamicCategorySection";
-import CategoryTilesSection from "@/components/CategoryTilesSection";
 import LatestProductsSection from "@/components/LatestProductsSection";
 
 export default function Home() {
@@ -11,7 +10,6 @@ export default function Home() {
       <Header />
       <SearchHero />
       <DynamicCategorySection />
-      <CategoryTilesSection />
       <LatestProductsSection />
       <Footer />
     </main>

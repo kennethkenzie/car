@@ -117,18 +117,22 @@ export async function PATCH(
 
     if (contentType.includes("application/json")) {
       const body = (await request.json()) as { action?: string };
-      const status =
+      const updates =
         body.action === "publish"
-          ? "PUBLISHED"
+          ? { status: "PUBLISHED" }
           : body.action === "archive"
-            ? "ARCHIVED"
-            : null;
+            ? { status: "ARCHIVED" }
+            : body.action === "feature"
+              ? { isFeatured: true }
+              : body.action === "unfeature"
+                ? { isFeatured: false }
+                : null;
 
-      if (!status) {
+      if (!updates) {
         return NextResponse.json({ error: "Unsupported action." }, { status: 400 });
       }
 
-      const { error } = await supabase.from("Vehicle").update({ status }).eq("id", vehicleId);
+      const { error } = await supabase.from("Vehicle").update(updates).eq("id", vehicleId);
       if (error) {
         throw new Error(error.message);
       }

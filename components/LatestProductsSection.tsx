@@ -6,13 +6,14 @@ import { ArrowRight } from "lucide-react";
 import { VehicleCard } from "@/components/VehicleCard";
 import { useFrontendData } from "@/lib/use-frontend-data";
 import { Vehicle } from "@/lib/types";
-import { getPublicVehicles } from "@/lib/api";
+import { getFeaturedVehicles, getPublicVehicles } from "@/lib/api";
 
 export default function LatestProductsSection() {
   const data = useFrontendData();
   const section = data.latestProducts;
   const [vehicles, setVehicles] = useState<Vehicle[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [showingFeatured, setShowingFeatured] = useState(false);
 
   useEffect(() => {
     let active = true;
@@ -20,14 +21,23 @@ export default function LatestProductsSection() {
     async function loadLatestVehicles() {
       try {
         setIsLoading(true);
-        const liveVehicles = await getPublicVehicles();
+        const featuredVehicles = await getFeaturedVehicles(4);
         if (active) {
+          if (featuredVehicles.length > 0) {
+            setVehicles(featuredVehicles as Vehicle[]);
+            setShowingFeatured(true);
+            return;
+          }
+
+          const liveVehicles = await getPublicVehicles();
           setVehicles((liveVehicles as Vehicle[]).slice(0, 4));
+          setShowingFeatured(false);
         }
       } catch (error) {
         console.error("Failed to load latest vehicles.", error);
         if (active) {
           setVehicles([]);
+          setShowingFeatured(false);
         }
       } finally {
         if (active) {
@@ -50,8 +60,12 @@ export default function LatestProductsSection() {
       <div className="mx-auto max-w-[1520px] px-6 py-20 lg:py-24 xl:px-8">
         <div className="mb-12 flex items-end justify-between">
           <div>
-            <h2 className="text-4xl font-extrabold text-gray-900 tracking-tight">{section.title}</h2>
-            <p className="mt-3 text-lg text-gray-500 font-medium">Recently added premium inventory</p>
+            <h2 className="text-4xl font-extrabold text-gray-900 tracking-tight">
+              {showingFeatured ? "Featured Cars" : section.title}
+            </h2>
+            <p className="mt-3 text-lg text-gray-500 font-medium">
+              {showingFeatured ? "Hand-picked featured inventory from the latest live stock" : "Recently added premium inventory"}
+            </p>
           </div>
           <Link
             href={section.ctaHref}

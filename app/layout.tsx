@@ -3,6 +3,7 @@ import "./globals.css";
 
 import { AuthProvider } from "@/components/providers/AuthProvider";
 import { QueryProvider } from "@/components/providers/QueryProvider";
+import { ChatBot } from "@/components/ChatBot";
 
 export const metadata: Metadata = {
   title: "Car Baazar | High-End Car Bond",
@@ -18,7 +19,10 @@ export default function RootLayout({
     <html lang="en">
       <body className="antialiased">
         <QueryProvider>
-          <AuthProvider>{children}</AuthProvider>
+          <AuthProvider>
+            {children}
+            <ChatBot />
+          </AuthProvider>
         </QueryProvider>
       </body>
     </html>

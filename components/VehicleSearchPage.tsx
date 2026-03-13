@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState, useMemo } from "react";
+import { useSearchParams } from "next/navigation";
 import { FiltersSidebar, FilterValue } from "./FiltersSidebar";
 import { VehicleCard } from "./VehicleCard";
 import { getPublicVehicles } from "@/lib/api";
@@ -26,11 +27,31 @@ const INITIAL_FILTERS: FilterValue = {
 };
 
 export function VehicleSearchPage({ type }: { type: "CAR" | "VAN" }) {
+  const searchParams = useSearchParams();
   const [vehicles, setVehicles] = useState<Vehicle[]>([]);
   const [filters, setFilters] = useState<FilterValue>(INITIAL_FILTERS);
   const [view, setView] = useState<"grid" | "list">("grid");
   const [isLoading, setIsLoading] = useState(true);
   const [showMobileFilters, setShowMobileFilters] = useState(false);
+
+  useEffect(() => {
+    setFilters({
+      ...INITIAL_FILTERS,
+      q: searchParams.get("q") ?? "",
+      make: searchParams.get("make") ?? "",
+      model: searchParams.get("model") ?? "",
+      priceMin: searchParams.get("priceMin") ?? "",
+      priceMax: searchParams.get("priceMax") ?? "",
+      yearMin: searchParams.get("yearMin") ?? "",
+      yearMax: searchParams.get("yearMax") ?? "",
+      mileageMax: searchParams.get("mileageMax") ?? "",
+      fuel: (searchParams.get("fuel") ?? "").toUpperCase(),
+      transmission: (searchParams.get("transmission") ?? "").toUpperCase(),
+      bodyType: searchParams.get("bodyType") ?? "",
+      distance: searchParams.get("distance") ?? "",
+      postcode: searchParams.get("postcode") ?? "",
+    });
+  }, [searchParams]);
 
   useEffect(() => {
     async function load() {
@@ -46,11 +67,17 @@ export function VehicleSearchPage({ type }: { type: "CAR" | "VAN" }) {
     return vehicles.filter((v) => {
       const q = filters.q.toLowerCase();
       if (q && !v.make.toLowerCase().includes(q) && !v.model.toLowerCase().includes(q)) return false;
-      if (filters.make && v.make !== filters.make) return false;
+      if (filters.make && v.make.toLowerCase() !== filters.make.toLowerCase()) return false;
+      if (filters.model && v.model.toLowerCase() !== filters.model.toLowerCase()) return false;
       if (filters.priceMin && Number(v.price) < Number(filters.priceMin)) return false;
       if (filters.priceMax && Number(v.price) > Number(filters.priceMax)) return false;
-      if (filters.fuel && v.fuel !== filters.fuel) return false;
-      if (filters.transmission && v.transmission !== filters.transmission) return false;
+      if (filters.yearMin && Number(v.year) < Number(filters.yearMin)) return false;
+      if (filters.yearMax && Number(v.year) > Number(filters.yearMax)) return false;
+      if (filters.mileageMax && Number(v.mileage) > Number(filters.mileageMax)) return false;
+      if (filters.fuel && v.fuel.toUpperCase() !== filters.fuel.toUpperCase()) return false;
+      if (filters.transmission && v.transmission.toUpperCase() !== filters.transmission.toUpperCase()) return false;
+      if (filters.bodyType && ((v as any).bodyType ?? "").toLowerCase() !== filters.bodyType.toLowerCase()) return false;
+      if (filters.postcode && !v.postcode.toLowerCase().includes(filters.postcode.toLowerCase())) return false;
       return true;
     });
   }, [vehicles, filters]);

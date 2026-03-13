@@ -33,6 +33,7 @@ type VehicleRow = {
   condition?: string | null;
   city?: string | null;
   features?: string | null;
+  isFeatured?: boolean | null;
   VehicleImage?: VehicleImageRow[];
 };
 
@@ -90,6 +91,7 @@ function mapVehicleRow(row: VehicleRow) {
     images: images.map((image) => ({ id: String(image.id), url: image.url })),
     status: row.status,
     dealerId: String(row.dealerId),
+    isFeatured: Boolean(row.isFeatured),
     bodyType: row.bodyType || "",
     colour: row.color || "",
     condition: row.condition || "Excellent",
@@ -119,6 +121,27 @@ async function readVehicles(filters?: { type?: "CAR" | "VAN"; publishedOnly?: bo
 
   if (filters?.publishedOnly) {
     query = query.eq("status", "PUBLISHED");
+  }
+
+  const { data, error } = await query;
+  if (error) {
+    throw new Error(error.message);
+  }
+
+  return ((data ?? []) as VehicleRow[]).map(mapVehicleRow);
+}
+
+export async function getFeaturedVehicles(limit = 4, type?: "CAR" | "VAN") {
+  let query = supabase
+    .from("Vehicle")
+    .select("*, VehicleImage(*)")
+    .eq("status", "PUBLISHED")
+    .eq("isFeatured", true)
+    .order("updatedAt", { ascending: false })
+    .limit(limit);
+
+  if (type) {
+    query = query.eq("type", type);
   }
 
   const { data, error } = await query;
@@ -207,6 +230,26 @@ export async function archiveVehicleReal(id: string) {
   });
 }
 
+export async function featureVehicleReal(id: string) {
+  return apiRequest<{ success: true }>(`/api/admin/vehicles/${id}`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ action: "feature" }),
+  });
+}
+
+export async function unfeatureVehicleReal(id: string) {
+  return apiRequest<{ success: true }>(`/api/admin/vehicles/${id}`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ action: "unfeature" }),
+  });
+}
+
 export async function updateVehicleReal(id: string, formData: FormData) {
   return apiRequest<{ success: true }>(`/api/admin/vehicles/${id}`, {
     method: "PATCH",
@@ -288,6 +331,50 @@ export async function getDashboardSummary() {
       vehicle: { make: vehicle.make, model: vehicle.model },
     })),
   };
+}
+
+export async function getEnquiries() {
+  const { data, error } = await supabase
+    .from("Enquiry")
+    .select("*, Vehicle(make, model, year, price)")
+    .order("createdAt", { ascending: false });
+
+  if (error) {
+    throw new Error(error.message);
+  }
+
+  return data.map((enquiry) => ({
+    id: String(enquiry.id),
+    name: enquiry.name,
+    email: enquiry.email,
+    phone: enquiry.phone,
+    message: enquiry.message,
+    notes: enquiry.notes,
+    status: enquiry.status,
+    createdAt: enquiry.createdAt,
+    vehicle: enquiry.Vehicle ? {
+      make: enquiry.Vehicle.make,
+      model: enquiry.Vehicle.model,
+      year: enquiry.Vehicle.year,
+      price: enquiry.Vehicle.price
+    } : null
+  }));
+}
+
+export async function updateEnquiryStatus(id: string, status: string) {
+  return apiRequest<{ success: true }>(`/api/admin/enquiries/${id}`, {
+    method: "PATCH",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ action: "status", status }),
+  });
+}
+
+export async function addEnquiryNote(id: string, note: string) {
+  return apiRequest<{ success: true }>(`/api/admin/enquiries/${id}`, {
+    method: "PATCH",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ action: "note", note }),
+  });
 }
 
 export async function getDatabaseHealth() {

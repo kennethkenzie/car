@@ -2,11 +2,18 @@
 
 import { DataTable } from "@/components/DataTable";
 import { useAuth } from "@/components/providers/AuthProvider";
-import { fetchDealerInventory, deleteVehicleReal, publishVehicleReal, archiveVehicleReal } from "@/lib/api";
+import {
+  fetchDealerInventory,
+  deleteVehicleReal,
+  publishVehicleReal,
+  archiveVehicleReal,
+  featureVehicleReal,
+  unfeatureVehicleReal,
+} from "@/lib/api";
 import { formatGBP } from "@/lib/utils";
 import { useQuery } from "@tanstack/react-query";
 import Link from "next/link";
-import { Plus, Car } from "lucide-react";
+import { Plus, Car, Star } from "lucide-react";
 
 const STATUS_COLORS: Record<string, string> = {
   PUBLISHED: "bg-green-500/10 text-green-600 border border-green-500/20",
@@ -88,9 +95,17 @@ export default function InventoryPage() {
             key: "status",
             label: "Status",
             render: (v: any) => (
-              <span className={`inline-flex px-3 py-1 rounded-lg text-[10px] font-bold uppercase tracking-widest ${STATUS_COLORS[v.status] ?? "bg-gray-100 text-gray-500"}`}>
-                {v.status}
-              </span>
+              <div className="flex flex-wrap items-center gap-2">
+                <span className={`inline-flex px-3 py-1 rounded-lg text-[10px] font-bold uppercase tracking-widest ${STATUS_COLORS[v.status] ?? "bg-gray-100 text-gray-500"}`}>
+                  {v.status}
+                </span>
+                {v.isFeatured ? (
+                  <span className="inline-flex items-center gap-1 rounded-lg border border-[#4228c4]/20 bg-[#4228c4]/10 px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-[#4228c4]">
+                    <Star className="h-3 w-3 fill-current" />
+                    Featured
+                  </span>
+                ) : null}
+              </div>
             )
           },
           {
@@ -133,6 +148,35 @@ export default function InventoryPage() {
                     className="font-bold text-green-600 hover:underline"
                   >
                     Publish
+                  </button>
+                )}
+                {v.isFeatured ? (
+                  <button
+                    onClick={async () => {
+                      try {
+                        await unfeatureVehicleReal(v.id);
+                        query.refetch();
+                      } catch (err: any) {
+                        alert(err.message);
+                      }
+                    }}
+                    className="font-bold text-[#4228c4] hover:underline"
+                  >
+                    Unfeature
+                  </button>
+                ) : (
+                  <button
+                    onClick={async () => {
+                      try {
+                        await featureVehicleReal(v.id);
+                        query.refetch();
+                      } catch (err: any) {
+                        alert(err.message);
+                      }
+                    }}
+                    className="font-bold text-[#4228c4] hover:underline"
+                  >
+                    Feature
                   </button>
                 )}
                 <button
