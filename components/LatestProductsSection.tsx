@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { ArrowRight } from "lucide-react";
 import { VehicleCard } from "@/components/VehicleCard";
 import { useFrontendData } from "@/lib/use-frontend-data";
 import { Vehicle } from "@/lib/types";
@@ -28,24 +29,26 @@ export default function LatestProductsSection() {
     slug: p.id
   }));
 
+  if (vehicles.length === 0) return null;
+
   return (
-    <section className="w-full bg-white">
-      <div className="mx-auto max-w-[1440px] px-6 py-12">
-        <div className="mb-10 flex items-end justify-between">
+    <section className="w-full bg-[#fcfcfc]">
+      <div className="mx-auto max-w-[1280px] px-6 py-20 lg:py-24">
+        <div className="mb-12 flex items-end justify-between">
           <div>
-            <h2 className="text-3xl font-extrabold text-gray-900 tracking-tight">{section.title}</h2>
-            <p className="mt-2 text-gray-500 font-medium">Recently added premium inventory</p>
+            <h2 className="text-4xl font-extrabold text-gray-900 tracking-tight">{section.title}</h2>
+            <p className="mt-3 text-lg text-gray-500 font-medium">Recently added premium inventory</p>
           </div>
           <Link
             href={section.ctaHref}
-            className="group flex items-center gap-2 text-sm font-bold text-[#4228c4] hover:text-black transition-colors"
+            className="group flex items-center gap-2 text-sm font-bold text-[#0b63ce] hover:text-black transition-colors"
           >
             {section.ctaLabel}
-            <div className="h-px w-8 bg-[#4228c4] group-hover:bg-black transition-colors" />
+            <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
           </Link>
         </div>
 
-        <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+        <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
           {vehicles.map((v) => (
             <VehicleCard key={v.id} vehicle={v} />
           ))}

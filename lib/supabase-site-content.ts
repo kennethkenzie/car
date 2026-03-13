@@ -1,13 +1,26 @@
 import { mergeFrontendData } from "@/lib/frontend-data-merge";
 import type { FrontendData } from "@/lib/frontend-data";
 
-const SITE_CONTENT_TABLE = "site_settings";
-const FRONTEND_DATA_KEY = "frontend_data";
-
-type SupabaseRow = {
+type SiteContentConfig = {
+  table: string;
   key: string;
-  value: unknown;
+  valueColumn: string;
+  description?: string;
 };
+
+const SITE_CONTENT_CONFIGS: SiteContentConfig[] = [
+  {
+    table: "site_content",
+    key: "frontend",
+    valueColumn: "data",
+  },
+  {
+    table: "site_settings",
+    key: "frontend_data",
+    valueColumn: "value",
+    description: "Serialized storefront and admin-managed frontend content",
+  },
+];
 
 function getSupabaseUrl() {
   return process.env.SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL;
@@ -34,25 +47,44 @@ export function isSupabaseConfigured() {
   return Boolean(getSupabaseUrl() && getReadKey());
 }
 
-export async function readFrontendDataFromSupabase(): Promise<FrontendData | null> {
-  const url = getSupabaseUrl();
-  const apiKey = getReadKey();
-  if (!url || !apiKey) return null;
-
+async function fetchFrontendRow(
+  url: string,
+  apiKey: string,
+  config: SiteContentConfig
+) {
   const response = await fetch(
-    `${url}/rest/v1/${SITE_CONTENT_TABLE}?key=eq.${FRONTEND_DATA_KEY}&select=value&limit=1`,
+    `${url}/rest/v1/${config.table}?key=eq.${config.key}&select=${config.valueColumn}&limit=1`,
     {
       headers: buildHeaders(apiKey),
       cache: "no-store",
     }
   );
 
+  if (response.status === 404) {
+    return null;
+  }
+
   if (!response.ok) {
     throw new Error(`Supabase read failed with ${response.status}`);
   }
 
-  const rows = (await response.json()) as SupabaseRow[];
-  return rows[0] ? mergeFrontendData(rows[0].value) : null;
+  const rows = (await response.json()) as Record<string, unknown>[];
+  return rows[0]?.[config.valueColumn];
+}
+
+export async function readFrontendDataFromSupabase(): Promise<FrontendData | null> {
+  const url = getSupabaseUrl();
+  const apiKey = getReadKey();
+  if (!url || !apiKey) return null;
+
+  for (const config of SITE_CONTENT_CONFIGS) {
+    const value = await fetchFrontendRow(url, apiKey, config);
+    if (typeof value !== "undefined" && value !== null) {
+      return mergeFrontendData(value);
+    }
+  }
+
+  return null;
 }
 
 export async function writeFrontendDataToSupabase(data: FrontendData) {
@@ -62,28 +94,47 @@ export async function writeFrontendDataToSupabase(data: FrontendData) {
     throw new Error("Supabase service role credentials are missing.");
   }
 
-  const response = await fetch(
-    `${url}/rest/v1/${SITE_CONTENT_TABLE}?on_conflict=key`,
-    {
-      method: "POST",
-      headers: buildHeaders(apiKey, {
-        Prefer: "resolution=merge-duplicates,return=representation",
-      }),
-      body: JSON.stringify([
-        {
-          key: FRONTEND_DATA_KEY,
-          value: data,
-          description: "Serialized storefront and admin-managed frontend content",
-        },
-      ]),
-      cache: "no-store",
-    }
-  );
+  let lastError: Error | null = null;
 
-  if (!response.ok) {
-    throw new Error(`Supabase write failed with ${response.status}`);
+  for (const config of SITE_CONTENT_CONFIGS) {
+    const payload: Record<string, unknown> = {
+      key: config.key,
+      [config.valueColumn]: data,
+    };
+
+    if (config.description) {
+      payload.description = config.description;
+    }
+
+    const response = await fetch(
+      `${url}/rest/v1/${config.table}?on_conflict=key`,
+      {
+        method: "POST",
+        headers: buildHeaders(apiKey, {
+          Prefer: "resolution=merge-duplicates,return=representation",
+        }),
+        body: JSON.stringify([payload]),
+        cache: "no-store",
+      }
+    );
+
+    if (response.status === 404) {
+      continue;
+    }
+
+    if (!response.ok) {
+      lastError = new Error(`Supabase write failed with ${response.status}`);
+      continue;
+    }
+
+    const rows = (await response.json()) as Record<string, unknown>[];
+    const value = rows[0]?.[config.valueColumn];
+    return value ? mergeFrontendData(value) : data;
   }
 
-  const rows = (await response.json()) as SupabaseRow[];
-  return rows[0] ? mergeFrontendData(rows[0].value) : data;
+  if (lastError) {
+    throw lastError;
+  }
+
+  throw new Error("Supabase write failed because no supported site content table was found.");
 }
