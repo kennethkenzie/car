@@ -14,7 +14,7 @@ export default function TopContactBar() {
         <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1 text-[11px] sm:gap-x-6 sm:text-xs md:ml-auto md:justify-end">
           <div className="flex items-center gap-2">
             <Phone size={14} className="text-[#4228c4]" />
-            <span>+256 700 000 000</span>
+            <span>+256 705 921 419</span>
           </div>
           <div className="flex items-center gap-2">
             <Mail size={14} className="text-[#4228c4]" />

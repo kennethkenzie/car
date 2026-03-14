@@ -17,7 +17,7 @@ export function VehicleGallery({ images, title }: { images: Array<string | { url
 
   return (
     <div className="space-y-4">
-      <div className="relative aspect-[16/9] w-full overflow-hidden rounded-2xl bg-gray-100 shadow-2xl group">
+      <div className="group relative mx-auto aspect-[16/9] w-full max-w-4xl overflow-hidden rounded-2xl bg-gray-100 shadow-2xl">
         <Image
           src={imageUrls[activeIdx]}
           alt={title}
@@ -53,7 +53,7 @@ export function VehicleGallery({ images, title }: { images: Array<string | { url
         </div>
       </div>
 
-      <div className="flex gap-4 overflow-x-auto pb-2 scrollbar-hide">
+      <div className="mx-auto flex max-w-4xl gap-4 overflow-x-auto pb-2 scrollbar-hide">
         {imageUrls.map((img, idx) => (
           <button
             key={idx}

@@ -60,7 +60,7 @@ export default function HeroCarouselWithRightCards() {
                         alt="Carousel background"
                         className="absolute inset-0 h-full w-full object-cover"
                       />
-                      <div className="absolute inset-0 bg-black/25" />
+                      <div className="absolute inset-0 bg-black/15" />
 
                       <div className="relative z-[1] flex h-full min-h-[420px] flex-col justify-end p-8 md:p-10">
                         <div className="max-w-[640px]">

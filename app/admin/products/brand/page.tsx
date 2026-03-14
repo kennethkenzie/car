@@ -116,6 +116,9 @@ export default function BrandsPage() {
 
         setIsSaving(true);
         try {
+            const nextOrder =
+                brands.reduce((maxOrder, brand) => Math.max(maxOrder, brand.order ?? 0), 0) + 1;
+
             const newBrand: Brand = {
                 id: crypto.randomUUID(),
                 title: formData.title,
@@ -126,6 +129,7 @@ export default function BrandsPage() {
                 metaDescription: formData.metaDescription,
                 isActive: true,
                 isFeatured: formData.isFeatured,
+                order: nextOrder,
             };
 
             const updatedData = {

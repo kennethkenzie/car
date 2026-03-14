@@ -57,8 +57,8 @@ export function Footer() {
               />
             </Link>
             <p className="text-gray-300 font-normal leading-relaxed mb-8">
-              Uganda's most trusted online marketplace for quality used vehicles.
-              Find, finance and buy your next car entirely online.
+              Uganda's most trusted online marketplace for quality vehicles.
+              Find, finance and buy your next vehicle.
             </p>
             <div className="flex gap-4">
               <button className="h-10 w-10 rounded-full bg-white/10 border border-white/20 flex items-center justify-center text-gray-200 hover:text-[#9fa8ff] transition-all">
@@ -93,7 +93,7 @@ export function Footer() {
 
         <div className="mt-20 pt-8 border-t border-gray-800 flex flex-col md:flex-row items-center justify-between gap-6">
           <p className="text-sm font-normal text-gray-300 underline decoration-gray-600 decoration-2 underline-offset-4 pointer-events-none">
-            © 2026 Car Baazar Marketplace Limited
+            © 2026 Car Bazaar Marketplace Limited
           </p>
           <div className="flex gap-8">
             <span className="text-xs font-normal text-gray-400 uppercase tracking-widest">UA Regulated</span>

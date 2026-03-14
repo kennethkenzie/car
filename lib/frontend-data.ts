@@ -165,6 +165,7 @@ export type Brand = {
   metaDescription?: string;
   isActive: boolean;
   isFeatured?: boolean;
+  order: number;
 };
 
 export type FrontendData = {
@@ -413,7 +414,80 @@ export const defaultFrontendData: FrontendData = {
       { label: "Control Method", value: "Touch" },
     ],
   },
-  brands: [],
+  brands: [
+    {
+      id: "brand1",
+      title: "Toyota",
+      slug: "toyota",
+      logo: "https://logo.clearbit.com/toyota.com",
+      isActive: true,
+      isFeatured: true,
+      order: 1,
+    },
+    {
+      id: "brand2",
+      title: "Mercedes-Benz",
+      slug: "mercedes-benz",
+      logo: "https://logo.clearbit.com/mercedes-benz.com",
+      isActive: true,
+      isFeatured: true,
+      order: 2,
+    },
+    {
+      id: "brand3",
+      title: "BMW",
+      slug: "bmw",
+      logo: "https://logo.clearbit.com/bmw.com",
+      isActive: true,
+      isFeatured: true,
+      order: 3,
+    },
+    {
+      id: "brand4",
+      title: "Audi",
+      slug: "audi",
+      logo: "https://logo.clearbit.com/audi.com",
+      isActive: true,
+      isFeatured: true,
+      order: 4,
+    },
+    {
+      id: "brand5",
+      title: "Volkswagen",
+      slug: "volkswagen",
+      logo: "https://logo.clearbit.com/vw.com",
+      isActive: true,
+      isFeatured: true,
+      order: 5,
+    },
+    {
+      id: "brand6",
+      title: "Ford",
+      slug: "ford",
+      logo: "https://logo.clearbit.com/ford.com",
+      isActive: true,
+      isFeatured: true,
+      order: 6,
+    },
+    {
+      id: "brand7",
+      title: "Nissan",
+      slug: "nissan",
+      logo: "https://logo.clearbit.com/nissan-global.com",
+      isActive: true,
+      isFeatured: true,
+      order: 7,
+    },
+    {
+      id: "brand8",
+      title: "Land Rover",
+      slug: "land-rover",
+      logo: "https://logo.clearbit.com/landrover.com",
+      isActive: true,
+      isFeatured: true,
+      order: 8,
+    },
+  ],
   categories: [
     {
       id: "cat1",

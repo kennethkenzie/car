@@ -35,17 +35,17 @@ export function SearchHero() {
             "url('https://images.pexels.com/photos/12658203/pexels-photo-12658203.jpeg?auto=compress&cs=tinysrgb&w=2400')"
         }}
       />
-      <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/45 to-black/55" />
+      <div className="absolute inset-0 bg-gradient-to-r from-black/45 via-black/25 to-black/35" />
 
       <div className="relative mx-auto max-w-[1600px] px-6 xl:px-8">
         <div className="max-w-3xl mb-12">
           <h1 className="mb-6 text-5xl font-semibold leading-[1.1] tracking-tight text-white/95 lg:text-7xl">
             Find your next car.<br />
-            <span className="text-[#c9d0ff]">All online.</span>
+            <span className="text-[#c9d0ff]">Buy or Sell.</span>
           </h1>
           <p className="max-w-xl text-xl font-semibold text-white/75">
-            Search thousands of quality used cars from trusted dealers.
-            Transparent pricing, no hidden fees.
+            Search thousands of quality from trusted dealers.
+            Transparent pricing.
           </p>
         </div>
 

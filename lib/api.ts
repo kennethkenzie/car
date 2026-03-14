@@ -157,14 +157,16 @@ async function readVehicleById(id: number) {
     .from("Vehicle")
     .select("*, VehicleImage(*)")
     .eq("id", id)
-    .single();
+    .limit(1);
 
   if (error) {
-    if (error.code === "PGRST116") return null;
+    console.error(`[API] readVehicleById error (id: ${id}):`, error);
     throw new Error(error.message);
   }
 
-  return mapVehicleRow(data as VehicleRow);
+  if (!data || data.length === 0) return null;
+
+  return mapVehicleRow(data[0] as VehicleRow);
 }
 
 async function apiRequest<T>(input: RequestInfo, init?: RequestInit) {

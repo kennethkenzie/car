@@ -124,6 +124,7 @@
   }
 
   .lucide {
+    color: #ff6a00 !important;
     stroke-width: 1.5px;
   }
 }
