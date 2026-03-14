@@ -1,8 +1,9 @@
 "use client";
 
-import { Car, Heart, Menu, User, X } from "lucide-react";
+import { Heart, Menu, User, X } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import SafeImage from "./SafeImage";
 import TopContactBar from "./TopContactBar";
 
 const links = [
@@ -13,6 +14,9 @@ const links = [
   { label: "Sell", href: "/sell-my-car" },
   { label: "Finance", href: "/finance" }
 ];
+
+const HEADER_LOGO_URL =
+  "https://res.cloudinary.com/dacangvxe/image/upload/v1773481884/h06jq3crevxqbk5zenhg.svg";
 
 export function Header() {
   const [open, setOpen] = useState(false);
@@ -33,9 +37,12 @@ export function Header() {
     >
       <TopContactBar />
       <div className="mx-auto flex max-w-[1600px] items-center justify-between px-6 py-5 xl:px-8">
-        <Link href="/" className="flex items-center gap-2 font-bold text-black text-xl tracking-tight">
-          <Car className="h-8 w-8" />
-          <span className="font-display font-semibold uppercase">Car Baazar</span>
+        <Link href="/" className="flex items-center" aria-label="Home">
+          <SafeImage
+            src={HEADER_LOGO_URL}
+            alt="Modern logo"
+            className="h-10 w-auto object-contain sm:h-12"
+          />
         </Link>
 
         <nav className="hidden items-center gap-6 lg:flex">

@@ -1,7 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { Car, Instagram, Twitter, Facebook } from "lucide-react";
+import { Instagram, Twitter, Facebook } from "lucide-react";
+import SafeImage from "./SafeImage";
 
 const sections = [
   {
@@ -39,15 +40,21 @@ const sections = [
   },
 ];
 
+const FOOTER_LOGO_URL =
+  "https://res.cloudinary.com/dacangvxe/image/upload/v1773482329/fzuydfqizldqtxlnipcs.png";
+
 export function Footer() {
   return (
     <footer className="bg-black pt-24 pb-12 border-t border-gray-800">
       <div className="mx-auto max-w-[1600px] px-6 xl:px-8">
         <div className="grid gap-12 lg:grid-cols-[1fr_2fr]">
           <div className="max-w-xs">
-            <Link href="/" className="mb-6 flex items-center gap-2 text-2xl font-bold tracking-tighter text-gray-100">
-              <Car className="h-10 w-10" />
-              <span className="font-display font-semibold uppercase">Car Baazar</span>
+            <Link href="/" className="mb-6 inline-flex items-center" aria-label="Home">
+              <SafeImage
+                src={FOOTER_LOGO_URL}
+                alt="Modern logo"
+                className="h-12 w-auto object-contain"
+              />
             </Link>
             <p className="text-gray-300 font-normal leading-relaxed mb-8">
               Uganda's most trusted online marketplace for quality used vehicles.
