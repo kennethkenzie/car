@@ -202,7 +202,7 @@ export default function LoginPage() {
               <button
                 type="submit"
                 disabled={isLoading}
-                className="group relative flex w-full items-center justify-center overflow-hidden rounded-2xl bg-slate-900 px-6 py-4 text-[16px] font-bold text-white transition-all hover:bg-black active:scale-[0.98] disabled:opacity-70 disabled:cursor-not-allowed"
+                className="group relative flex w-full items-center justify-center overflow-hidden rounded-2xl bg-[#ff6a00] px-6 py-4 text-[16px] font-bold text-white transition-all hover:bg-[#e65f00] active:scale-[0.98] disabled:opacity-70 disabled:cursor-not-allowed"
               >
                 <span className="relative z-10 flex items-center gap-2">
                   {isLoading ? (
@@ -216,7 +216,7 @@ export default function LoginPage() {
                     </>
                   )}
                 </span>
-                <div className="absolute inset-0 z-0 bg-gradient-to-r from-gold-600 to-yellow-600 opacity-0 transition-opacity group-hover:opacity-100" style={{ backgroundImage: 'linear-gradient(to right, #D4AF37, #FFD700)' }} />
+                <div className="absolute inset-0 z-0 bg-gradient-to-r from-orange-600 to-yellow-600 opacity-0 transition-opacity group-hover:opacity-100" style={{ backgroundImage: 'linear-gradient(to right, #ff6a00, #ff9100)' }} />
               </button>
             </form>
           </div>

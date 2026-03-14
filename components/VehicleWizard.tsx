@@ -229,7 +229,7 @@ export function VehicleWizard({ initialData, mode }: VehicleWizardProps) {
         <div className="flex gap-2">
           <button
             onClick={() => set("status", "DRAFT")}
-            className={`px-5 py-3 text-sm font-bold rounded-2xl transition-all ${form.status === "DRAFT" ? "bg-black text-white" : "bg-white text-gray-500 border border-gray-200 hover:border-black hover:text-black"}`}
+            className={`px-5 py-3 text-sm font-bold rounded-2xl transition-all ${form.status === "DRAFT" ? "bg-[#ff6a00] text-white shadow-lg shadow-orange-500/20" : "bg-white text-gray-500 border border-gray-200 hover:border-[#ff6a00] hover:text-[#ff6a00]"}`}
           >
             Draft
           </button>
@@ -282,7 +282,7 @@ export function VehicleWizard({ initialData, mode }: VehicleWizardProps) {
                       key={t}
                       type="button"
                       onClick={() => set("type", t as "CAR" | "VAN")}
-                      className={`flex-1 flex gap-2 items-center justify-center rounded-2xl border-2 py-4 text-sm font-bold transition-all ${form.type === t ? "border-black bg-black text-white shadow-lg shadow-black/10" : "border-gray-100 text-gray-500 hover:border-black hover:text-black"}`}
+                      className={`flex-1 flex gap-2 items-center justify-center rounded-2xl border-2 py-4 text-sm font-bold transition-all ${form.type === t ? "border-[#ff6a00] bg-[#ff6a00] text-white shadow-lg shadow-orange-500/10" : "border-gray-100 text-gray-500 hover:border-[#ff6a00] hover:text-[#ff6a00]"}`}
                     >
                       {t === "CAR" ? <CarFront className="h-4 w-4" /> : <Car className="h-4 w-4" />}
                       {t === "CAR" ? "Car" : "Van"}
@@ -537,7 +537,7 @@ export function VehicleWizard({ initialData, mode }: VehicleWizardProps) {
           {step < STEPS.length - 1 ? (
             <button
               onClick={() => setStep(s => s + 1)}
-              className="bg-black px-10 py-4 rounded-2xl text-sm font-bold text-white hover:bg-neutral-800 transition-all shadow-xl shadow-black/10"
+              className="bg-[#ff6a00] px-10 py-4 rounded-2xl text-sm font-bold text-white hover:bg-[#e65f00] transition-all shadow-xl shadow-orange-500/10"
             >
               Continue →
             </button>

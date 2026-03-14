@@ -60,7 +60,7 @@ export function SearchHero() {
                   type="button"
                   onClick={() => setVehicleType(t)}
                   className={`rounded-xl px-6 py-2.5 text-sm font-semibold transition-all ${vehicleType === t
-                      ? "border border-black/40 bg-black text-white shadow-md shadow-black/30"
+                      ? "border border-orange-500/40 bg-[#ff6a00] text-white shadow-md shadow-orange-500/30"
                       : "border border-black/30 bg-black/70 text-white/85 hover:bg-black hover:text-white"
                     }`}
                 >
@@ -128,7 +128,7 @@ export function SearchHero() {
 
               <button
                 type="submit"
-                className="inline-flex h-16 items-center justify-center rounded-xl border border-black/40 bg-black px-10 font-semibold text-white shadow-lg shadow-black/40 transition hover:-translate-y-0.5 hover:bg-neutral-800"
+                className="inline-flex h-16 items-center justify-center rounded-xl border border-orange-500/40 bg-[#ff6a00] px-10 font-semibold text-white shadow-lg shadow-orange-500/40 transition hover:-translate-y-0.5 hover:bg-[#e65f00]"
               >
                 <Search className="h-5 w-5 mr-2" />
                 Search

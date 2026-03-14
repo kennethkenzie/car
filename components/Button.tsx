@@ -17,7 +17,7 @@ export function Button({
   const baseStyles = "inline-flex items-center justify-center rounded-xl font-semibold transition-all duration-200 active:scale-[0.98] disabled:opacity-50 disabled:pointer-events-none";
   
   const variants = {
-    primary: "bg-black text-white hover:bg-neutral-800 shadow-md shadow-black/10",
+    primary: "bg-[#ff6a00] text-white hover:bg-[#e65f00] shadow-md shadow-orange-500/20",
     secondary: "bg-[#4228c4] text-white hover:bg-[#351ea3] shadow-md shadow-[#4228c4]/20",
     outline: "border border-slate-200 bg-white text-slate-900 hover:bg-slate-50",
     ghost: "bg-transparent text-slate-600 hover:bg-slate-100",

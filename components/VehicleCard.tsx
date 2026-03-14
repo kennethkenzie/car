@@ -66,7 +66,7 @@ export function VehicleCard({ vehicle, view = "grid" }: { vehicle: Vehicle; view
 
             <Link
               href={href}
-              className="inline-flex h-12 items-center justify-center gap-2 rounded-md bg-black px-5 text-sm font-semibold text-white shadow-md shadow-black/20 transition-all duration-300 hover:-translate-y-0.5 hover:bg-neutral-800"
+              className="inline-flex h-12 items-center justify-center gap-2 rounded-md bg-[#ff6a00] px-5 text-sm font-semibold text-white shadow-md shadow-orange-500/20 transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#e65f00]"
             >
               <span>Buy now</span>
               <ArrowRight className="h-4 w-4" />

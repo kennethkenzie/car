@@ -36,12 +36,12 @@ export function Header() {
         }`}
     >
       <TopContactBar />
-      <div className="mx-auto flex max-w-[1600px] items-center justify-between px-6 py-5 xl:px-8">
+      <div className="mx-auto flex max-w-[1600px] items-center justify-between px-4 py-4 sm:px-6 sm:py-5 xl:px-8">
         <Link href="/" className="flex items-center" aria-label="Home">
           <SafeImage
             src={HEADER_LOGO_URL}
             alt="Modern logo"
-            className="h-10 w-auto object-contain sm:h-12"
+            className="h-9 w-auto object-contain sm:h-12"
           />
         </Link>
 
@@ -62,7 +62,7 @@ export function Header() {
             <Heart className="h-5 w-5" />
           </button>
           <Link href="/login">
-            <button className="flex items-center gap-2 rounded-xl bg-black px-5 py-3 text-sm font-semibold text-white shadow-md shadow-black/20 transition-all duration-200 hover:-translate-y-0.5 hover:bg-neutral-800">
+            <button className="flex items-center gap-2 rounded-xl bg-[#ff6a00] px-5 py-3 text-sm font-semibold text-white shadow-md shadow-orange-500/20 transition-all duration-200 hover:-translate-y-0.5 hover:bg-[#e65f00]">
               <User className="h-4 w-4" />
               Login
             </button>
@@ -80,8 +80,8 @@ export function Header() {
 
       {/* Mobile menu */}
       {open && (
-        <div className="border-t border-gray-100 bg-white/95 backdrop-blur-md md:hidden min-h-screen">
-          <div className="flex flex-col gap-2 px-6 py-8">
+        <div className="min-h-[calc(100vh-92px)] border-t border-gray-100 bg-white/95 backdrop-blur-md md:hidden">
+          <div className="flex flex-col gap-2 px-4 py-6 sm:px-6 sm:py-8">
             {links.map((link) => (
               <Link
                 key={link.label}
@@ -94,7 +94,7 @@ export function Header() {
             ))}
             <div className="mt-4 pt-4 border-t border-gray-100">
               <Link href="/login" onClick={() => setOpen(false)}>
-                <button className="w-full rounded-xl bg-black py-4 text-lg font-semibold text-white shadow-lg shadow-black/20 transition-all hover:bg-neutral-800">
+                <button className="w-full rounded-xl bg-[#ff6a00] py-4 text-lg font-semibold text-white shadow-lg shadow-orange-500/20 transition-all hover:bg-[#e65f00]">
                   Login
                 </button>
               </Link>
