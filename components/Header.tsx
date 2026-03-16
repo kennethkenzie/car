@@ -16,7 +16,7 @@ const links = [
 ];
 
 const HEADER_LOGO_URL =
-  "https://res.cloudinary.com/dacangvxe/image/upload/v1773481884/h06jq3crevxqbk5zenhg.svg";
+  "https://res.cloudinary.com/doh2vn9zn/image/upload/v1773677628/CAR_2_wl4xru.svg";
 
 export function Header() {
   const [open, setOpen] = useState(false);

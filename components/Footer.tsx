@@ -41,7 +41,7 @@ const sections = [
 ];
 
 const FOOTER_LOGO_URL =
-  "https://res.cloudinary.com/dacangvxe/image/upload/v1773482329/fzuydfqizldqtxlnipcs.png";
+  "https://res.cloudinary.com/doh2vn9zn/image/upload/v1773677628/CAR_1_tn0qcb.svg";
 
 export function Footer() {
   return (
