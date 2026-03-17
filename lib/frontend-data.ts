@@ -295,7 +295,7 @@ export const defaultFrontendData: FrontendData = {
   latestProducts: {
     title: "Latest",
     ctaLabel: "View all",
-    ctaHref: "/products",
+    ctaHref: "/inventory",
     products: [
       { 
         id: "v1", 

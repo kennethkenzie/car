@@ -304,7 +304,7 @@ export default function SliderPage() {
               label="Button Link"
               value={formData.buttonLink}
               onChange={(value) => setFormData((prev) => ({ ...prev, buttonLink: value }))}
-              placeholder="/products"
+              placeholder="/inventory"
             />
 
             <div className="flex justify-end gap-3 pt-2">

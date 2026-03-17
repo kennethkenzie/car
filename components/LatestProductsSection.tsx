@@ -61,7 +61,7 @@ export default function LatestProductsSection() {
         <div className="mb-12 flex items-end justify-between">
           <div>
             <h2 className="text-4xl font-extrabold text-gray-900 tracking-tight">
-              {showingFeatured ? "Featured Cars" : section.title}
+              {showingFeatured ? "Latest Cars" : section.title}
             </h2>
             <p className="mt-3 text-lg text-gray-500 font-medium">
               {showingFeatured ? "Hand-picked featured inventory from the latest live stock" : "Recently added premium inventory"}

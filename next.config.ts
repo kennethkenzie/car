@@ -33,6 +33,11 @@ const nextConfig: NextConfig = {
         destination: "/admin/:path*",
         permanent: false,
       },
+      {
+        source: "/products",
+        destination: "/inventory",
+        permanent: true,
+      },
     ];
   },
 };

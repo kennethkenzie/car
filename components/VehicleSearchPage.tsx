@@ -26,7 +26,7 @@ const INITIAL_FILTERS: FilterValue = {
   postcode: "",
 };
 
-export function VehicleSearchPage({ type }: { type: "CAR" | "VAN" }) {
+export function VehicleSearchPage({ type }: { type?: "CAR" | "VAN" }) {
   const searchParams = useSearchParams();
   const [vehicles, setVehicles] = useState<Vehicle[]>([]);
   const [filters, setFilters] = useState<FilterValue>(INITIAL_FILTERS);
@@ -92,7 +92,7 @@ export function VehicleSearchPage({ type }: { type: "CAR" | "VAN" }) {
     <div className="min-h-screen bg-[#f8f9fc]">
       <Header />
       
-      <main className="mx-auto max-w-[1440px] px-6 py-12 pt-32">
+      <main className="mx-auto max-w-[1440px] px-6 py-12 pt-44">
         <div className="flex flex-col gap-8 lg:flex-row">
           {/* Sidebar - Desktop */}
           <div className="hidden w-80 shrink-0 lg:block">
@@ -111,7 +111,7 @@ export function VehicleSearchPage({ type }: { type: "CAR" | "VAN" }) {
             <div className="mb-8 flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center">
               <div>
                 <h1 className="text-3xl font-black text-gray-900 tracking-tight">
-                  {type === "CAR" ? "Premium Cars" : "Reliable Vans"}
+                  {type === "CAR" ? "Premium Cars" : type === "VAN" ? "Reliable Vans" : "Premium Inventory"}
                 </h1>
                 <p className="mt-1 text-sm font-bold text-gray-400 uppercase tracking-widest">
                   {filteredVehicles.length} vehicles available
