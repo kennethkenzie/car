@@ -21,7 +21,7 @@ export default function LatestProductsSection() {
     async function loadLatestVehicles() {
       try {
         setIsLoading(true);
-        const featuredVehicles = await getFeaturedVehicles(4);
+        const featuredVehicles = await getFeaturedVehicles(4, "CAR");
         if (active) {
           if (featuredVehicles.length > 0) {
             setVehicles(featuredVehicles as Vehicle[]);
@@ -29,7 +29,7 @@ export default function LatestProductsSection() {
             return;
           }
 
-          const liveVehicles = await getPublicVehicles();
+          const liveVehicles = await getPublicVehicles("CAR");
           setVehicles((liveVehicles as Vehicle[]).slice(0, 4));
           setShowingFeatured(false);
         }
