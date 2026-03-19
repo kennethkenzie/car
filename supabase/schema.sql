@@ -55,6 +55,7 @@ CREATE TABLE "Vehicle" (
     "seats" INTEGER,
     "engineSize" DOUBLE PRECISION,
     "description" TEXT,
+    "stockType" TEXT NOT NULL DEFAULT 'USED',
     "locationPostcode" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP

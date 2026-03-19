@@ -53,6 +53,7 @@ function parseVehiclePayload(formData: FormData) {
     condition: readNullableString(formData, "condition"),
     city: readNullableString(formData, "city"),
     features: readNullableString(formData, "features"),
+    stockType: readString(formData, "stockType") === "NEW" ? "NEW" : "USED",
   };
 }
 

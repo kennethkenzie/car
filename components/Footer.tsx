@@ -8,8 +8,8 @@ const sections = [
   {
     title: "Buy",
     links: [
-      { label: "Used cars", href: "/cars" },
-      { label: "Used vans", href: "/vans" },
+      { label: "New and Used Cars", href: "/cars" },
+      { label: "New and Used Vans", href: "/vans" },
       { label: "Finance", href: "/finance" },
       { label: "Part exchange", href: "/finance" },
     ],
@@ -57,7 +57,7 @@ export function Footer() {
               />
             </Link>
             <p className="text-gray-300 font-normal leading-relaxed mb-8">
-              Uganda's most trusted online marketplace for quality vehicles.
+              Africa's most trusted online marketplace for quality vehicles.
               Find, finance and buy your next vehicle.
             </p>
             <div className="flex gap-4">

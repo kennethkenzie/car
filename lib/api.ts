@@ -33,6 +33,7 @@ type VehicleRow = {
   condition?: string | null;
   city?: string | null;
   features?: string | null;
+  stockType?: "NEW" | "USED" | null;
   isFeatured?: boolean | null;
   VehicleImage?: VehicleImageRow[];
 };
@@ -74,6 +75,7 @@ function mapVehicleRow(row: VehicleRow) {
   const images = [...(row.VehicleImage ?? [])].sort(
     (left, right) => left.sortOrder - right.sortOrder
   );
+  const stockType: "NEW" | "USED" = row.stockType === "NEW" ? "NEW" : "USED";
 
   return {
     id: String(row.id),
@@ -99,6 +101,7 @@ function mapVehicleRow(row: VehicleRow) {
     city: row.city || "",
     description: row.description || "",
     features: normalizeFeatureList(row.features),
+    stockType,
   };
 }
 

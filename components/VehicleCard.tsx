@@ -5,10 +5,41 @@ import Link from "next/link";
 import { Badge } from "./Badge";
 import { Vehicle } from "@/lib/types";
 import { formatGBP } from "@/lib/utils";
-import { ArrowRight, MapPin } from "lucide-react";
+import {
+  ArrowRight,
+  CarFront,
+  Check,
+  MapPin,
+  ShieldCheck,
+  Users,
+  type LucideIcon,
+} from "lucide-react";
+
+function getFeatureIcon(feature: string): LucideIcon {
+  const normalized = feature.trim().toLowerCase();
+
+  if (
+    normalized.includes("4wd") ||
+    normalized.includes("4x4") ||
+    normalized.includes("awd")
+  ) {
+    return CarFront;
+  }
+
+  if (normalized.includes("insurance")) {
+    return ShieldCheck;
+  }
+
+  if (normalized.includes("seat")) {
+    return Users;
+  }
+
+  return Check;
+}
 
 export function VehicleCard({ vehicle, view = "grid" }: { vehicle: Vehicle; view?: "grid" | "list" }) {
   const href = `/${vehicle.type === "VAN" ? "vans" : "cars"}/${vehicle.slug || vehicle.id}`;
+  const featureList = vehicle.features?.filter(Boolean).slice(0, 3) ?? [];
 
   return (
     <article
@@ -58,10 +89,27 @@ export function VehicleCard({ vehicle, view = "grid" }: { vehicle: Vehicle; view
             <span>{vehicle.transmission}</span>
           </div>
 
+          {featureList.length > 0 && (
+            <div className="mb-4 flex flex-wrap gap-2">
+              {featureList.map((feature) => {
+                const Icon = getFeatureIcon(feature);
+
+                return (
+                  <span
+                    key={feature}
+                    className="inline-flex items-center gap-1.5 rounded-full bg-[#f4f1ff] px-3 py-1 text-[11px] font-semibold text-[#4228c4]"
+                  >
+                    <Icon className="h-3.5 w-3.5" />
+                  {feature}
+                  </span>
+                );
+              })}
+            </div>
+          )}
+
           <div className="flex items-center justify-between pt-4 border-t border-gray-50">
             <div>
               <p className="text-lg font-bold text-gray-900">{formatGBP(vehicle.price)}</p>
-              <p className="text-[10px] font-bold text-gray-400 uppercase tracking-wider">UGX 420,000 / mo</p>
             </div>
 
             <Link

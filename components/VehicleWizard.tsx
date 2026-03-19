@@ -26,6 +26,7 @@ type VehicleData = {
   trim: string;
   bodyType: string;
   type: "CAR" | "VAN";
+  stockType: "NEW" | "USED";
   year: string | number;
   mileage: string | number;
   fuel: string;
@@ -45,6 +46,7 @@ type VehicleData = {
 
 const EMPTY: VehicleData = {
   make: "", model: "", trim: "", bodyType: "", type: "CAR",
+  stockType: "USED",
   year: "", mileage: "", fuel: "", transmission: "", colour: "", condition: "Excellent", doors: "5",
   price: "", postcode: "", city: "",
   description: "", features: "",
@@ -286,6 +288,28 @@ export function VehicleWizard({ initialData, mode }: VehicleWizardProps) {
                     >
                       {t === "CAR" ? <CarFront className="h-4 w-4" /> : <Car className="h-4 w-4" />}
                       {t === "CAR" ? "Car" : "Van"}
+                    </button>
+                  ))}
+                </div>
+              </Field>
+
+              <Field label="Inventory Type">
+                <div className="flex gap-3">
+                  {[
+                    { value: "NEW", label: "New" },
+                    { value: "USED", label: "Used" },
+                  ].map((option) => (
+                    <button
+                      key={option.value}
+                      type="button"
+                      onClick={() => set("stockType", option.value as "NEW" | "USED")}
+                      className={`flex-1 rounded-2xl border-2 py-4 text-sm font-bold transition-all ${
+                        form.stockType === option.value
+                          ? "border-[#4228c4] bg-[#4228c4]/5 text-[#4228c4]"
+                          : "border-gray-100 text-gray-500 hover:border-[#4228c4] hover:text-[#4228c4]"
+                      }`}
+                    >
+                      {option.label}
                     </button>
                   ))}
                 </div>

@@ -22,6 +22,11 @@ const STATUS_COLORS: Record<string, string> = {
   ARCHIVED: "bg-gray-500/10 text-gray-600 border border-gray-500/20"
 };
 
+const STOCK_TYPE_COLORS: Record<string, string> = {
+  NEW: "bg-[#4228c4]/10 text-[#4228c4] border border-[#4228c4]/20",
+  USED: "bg-slate-500/10 text-slate-600 border border-slate-500/20",
+};
+
 export default function InventoryPage() {
   const { user } = useAuth();
   const isAdmin = user?.role === "ADMIN";
@@ -77,6 +82,15 @@ export default function InventoryPage() {
             )
           },
           { key: "year", label: "Year" },
+          {
+            key: "stockType",
+            label: "Type",
+            render: (v: any) => (
+              <span className={`inline-flex px-3 py-1 rounded-lg text-[10px] font-bold uppercase tracking-widest ${STOCK_TYPE_COLORS[v.stockType] ?? STOCK_TYPE_COLORS.USED}`}>
+                {v.stockType ?? "USED"}
+              </span>
+            )
+          },
           {
             key: "price",
             label: "Price",

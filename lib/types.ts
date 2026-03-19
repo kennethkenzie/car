@@ -14,6 +14,7 @@ export interface Vehicle {
   images: Array<string | { url: string }>;
   features?: string[];
   description?: string;
+  stockType?: "NEW" | "USED";
   status: "PUBLISHED" | "DRAFT" | "SOLD" | "ARCHIVED";
   dealerId: string;
   isFeatured?: boolean;
