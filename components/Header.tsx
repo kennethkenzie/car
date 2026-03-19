@@ -9,9 +9,9 @@ import TopContactBar from "./TopContactBar";
 const links = [
   { label: "Cars", href: "/cars" },
   { label: "Vans", href: "/vans" },
+  { label: "Car Hire", href: "/car-hire" },
   { label: "Dealers", href: "/dealers" },
   { label: "Advice", href: "/advice" },
-  { label: "Sell", href: "/sell-my-car" },
   { label: "Finance", href: "/finance" }
 ];
 
@@ -36,8 +36,8 @@ export function Header() {
         }`}
     >
       <TopContactBar />
-      <div className="mx-auto flex max-w-[1600px] items-center justify-between px-4 py-4 sm:px-6 sm:py-5 xl:px-8">
-        <Link href="/" className="flex items-center" aria-label="Home">
+      <div className="mx-auto flex max-w-[1600px] items-center gap-4 px-4 py-4 sm:px-6 sm:py-5 xl:px-8">
+        <Link href="/" className="flex shrink-0 items-center" aria-label="Home">
           <SafeImage
             src={HEADER_LOGO_URL}
             alt="Modern logo"
@@ -45,19 +45,19 @@ export function Header() {
           />
         </Link>
 
-        <nav className="hidden items-center gap-6 lg:flex">
+        <nav className="hidden min-w-0 flex-1 items-center justify-center gap-4 lg:flex xl:gap-6">
           {links.map((link) => (
             <Link
               key={link.label}
               href={link.href}
-              className="text-sm font-semibold text-gray-600 hover:text-[#4228c4] transition-colors duration-200"
+              className="whitespace-nowrap text-sm font-semibold text-gray-600 transition-colors duration-200 hover:text-[#4228c4]"
             >
               {link.label}
             </Link>
           ))}
         </nav>
 
-        <div className="hidden items-center gap-4 md:flex">
+        <div className="hidden shrink-0 items-center gap-4 md:flex">
           <button aria-label="Saved" className="rounded-full p-2 text-gray-400 hover:text-[#4228c4] hover:bg-gray-50 transition-all">
             <Heart className="h-5 w-5" />
           </button>
@@ -70,7 +70,7 @@ export function Header() {
         </div>
 
         <button
-          className="rounded-xl p-3 text-gray-900 md:hidden hover:bg-gray-100 transition"
+          className="ml-auto rounded-xl p-3 text-gray-900 lg:hidden hover:bg-gray-100 transition"
           aria-label="Open menu"
           onClick={() => setOpen((v) => !v)}
         >
