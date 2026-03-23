@@ -42,10 +42,12 @@ export function EnquiryManagement() {
   const [selectedEnquiry, setSelectedEnquiry] = useState<Enquiry | null>(null);
   const [replyText, setReplyText] = useState("");
 
-  const { data: enquiries, isLoading } = useQuery({
+  const { data: allEnquiries, isLoading } = useQuery({
     queryKey: ["enquiries"],
     queryFn: getEnquiries,
   });
+
+  const enquiries = allEnquiries?.filter((e: any) => e.source !== "website_checkout") || [];
 
   const updateStatusMutation = useMutation({
     mutationFn: ({ id, status }: { id: string; status: string }) => updateEnquiryStatus(id, status),

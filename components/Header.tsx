@@ -1,10 +1,11 @@
 "use client";
 
-import { Heart, Menu, User, X } from "lucide-react";
+import { Heart, Menu, ShoppingBag, X } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import SafeImage from "./SafeImage";
 import TopContactBar from "./TopContactBar";
+import { cartCount } from "@/lib/cart";
 
 const links = [
   { label: "Cars", href: "/cars" },
@@ -21,11 +22,24 @@ const HEADER_LOGO_URL =
 export function Header() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [count, setCount] = useState(0);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
     window.addEventListener("scroll", onScroll);
     return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  useEffect(() => {
+    const sync = () => setCount(cartCount());
+    sync();
+    window.addEventListener("cart:updated", sync);
+    window.addEventListener("storage", sync);
+
+    return () => {
+      window.removeEventListener("cart:updated", sync);
+      window.removeEventListener("storage", sync);
+    };
   }, []);
 
   return (
@@ -58,14 +72,22 @@ export function Header() {
         </nav>
 
         <div className="hidden shrink-0 items-center gap-4 md:flex">
-          <button aria-label="Saved" className="rounded-full p-2 text-gray-400 hover:text-[#4228c4] hover:bg-gray-50 transition-all">
+          <Link
+            href="/wishlist"
+            aria-label="Saved"
+            className="rounded-full p-2 text-gray-400 transition-all hover:bg-gray-50 hover:text-[#4228c4]"
+          >
             <Heart className="h-5 w-5" />
-          </button>
-          <Link href="/login">
-            <button className="flex items-center gap-2 rounded-xl bg-[#ff6a00] px-5 py-3 text-sm font-semibold text-white shadow-md shadow-orange-500/20 transition-all duration-200 hover:-translate-y-0.5 hover:bg-[#e65f00]">
-              <User className="h-4 w-4" />
-              Login
-            </button>
+          </Link>
+          <Link
+            href="/cart"
+            aria-label="Cart"
+            className="relative rounded-full p-2 text-gray-400 transition-all hover:bg-gray-50 hover:text-[#4228c4]"
+          >
+            <ShoppingBag className="h-5 w-5" />
+            <span className="absolute -right-1 -top-1 inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-[#ff6a00] px-1 text-[10px] font-bold text-white">
+              {count}
+            </span>
           </Link>
         </div>
 
@@ -93,10 +115,18 @@ export function Header() {
               </Link>
             ))}
             <div className="mt-4 pt-4 border-t border-gray-100">
-              <Link href="/login" onClick={() => setOpen(false)}>
-                <button className="w-full rounded-xl bg-[#ff6a00] py-4 text-lg font-semibold text-white shadow-lg shadow-orange-500/20 transition-all hover:bg-[#e65f00]">
-                  Login
-                </button>
+              <Link
+                href="/cart"
+                className="mb-2 flex items-center justify-between rounded-xl px-4 py-3 text-lg font-normal text-gray-800 transition-all hover:bg-gray-50 hover:text-[#4228c4] hover:font-bold"
+                onClick={() => setOpen(false)}
+              >
+                <span className="flex items-center gap-3">
+                  <ShoppingBag className="h-5 w-5" />
+                  Cart
+                </span>
+                <span className="inline-flex h-6 min-w-6 items-center justify-center rounded-full bg-[#ff6a00] px-2 text-xs font-bold text-white">
+                  {count}
+                </span>
               </Link>
             </div>
           </div>

@@ -48,14 +48,11 @@ export default function DynamicCategorySection() {
                             href={`/cars?make=${encodeURIComponent(brand.title)}`}
                             className="group relative flex min-h-[150px] flex-col items-center justify-center overflow-hidden rounded-2xl border border-gray-100 bg-white/70 p-6 text-center shadow-sm transition-all duration-500 backdrop-blur-md hover:-translate-y-1 hover:border-orange-200 hover:bg-white hover:shadow-xl hover:shadow-orange-100/40"
                         >
-                            <div className="relative flex h-20 w-full items-center justify-center rounded-2xl bg-gray-50/80 px-4 transition-all duration-500 group-hover:bg-orange-50">
-                                <div className="absolute inset-0 rounded-2xl border border-gray-200/60 transition-all group-hover:border-orange-200" />
-                                <SafeImage
-                                    src={brand.logo}
-                                    alt={`${brand.title} logo`}
-                                    className="relative max-h-10 w-auto max-w-full object-contain transition-all duration-500 group-hover:scale-105"
-                                />
-                            </div>
+                            <SafeImage
+                                src={brand.logo}
+                                alt={`${brand.title} logo`}
+                                className="max-h-10 w-auto max-w-full object-contain transition-all duration-500 group-hover:scale-105"
+                            />
 
                             <span className="pointer-events-none absolute bottom-8 left-1/2 -translate-x-1/2 translate-y-2 whitespace-nowrap text-[14px] font-bold tracking-tight text-[#ff6a00] opacity-0 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100">
                                 {brand.title}

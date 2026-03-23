@@ -2,7 +2,6 @@
 
 import { useState, useEffect, useRef } from "react";
 import { MessageCircle, X, Send, User, Bot, Sparkles, CarIcon } from "lucide-react";
-import { getPublicVehicles } from "@/lib/api";
 
 type Message = {
   id: string;
@@ -55,8 +54,9 @@ export function ChatBot() {
       if (currentInput.includes("hi") || currentInput.includes("hello") || currentInput.includes("hey")) {
         botResponse = "Hello there! 👋 Welcome to Car Baazar. I can help you browse our latest cars or provide our contact details. What's on your mind?";
       } else if (currentInput.includes("latest") || currentInput.includes("new stock") || currentInput.includes("any car") || currentInput.includes("show me")) {
-        const vehicles = await getPublicVehicles();
-        if (vehicles && vehicles.length > 0) {
+        const res = await fetch("/api/vehicles/public");
+        const vehicles = await res.json();
+        if (Array.isArray(vehicles) && vehicles.length > 0) {
           const displayCount = 3;
           const selected = vehicles.slice(0, displayCount);
           botResponse = `Here are some of our latest premium vehicles:\n\n` + 

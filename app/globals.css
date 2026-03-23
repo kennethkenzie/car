@@ -127,6 +127,12 @@
     color: #ff6a00 !important;
     stroke-width: 1.5px;
   }
+
+  /* Icons inside buttons and links inherit the element's color (e.g. white on coloured buttons) */
+  button .lucide,
+  a .lucide {
+    color: inherit !important;
+  }
 }
 
 .font-display {

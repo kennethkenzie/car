@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import { EnquiryModal } from "@/components/EnquiryModal";
 import { VehicleCard } from "@/components/VehicleCard";
 import { VehicleGallery } from "@/components/VehicleGallery";
@@ -7,6 +9,7 @@ import { notFound } from "next/navigation";
 import { MapPin, ShieldCheck, History, Fuel, Zap, Calendar, Gauge, Info } from "lucide-react";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
+import { VehiclePurchaseActions } from "@/components/VehiclePurchaseActions";
 
 export default async function VanDetailPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
@@ -136,9 +139,7 @@ export default async function VanDetailPage({ params }: { params: Promise<{ slug
 
                   <div className="space-y-4 relative z-10">
                     <EnquiryModal vehicleId={vehicle.id} dealerId={vehicle.dealerId} />
-                    <button className="w-full bg-white/5 hover:bg-white/10 text-white border border-white/10 rounded-2xl py-4 font-bold text-sm transition-all active:scale-95">
-                      Business Lease Enquiry
-                    </button>
+                    <VehiclePurchaseActions vehicle={vehicle as any} label="Business Lease Enquiry" />
                   </div>
 
                   <div className="mt-10 pt-10 border-t border-white/10 flex items-center gap-4">

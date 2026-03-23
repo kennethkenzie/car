@@ -1,57 +1,43 @@
 "use client";
 
+import { useQuery } from "@tanstack/react-query";
 import Link from "next/link";
-import { useEffect, useState } from "react";
 import { ArrowRight } from "lucide-react";
 import { VehicleCard } from "@/components/VehicleCard";
 import { useFrontendData } from "@/lib/use-frontend-data";
 import { Vehicle } from "@/lib/types";
-import { getFeaturedVehicles, getPublicVehicles } from "@/lib/api";
 
 export default function LatestProductsSection() {
   const data = useFrontendData();
   const section = data.latestProducts;
-  const [vehicles, setVehicles] = useState<Vehicle[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [showingFeatured, setShowingFeatured] = useState(false);
 
-  useEffect(() => {
-    let active = true;
-
-    async function loadLatestVehicles() {
+  const { data: vData, isLoading } = useQuery({
+    queryKey: ["latest-vehicles"],
+    queryFn: async () => {
       try {
-        setIsLoading(true);
-        const featuredVehicles = await getFeaturedVehicles(4, "CAR");
-        if (active) {
-          if (featuredVehicles.length > 0) {
-            setVehicles(featuredVehicles as Vehicle[]);
-            setShowingFeatured(true);
-            return;
-          }
+        const fRes = await fetch("/api/vehicles/featured?limit=8");
+        if (!fRes.ok) throw new Error("Failed to fetch featured");
+        const featuredVehicles = await fRes.json();
 
-          const liveVehicles = await getPublicVehicles("CAR");
-          setVehicles((liveVehicles as Vehicle[]).slice(0, 4));
-          setShowingFeatured(false);
+        if (Array.isArray(featuredVehicles) && featuredVehicles.length > 0) {
+          return { vehicles: featuredVehicles as Vehicle[], showingFeatured: true };
         }
+
+        const pRes = await fetch("/api/vehicles/public");
+        if (!pRes.ok) throw new Error("Failed to fetch public");
+        const liveVehicles = await pRes.json();
+
+        return { vehicles: (liveVehicles as Vehicle[]).slice(0, 8), showingFeatured: false };
       } catch (error) {
         console.error("Failed to load latest vehicles.", error);
-        if (active) {
-          setVehicles([]);
-          setShowingFeatured(false);
-        }
-      } finally {
-        if (active) {
-          setIsLoading(false);
-        }
+        return { vehicles: [], showingFeatured: false };
       }
-    }
+    },
+    staleTime: 1000 * 60 * 5, // 5 minutes
+  });
 
-    void loadLatestVehicles();
-
-    return () => {
-      active = false;
-    };
-  }, []);
+  const vehicles = vData?.vehicles ?? [];
+  const showingFeatured = vData?.showingFeatured ?? false;
 
   if (!isLoading && vehicles.length === 0) return null;
 
@@ -61,10 +47,10 @@ export default function LatestProductsSection() {
         <div className="mb-12 flex items-end justify-between">
           <div>
             <h2 className="text-4xl font-extrabold text-gray-900 tracking-tight">
-              {showingFeatured ? "Latest Cars" : section.title}
+              {showingFeatured ? "Latest Inventory" : section.title}
             </h2>
             <p className="mt-3 text-lg text-gray-500 font-medium">
-              {showingFeatured ? "Hand-picked featured inventory from the latest live stock" : "Recently added premium inventory"}
+              {showingFeatured ? "Hand-picked featured inventory from our latest live stock" : "Recently added premium inventory"}
             </p>
           </div>
           <Link

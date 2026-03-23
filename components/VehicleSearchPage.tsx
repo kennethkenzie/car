@@ -1,10 +1,10 @@
 "use client";
 
 import { useEffect, useState, useMemo } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { useSearchParams } from "next/navigation";
 import { FiltersSidebar, FilterValue } from "./FiltersSidebar";
 import { VehicleCard } from "./VehicleCard";
-import { getPublicVehicles } from "@/lib/api";
 import { Vehicle } from "@/lib/types";
 import { Header } from "./Header";
 import { Footer } from "./Footer";
@@ -28,10 +28,8 @@ const INITIAL_FILTERS: FilterValue = {
 
 export function VehicleSearchPage({ type }: { type?: "CAR" | "VAN" }) {
   const searchParams = useSearchParams();
-  const [vehicles, setVehicles] = useState<Vehicle[]>([]);
   const [filters, setFilters] = useState<FilterValue>(INITIAL_FILTERS);
   const [view, setView] = useState<"grid" | "list">("grid");
-  const [isLoading, setIsLoading] = useState(true);
   const [showMobileFilters, setShowMobileFilters] = useState(false);
 
   useEffect(() => {
@@ -53,15 +51,17 @@ export function VehicleSearchPage({ type }: { type?: "CAR" | "VAN" }) {
     });
   }, [searchParams]);
 
-  useEffect(() => {
-    async function load() {
-      setIsLoading(true);
-      const data = await getPublicVehicles(type);
-      setVehicles(data as any);
-      setIsLoading(false);
-    }
-    load();
-  }, [type]);
+  const { data: vData, isLoading } = useQuery({
+    queryKey: ["vehicles", type || "all"],
+    queryFn: async () => {
+      const res = await fetch(`/api/vehicles/public${type ? `?type=${type}` : ""}`);
+      if (!res.ok) throw new Error("Failed to fetch vehicles");
+      return res.json();
+    },
+    staleTime: 1000 * 60 * 10, // 10 minutes
+  });
+
+  const vehicles = (vData as Vehicle[]) || [];
 
   const filteredVehicles = useMemo(() => {
     return vehicles.filter((v) => {

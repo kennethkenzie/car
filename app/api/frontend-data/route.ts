@@ -3,13 +3,13 @@ import { mergeFrontendData } from "@/lib/frontend-data-merge";
 import type { FrontendData } from "@/lib/frontend-data";
 import {
   isSupabaseConfigured,
-  readFrontendDataFromSupabase,
+  getCachedFrontendData,
   writeFrontendDataToSupabase,
 } from "@/lib/supabase-site-content";
 
 export async function GET() {
   try {
-    const data = await readFrontendDataFromSupabase();
+    const data = await getCachedFrontendData();
     return NextResponse.json({
       data: data ?? mergeFrontendData({}),
       source: data ? "supabase" : "default",

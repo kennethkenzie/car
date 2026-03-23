@@ -1,5 +1,12 @@
-import { mergeFrontendData } from "@/lib/frontend-data-merge";
+import { revalidateTag, unstable_cache } from "next/cache";
+import { mergeFrontendData, cloneDefaultFrontendData } from "@/lib/frontend-data-merge";
 import type { FrontendData } from "@/lib/frontend-data";
+
+export const getCachedFrontendData = unstable_cache(
+  async () => readFrontendDataFromSupabase(),
+  ["site-data"],
+  { tags: ["site-data"], revalidate: 3600 }
+);
 
 type SiteContentConfig = {
   table: string;
@@ -129,6 +136,14 @@ export async function writeFrontendDataToSupabase(data: FrontendData) {
 
     const rows = (await response.json()) as Record<string, unknown>[];
     const value = rows[0]?.[config.valueColumn];
+    
+    // Invalidate Cache after successful write
+    try {
+      revalidateTag("site-data", { expire: 0 });
+    } catch (e) {
+      console.warn("[Cache] Failed to revalidateTag:", e);
+    }
+
     return value ? mergeFrontendData(value) : data;
   }
 

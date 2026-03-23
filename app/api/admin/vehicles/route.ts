@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { revalidateTag } from "next/cache";
 import { configureCloudinary } from "@/lib/cloudinary-server";
 import { createSupabaseAdminClient } from "@/lib/server-supabase";
 
@@ -129,6 +130,10 @@ export async function POST(request: Request) {
         throw new Error(imageError.message);
       }
     }
+
+    try {
+      revalidateTag("vehicles", { expire: 0 });
+    } catch {}
 
     return NextResponse.json({ success: true, id: vehicle.id });
   } catch (error) {

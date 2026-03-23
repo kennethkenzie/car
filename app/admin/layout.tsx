@@ -70,6 +70,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       { href: "/admin", label: "Overview", icon: LayoutDashboard },
       { href: "/admin/inventory", label: "Inventory", icon: List },
       { href: "/admin/enquiries", label: "Enquiries", icon: MessageSquare },
+      { href: "/admin/orders", label: "Orders", icon: Package },
       { href: "/admin/team", label: "Team", icon: Users },
       { href: "/admin/dealers", label: "Dealers", icon: Store },
       { href: "/admin/profile", label: "Profile", icon: UserCircle2 },
@@ -112,7 +113,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   return (
     <div className="min-h-screen bg-[#f6f7fb] text-[#111827]">
       <div className="flex min-h-screen">
-        <aside className="hidden h-screen w-72 shrink-0 bg-[#0a0a0a] p-8 xl:flex xl:flex-col">
+        <aside className="hidden sticky top-0 h-screen w-72 shrink-0 bg-[#0a0a0a] p-8 xl:flex xl:flex-col overflow-y-auto">
           <Link href="/admin" className="mb-12 flex items-center gap-3 group">
             <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-white text-black shadow-lg shadow-white/5 transition-transform group-hover:scale-105">
               <Car className="h-5 w-5" />

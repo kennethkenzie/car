@@ -1,4 +1,10 @@
 import { supabase } from "./supabase";
+import {
+  buildOrderSearchText,
+  formatOrderNumber,
+  parseOrderMetadata,
+  type OrderRecord,
+} from "./order-utils";
 
 type VehicleImageRow = {
   id: number;
@@ -356,6 +362,7 @@ export async function getEnquiries() {
     message: enquiry.message,
     notes: enquiry.notes,
     status: enquiry.status,
+    source: enquiry.source,
     createdAt: enquiry.createdAt,
     vehicle: enquiry.Vehicle ? {
       make: enquiry.Vehicle.make,
@@ -364,6 +371,28 @@ export async function getEnquiries() {
       price: enquiry.Vehicle.price
     } : null
   }));
+}
+
+export async function getOrders(): Promise<OrderRecord[]> {
+  const enquiries = await getEnquiries();
+
+  return enquiries
+    .filter((enquiry) => enquiry.source === "website_checkout")
+    .map((order) => {
+      const metadata = parseOrderMetadata(order.notes);
+
+      return {
+        ...order,
+        orderNumber: formatOrderNumber(order.id),
+        metadata,
+        searchText: buildOrderSearchText({
+          id: order.id,
+          name: order.name,
+          email: order.email,
+          metadata,
+        }),
+      };
+    });
 }
 
 export async function updateEnquiryStatus(id: string, status: string) {
@@ -380,6 +409,16 @@ export async function addEnquiryNote(id: string, note: string) {
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ action: "note", note }),
   });
+}
+
+export async function deleteEnquiry(id: string) {
+  return apiRequest<{ success: true }>(`/api/admin/enquiries/${id}`, {
+    method: "DELETE",
+  });
+}
+
+export async function getOrderById(id: string) {
+  return apiRequest<OrderRecord>(`/api/orders/${id}`);
 }
 
 export async function getDatabaseHealth() {

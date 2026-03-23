@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { revalidateTag } from "next/cache";
 import { configureCloudinary } from "@/lib/cloudinary-server";
 import { createSupabaseAdminClient } from "@/lib/server-supabase";
 
@@ -138,6 +139,10 @@ export async function PATCH(
         throw new Error(error.message);
       }
 
+      try {
+        revalidateTag("vehicles", { expire: 0 });
+      } catch {}
+
       return NextResponse.json({ success: true });
     }
 
@@ -174,6 +179,10 @@ export async function PATCH(
       }
     }
 
+    try {
+      revalidateTag("vehicles", { expire: 0 });
+    } catch {}
+
     return NextResponse.json({ success: true });
   } catch (error) {
     const message = error instanceof Error ? error.message : "Vehicle update failed.";
@@ -194,6 +203,10 @@ export async function DELETE(
     if (error) {
       throw new Error(error.message);
     }
+
+    try {
+      revalidateTag("vehicles", { expire: 0 });
+    } catch {}
 
     return new NextResponse(null, { status: 204 });
   } catch (error) {

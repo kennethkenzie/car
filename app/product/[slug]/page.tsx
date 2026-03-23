@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import {
   ChevronDown,
   MapPin,
@@ -25,6 +25,7 @@ export default function ProductDetailsPage() {
   const gallery = pd.gallery;
   const sizes = pd.sizes;
   const params = useParams<{ slug: string }>();
+  const router = useRouter();
   const slug = typeof params?.slug === "string" ? params.slug : "item";
   const [selectedImageId, setSelectedImageId] = useState(gallery[0]?.id ?? 0);
   const [selectedSize, setSelectedSize] = useState(sizes[0]?.label ?? "");
@@ -35,6 +36,14 @@ export default function ProductDetailsPage() {
   const selectedPrice = Number(
     (selectedSizeInfo?.price ?? "UGX 0").replace("UGX", "").replace(/,/g, "").trim()
   );
+
+  const cartItem = {
+    id: `${slug}-${selectedSize.toLowerCase().replace(/\s+/g, "-")}`,
+    name: `Instant Pot Duo Plus (${selectedSize})`,
+    price: selectedPrice,
+    image: toCloudinaryUrl(selectedImage?.image ?? gallery[0]?.image ?? ""),
+    href: `/product/${slug}`,
+  };
 
   return (
     <>
@@ -300,23 +309,18 @@ export default function ProductDetailsPage() {
 
                 <div className="mt-3 space-y-2">
                   <button
-                    onClick={() =>
-                      addToCart(
-                        {
-                          id: `${slug}-${selectedSize.toLowerCase().replace(/\s+/g, "-")}`,
-                          name: `Instant Pot Duo Plus (${selectedSize})`,
-                          price: selectedPrice,
-                          image: toCloudinaryUrl(selectedImage?.image ?? gallery[0]?.image ?? ""),
-                          href: `/product/${slug}`,
-                        },
-                        quantity
-                      )
-                    }
+                    onClick={() => addToCart(cartItem, quantity)}
                     className="w-full rounded-full bg-[#ffd814] px-4 py-2.5 text-[14px] font-medium text-gray-900 hover:bg-[#f7ca00]"
                   >
                     Add to cart
                   </button>
-                  <button className="w-full rounded-full bg-[#ffa41c] px-4 py-2.5 text-[14px] font-medium text-gray-900 hover:bg-[#fa8900]">
+                  <button
+                    onClick={() => {
+                      addToCart(cartItem, quantity);
+                      router.push("/cart");
+                    }}
+                    className="w-full rounded-full bg-[#ffa41c] px-4 py-2.5 text-[14px] font-medium text-gray-900 hover:bg-[#fa8900]"
+                  >
                     Buy Now
                   </button>
                 </div>
