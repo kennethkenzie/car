@@ -106,6 +106,7 @@ export function VehicleWizard({ initialData, mode }: VehicleWizardProps) {
   const router = useRouter();
   const [step, setStep] = useState(0);
   const [form, setForm] = useState<VehicleData>({ ...EMPTY, ...initialData });
+  const [thumbnail, setThumbnail] = useState<{ src: string; file?: File; id?: string } | null>(null);
   const [images, setImages] = useState<{ src: string; file?: File; id?: string }[]>([]);
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -120,14 +121,28 @@ export function VehicleWizard({ initialData, mode }: VehicleWizardProps) {
 
   useEffect(() => {
     if (initialData?.images) {
-      setImages(initialData.images.map(img => ({
+      const mappedImages = initialData.images.map(img => ({
         src: typeof img === 'string' ? img : img.url,
         id: img.id
-      })));
+      }));
+      setThumbnail(mappedImages[0] ?? null);
+      setImages(mappedImages.slice(1));
     }
   }, [initialData]);
 
   const set = (k: keyof VehicleData, v: any) => setForm(f => ({ ...f, [k]: v }));
+
+  const handleThumbnail = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = ev => {
+      const src = ev.target?.result as string;
+      setThumbnail({ src, file });
+    };
+    reader.readAsDataURL(file);
+  };
 
   const handleImages = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(e.target.files ?? []);
@@ -135,7 +150,7 @@ export function VehicleWizard({ initialData, mode }: VehicleWizardProps) {
       const reader = new FileReader();
       reader.onload = ev => {
         const src = ev.target?.result as string;
-        setImages(imgs => imgs.length < 10 ? [...imgs, { src, file }] : imgs);
+        setImages(imgs => imgs.length < 9 ? [...imgs, { src, file }] : imgs);
       };
       reader.readAsDataURL(file);
     });
@@ -166,7 +181,12 @@ export function VehicleWizard({ initialData, mode }: VehicleWizardProps) {
         }
       });
 
-      // Append new image files
+      if (thumbnail?.file) {
+        formData.append("images", thumbnail.file);
+      } else if (thumbnail?.src) {
+        formData.append("existingImages", thumbnail.src);
+      }
+
       images.forEach(img => {
         if (img.file) {
           formData.append("images", img.file);
@@ -204,7 +224,7 @@ export function VehicleWizard({ initialData, mode }: VehicleWizardProps) {
         <div className="flex gap-3">
           {mode === "create" && (
             <button
-              onClick={() => { setForm(EMPTY); setImages([]); setSubmitted(false); setStep(0); }}
+              onClick={() => { setForm(EMPTY); setThumbnail(null); setImages([]); setSubmitted(false); setStep(0); }}
               className="border border-gray-200 px-6 py-3 rounded-2xl text-sm font-bold text-gray-700 hover:bg-gray-50 transition-all"
             >
               Add another
@@ -489,7 +509,53 @@ export function VehicleWizard({ initialData, mode }: VehicleWizardProps) {
           <div className="space-y-8">
             <div className="flex flex-col gap-2">
                <h3 className="text-lg font-bold text-gray-900">Vehicle Photos</h3>
-               <p className="text-sm text-gray-500">Upload up to 10 high-quality images. The first image will be your listing cover.</p>
+               <p className="text-sm text-gray-500">Upload a thumbnail plus up to 9 gallery images for this inventory item.</p>
+            </div>
+
+            <div className="rounded-2xl border border-gray-100 p-6">
+              <div className="mb-4 flex flex-col gap-1">
+                <h4 className="text-sm font-bold text-gray-900">Product Thumbnail</h4>
+                <p className="text-sm text-gray-500">This image will be used as the primary listing cover.</p>
+              </div>
+
+              {thumbnail ? (
+                <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
+                  <div className="relative h-36 w-36 overflow-hidden rounded-2xl border border-gray-100">
+                    <img src={thumbnail.src} alt="Thumbnail preview" className="h-full w-full object-cover" />
+                    <div className="absolute left-2 top-2 rounded-lg bg-[#4228c4] px-3 py-1 text-[10px] font-bold text-white">PRIMARY</div>
+                  </div>
+                  <div className="flex gap-3">
+                    <label className="cursor-pointer rounded-2xl bg-[#4228c4] px-5 py-3 text-sm font-bold text-white hover:bg-[#3621a1] transition-all">
+                      Replace Thumbnail
+                      <input type="file" accept="image/*" className="hidden" onChange={handleThumbnail} />
+                    </label>
+                    <button
+                      type="button"
+                      onClick={() => setThumbnail(null)}
+                      className="rounded-2xl border border-gray-200 px-5 py-3 text-sm font-bold text-gray-700 hover:bg-gray-50 transition-all"
+                    >
+                      Remove
+                    </button>
+                  </div>
+                </div>
+              ) : (
+                <>
+                  <button
+                    type="button"
+                    onClick={() => document.getElementById("vehicle-thumbnail-upload")?.click()}
+                    className="flex w-full flex-col items-center gap-4 rounded-2xl border-4 border-dashed border-gray-100 py-12 text-center hover:border-[#4228c4]/30 hover:bg-[#4228c4]/5 transition-all group"
+                  >
+                    <div className="h-16 w-16 bg-gray-50 rounded-[1.5rem] flex items-center justify-center group-hover:scale-110 transition-transform">
+                      <Upload className="h-8 w-8 text-gray-400 group-hover:text-[#4228c4]" />
+                    </div>
+                    <div>
+                      <p className="text-base font-bold text-gray-700">Upload thumbnail</p>
+                      <p className="text-sm text-gray-400 mt-1">Recommended for cards and listing previews</p>
+                    </div>
+                  </button>
+                  <input id="vehicle-thumbnail-upload" type="file" accept="image/*" className="hidden" onChange={handleThumbnail} />
+                </>
+              )}
             </div>
 
             <button
@@ -501,8 +567,8 @@ export function VehicleWizard({ initialData, mode }: VehicleWizardProps) {
                 <Upload className="h-8 w-8 text-gray-400 group-hover:text-[#4228c4]" />
               </div>
               <div>
-                <p className="text-base font-bold text-gray-700">Click to select photos</p>
-                <p className="text-sm text-gray-400 mt-1">Supports JPG, PNG, WEBP (Max 10MB each)</p>
+                <p className="text-base font-bold text-gray-700">Click to select gallery photos</p>
+                <p className="text-sm text-gray-400 mt-1">Supports JPG, PNG, WEBP (Max 10MB each, up to 9 images)</p>
               </div>
             </button>
             <input ref={fileRef} type="file" accept="image/*" multiple className="hidden" onChange={handleImages} />
@@ -512,9 +578,6 @@ export function VehicleWizard({ initialData, mode }: VehicleWizardProps) {
                 {images.map((img, i) => (
                   <div key={i} className="relative aspect-[4/3] group rounded-2xl overflow-hidden border border-gray-100">
                     <img src={img.src} alt={`Upload ${i + 1}`} className="h-full w-full object-cover" />
-                    {i === 0 && (
-                      <div className="absolute top-2 left-2 bg-[#4228c4] px-3 py-1 rounded-lg text-[10px] font-bold text-white shadow-lg">PRIMARY</div>
-                    )}
                     <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
                        <button
                         onClick={() => removeImage(i)}
