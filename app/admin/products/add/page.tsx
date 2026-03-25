@@ -1,7 +1,7 @@
 "use client";
 
-import { RefreshCw, ChevronDown } from "lucide-react";
-import { useState } from "react";
+import { RefreshCw, ChevronDown, ImagePlus, Upload, X } from "lucide-react";
+import { useState, type ChangeEvent } from "react";
 
 const tabs = [
     "Product Information",
@@ -15,6 +15,26 @@ const tabs = [
 
 export default function ProductInformationPage() {
   const [activeTab, setActiveTab] = useState(0);
+  const [thumbnail, setThumbnail] = useState<string | null>(null);
+
+  const handleThumbnailChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    const nextUrl = URL.createObjectURL(file);
+    setThumbnail((current) => {
+      if (current) URL.revokeObjectURL(current);
+      return nextUrl;
+    });
+    event.target.value = "";
+  };
+
+  const clearThumbnail = () => {
+    setThumbnail((current) => {
+      if (current) URL.revokeObjectURL(current);
+      return null;
+    });
+  };
 
   return (
     <div className="bg-[#f7f7f8] p-4 sm:p-6">
@@ -116,7 +136,64 @@ export default function ProductInformationPage() {
               </form>
             )}
 
-            {activeTab !== 0 && (
+            {activeTab === 1 && (
+              <div className="space-y-8">
+                <div className="max-w-3xl">
+                  <Label text="Product Thumbnail" required />
+                  <p className="mb-4 text-sm text-gray-500">
+                    Upload a square thumbnail image for product cards and previews.
+                  </p>
+
+                  <div className="rounded-2xl border border-dashed border-gray-300 bg-gray-50/60 p-5">
+                    {thumbnail ? (
+                      <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
+                        <img
+                          src={thumbnail}
+                          alt="Product thumbnail preview"
+                          className="h-36 w-36 rounded-xl border border-gray-200 object-cover bg-white"
+                        />
+                        <div className="flex gap-3">
+                          <label className="inline-flex cursor-pointer items-center gap-2 rounded-md bg-[#1f2937] px-4 py-2.5 text-sm font-bold text-white transition hover:bg-black">
+                            <Upload className="h-4 w-4" />
+                            Replace thumbnail
+                            <input
+                              type="file"
+                              accept="image/*"
+                              className="hidden"
+                              onChange={handleThumbnailChange}
+                            />
+                          </label>
+                          <button
+                            type="button"
+                            onClick={clearThumbnail}
+                            className="inline-flex items-center gap-2 rounded-md bg-gray-100 px-4 py-2.5 text-sm font-bold text-gray-700 transition hover:bg-gray-200"
+                          >
+                            <X className="h-4 w-4" />
+                            Remove
+                          </button>
+                        </div>
+                      </div>
+                    ) : (
+                      <label className="flex cursor-pointer flex-col items-center justify-center rounded-xl border border-dashed border-gray-300 bg-white px-6 py-12 text-center transition hover:border-[#0b63ce] hover:bg-blue-50/30">
+                        <div className="mb-3 flex h-14 w-14 items-center justify-center rounded-full bg-blue-50 text-[#0b63ce]">
+                          <ImagePlus className="h-6 w-6" />
+                        </div>
+                        <div className="text-sm font-bold text-gray-900">Upload thumbnail</div>
+                        <div className="mt-1 text-xs text-gray-500">PNG, JPG, WEBP up to 5MB</div>
+                        <input
+                          type="file"
+                          accept="image/*"
+                          className="hidden"
+                          onChange={handleThumbnailChange}
+                        />
+                      </label>
+                    )}
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {activeTab !== 0 && activeTab !== 1 && (
               <div className="flex min-h-[400px] flex-col items-center justify-center text-center">
                 <div className="mb-4 flex h-20 w-20 items-center justify-center rounded-full bg-gray-50 text-gray-300">
                   <RefreshCw className="h-10 w-10 animate-spin-slow" />

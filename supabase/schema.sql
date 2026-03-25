@@ -56,6 +56,7 @@ CREATE TABLE "Vehicle" (
     "engineSize" DOUBLE PRECISION,
     "description" TEXT,
     "stockType" TEXT NOT NULL DEFAULT 'USED',
+    "listingCategory" TEXT NOT NULL DEFAULT 'SALE',
     "locationPostcode" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP

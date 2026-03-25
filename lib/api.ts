@@ -18,6 +18,7 @@ type VehicleRow = {
   id: number;
   dealerId: number;
   type: "CAR" | "VAN";
+  listingCategory?: "SALE" | "HIRE" | null;
   status: "PUBLISHED" | "DRAFT" | "SOLD" | "ARCHIVED";
   make: string;
   model: string;
@@ -95,6 +96,7 @@ function mapVehicleRow(row: VehicleRow) {
     transmission: row.transmission,
     price: row.price,
     type: row.type,
+    listingCategory: (row.listingCategory === "HIRE" ? "HIRE" : "SALE") as "SALE" | "HIRE",
     postcode: row.locationPostcode,
     images: images.map((image) => ({ id: String(image.id), url: image.url })),
     status: row.status,
@@ -118,7 +120,11 @@ function extractVehicleId(value: string) {
   return match ? Number(match[1]) : null;
 }
 
-async function readVehicles(filters?: { type?: "CAR" | "VAN"; publishedOnly?: boolean }) {
+async function readVehicles(filters?: {
+  type?: "CAR" | "VAN";
+  publishedOnly?: boolean;
+  listingCategory?: "SALE" | "HIRE";
+}) {
   let query = supabase
     .from("Vehicle")
     .select("*, VehicleImage(*)")
@@ -126,6 +132,10 @@ async function readVehicles(filters?: { type?: "CAR" | "VAN"; publishedOnly?: bo
 
   if (filters?.type) {
     query = query.eq("type", filters.type);
+  }
+
+  if (filters?.listingCategory) {
+    query = query.eq("listingCategory", filters.listingCategory);
   }
 
   if (filters?.publishedOnly) {
@@ -140,7 +150,11 @@ async function readVehicles(filters?: { type?: "CAR" | "VAN"; publishedOnly?: bo
   return ((data ?? []) as VehicleRow[]).map(mapVehicleRow);
 }
 
-export async function getFeaturedVehicles(limit = 4, type?: "CAR" | "VAN") {
+export async function getFeaturedVehicles(
+  limit = 4,
+  type?: "CAR" | "VAN",
+  listingCategory?: "SALE" | "HIRE"
+) {
   let query = supabase
     .from("Vehicle")
     .select("*, VehicleImage(*)")
@@ -151,6 +165,10 @@ export async function getFeaturedVehicles(limit = 4, type?: "CAR" | "VAN") {
 
   if (type) {
     query = query.eq("type", type);
+  }
+
+  if (listingCategory) {
+    query = query.eq("listingCategory", listingCategory);
   }
 
   const { data, error } = await query;
@@ -201,8 +219,11 @@ async function apiRequest<T>(input: RequestInfo, init?: RequestInit) {
   return (await response.json()) as T;
 }
 
-export async function getPublicVehicles(type?: "CAR" | "VAN") {
-  return readVehicles({ type, publishedOnly: true });
+export async function getPublicVehicles(
+  type?: "CAR" | "VAN",
+  listingCategory?: "SALE" | "HIRE"
+) {
+  return readVehicles({ type, publishedOnly: true, listingCategory });
 }
 
 export async function fetchDealerInventory() {
@@ -319,7 +340,7 @@ export async function getVehicleReal(slug: string) {
 
 export async function getSimilarVehiclesReal(slug: string, type: "CAR" | "VAN") {
   const currentId = extractVehicleId(slug);
-  const all = await getPublicVehicles(type);
+  const all = await getPublicVehicles(type, "SALE");
   return all.filter((vehicle) => Number(vehicle.id) !== currentId);
 }
 
@@ -336,7 +357,7 @@ export async function getDashboardSummary() {
     recentEnquiries: inventory.slice(0, 5).map((vehicle, index) => ({
       id: `inventory-${vehicle.id}`,
       name: `Vehicle enquiry ${index + 1}`,
-      email: "customer@carbazaar.com",
+      email: "carbazar77@gmail.com",
       createdAt: new Date().toISOString(),
       status: "NEW",
       vehicle: { make: vehicle.make, model: vehicle.model },

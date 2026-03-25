@@ -27,6 +27,11 @@ const STOCK_TYPE_COLORS: Record<string, string> = {
   USED: "bg-slate-500/10 text-slate-600 border border-slate-500/20",
 };
 
+const LISTING_CATEGORY_COLORS: Record<string, string> = {
+  SALE: "bg-emerald-500/10 text-emerald-600 border border-emerald-500/20",
+  HIRE: "bg-orange-500/10 text-orange-600 border border-orange-500/20",
+};
+
 export default function InventoryPage() {
   const { user } = useAuth();
   const isAdmin = user?.role === "ADMIN";
@@ -88,6 +93,15 @@ export default function InventoryPage() {
             render: (v: any) => (
               <span className={`inline-flex px-3 py-1 rounded-lg text-[10px] font-bold uppercase tracking-widest ${STOCK_TYPE_COLORS[v.stockType] ?? STOCK_TYPE_COLORS.USED}`}>
                 {v.stockType ?? "USED"}
+              </span>
+            )
+          },
+          {
+            key: "listingCategory",
+            label: "Category",
+            render: (v: any) => (
+              <span className={`inline-flex px-3 py-1 rounded-lg text-[10px] font-bold uppercase tracking-widest ${LISTING_CATEGORY_COLORS[v.listingCategory] ?? LISTING_CATEGORY_COLORS.SALE}`}>
+                {v.listingCategory ?? "SALE"}
               </span>
             )
           },

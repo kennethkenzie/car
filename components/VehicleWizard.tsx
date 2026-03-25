@@ -26,6 +26,7 @@ type VehicleData = {
   trim: string;
   bodyType: string;
   type: "CAR" | "VAN";
+  listingCategory: "SALE" | "HIRE";
   stockType: "NEW" | "USED";
   year: string | number;
   mileage: string | number;
@@ -46,6 +47,7 @@ type VehicleData = {
 
 const EMPTY: VehicleData = {
   make: "", model: "", trim: "", bodyType: "", type: "CAR",
+  listingCategory: "SALE",
   stockType: "USED",
   year: "", mileage: "", fuel: "", transmission: "", colour: "", condition: "Excellent", doors: "5",
   price: "", postcode: "", city: "",
@@ -103,7 +105,7 @@ interface VehicleWizardProps {
 export function VehicleWizard({ initialData, mode }: VehicleWizardProps) {
   const router = useRouter();
   const [step, setStep] = useState(0);
-  const [form, setForm] = useState<VehicleData>(initialData || EMPTY);
+  const [form, setForm] = useState<VehicleData>({ ...EMPTY, ...initialData });
   const [images, setImages] = useState<{ src: string; file?: File; id?: string }[]>([]);
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -307,6 +309,28 @@ export function VehicleWizard({ initialData, mode }: VehicleWizardProps) {
                         form.stockType === option.value
                           ? "border-[#4228c4] bg-[#4228c4]/5 text-[#4228c4]"
                           : "border-gray-100 text-gray-500 hover:border-[#4228c4] hover:text-[#4228c4]"
+                      }`}
+                    >
+                      {option.label}
+                    </button>
+                  ))}
+                </div>
+              </Field>
+
+              <Field label="Listing Category">
+                <div className="flex gap-3">
+                  {[
+                    { value: "SALE", label: "For Sale" },
+                    { value: "HIRE", label: "Car Hire" },
+                  ].map((option) => (
+                    <button
+                      key={option.value}
+                      type="button"
+                      onClick={() => set("listingCategory", option.value as "SALE" | "HIRE")}
+                      className={`flex-1 rounded-2xl border-2 py-4 text-sm font-bold transition-all ${
+                        form.listingCategory === option.value
+                          ? "border-[#0b63ce] bg-[#0b63ce]/5 text-[#0b63ce]"
+                          : "border-gray-100 text-gray-500 hover:border-[#0b63ce] hover:text-[#0b63ce]"
                       }`}
                     >
                       {option.label}

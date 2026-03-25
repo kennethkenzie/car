@@ -42,7 +42,7 @@ export default function ContactPage() {
                             <div>
                                 <h3 className="font-bold text-lg tracking-tight uppercase text-gray-900">Email us</h3>
                                 <p className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-1">We'll respond within 24 hours</p>
-                                <p className="font-bold text-black">support@carbaazar.co.ug</p>
+                                <p className="font-bold text-black">carbazar77@gmail.com</p>
                             </div>
                         </div>
 

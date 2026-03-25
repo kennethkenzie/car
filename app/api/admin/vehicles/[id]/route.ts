@@ -41,6 +41,7 @@ function parseVehiclePayload(formData: FormData) {
   return {
     dealerId: readRequiredNumber(formData, "dealerId"),
     type: readString(formData, "type") === "VAN" ? "VAN" : "CAR",
+    listingCategory: readString(formData, "listingCategory") === "HIRE" ? "HIRE" : "SALE",
     status: (readString(formData, "status") || "DRAFT") as
       | "DRAFT"
       | "PUBLISHED"

@@ -54,7 +54,10 @@ export function VehicleSearchPage({ type }: { type?: "CAR" | "VAN" }) {
   const { data: vData, isLoading } = useQuery({
     queryKey: ["vehicles", type || "all"],
     queryFn: async () => {
-      const res = await fetch(`/api/vehicles/public${type ? `?type=${type}` : ""}`);
+      const params = new URLSearchParams();
+      if (type) params.set("type", type);
+      params.set("listingCategory", "SALE");
+      const res = await fetch(`/api/vehicles/public?${params.toString()}`);
       if (!res.ok) throw new Error("Failed to fetch vehicles");
       return res.json();
     },

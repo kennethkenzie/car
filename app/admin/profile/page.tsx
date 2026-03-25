@@ -17,7 +17,7 @@ export default function ProfilePage() {
             </div>
             <div>
               <label className="mb-2 block text-sm font-semibold text-gray-800">Support Email</label>
-              <input className="w-full rounded-xl border border-gray-200 px-4 py-3 text-sm outline-none focus:border-black" defaultValue="admin@carbazaar.com" />
+              <input className="w-full rounded-xl border border-gray-200 px-4 py-3 text-sm outline-none focus:border-black" defaultValue="carbazar77@gmail.com" />
             </div>
             <div>
               <label className="mb-2 block text-sm font-semibold text-gray-800">Support Phone</label>

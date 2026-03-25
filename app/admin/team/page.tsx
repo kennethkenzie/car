@@ -4,9 +4,9 @@ import { Mail, Plus, Shield, Trash2, User as UserIcon, X } from "lucide-react";
 import { useState } from "react";
 
 const members = [
-  { id: "u1", name: "Kenneth", email: "kenneth@modern.co.ug", role: "ADMIN" },
-  { id: "u2", name: "Sarah", email: "sales@modern.co.ug", role: "SALES" },
-  { id: "u3", name: "David", email: "ops@modern.co.ug", role: "MANAGER" },
+  { id: "u1", name: "Kenneth", email: "carbazar77@gmail.com", role: "ADMIN" },
+  { id: "u2", name: "Sarah", email: "carbazar77@gmail.com", role: "SALES" },
+  { id: "u3", name: "David", email: "carbazar77@gmail.com", role: "MANAGER" },
 ];
 
 export default function TeamPage() {

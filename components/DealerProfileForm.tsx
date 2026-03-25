@@ -77,7 +77,7 @@ export function DealerProfileForm({ mode, user, dealer, onLinkedDealer }: Dealer
             required
             value={form.email}
             onChange={e => setForm({ ...form, email: e.target.value })}
-            placeholder="dealer@carbaazar.co.ug"
+            placeholder="carbazar77@gmail.com"
           />
         </div>
 

@@ -143,7 +143,7 @@ export default function DealersPage() {
                                         required
                                         value={form.email}
                                         onChange={e => setForm({ ...form, email: e.target.value })}
-                                        placeholder="london@carbazaar.com"
+                                        placeholder="carbazar77@gmail.com"
                                     />
                                 </div>
                             </div>

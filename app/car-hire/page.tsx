@@ -70,7 +70,7 @@ export default function CarHirePage() {
   const [submitted, setSubmitted] = useState(false);
 
   useEffect(() => {
-    getPublicVehicles("CAR")
+    getPublicVehicles("CAR", "HIRE")
       .then((data) => setVehicles(data))
       .catch(console.error)
       .finally(() => setLoading(false));

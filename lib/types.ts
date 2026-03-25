@@ -10,6 +10,7 @@ export interface Vehicle {
   transmission: string;
   price: number | string;
   type: "CAR" | "VAN";
+  listingCategory?: "SALE" | "HIRE";
   postcode: string;
   images: Array<string | { url: string }>;
   features?: string[];

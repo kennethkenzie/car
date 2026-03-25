@@ -11,7 +11,7 @@ export default function LoginPage() {
   const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
-  const [email, setEmail] = useState("admin@carbazaar.com");
+  const [email, setEmail] = useState("carbazar77@gmail.com");
   const [password, setPassword] = useState("123456Pp");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -148,7 +148,7 @@ export default function LoginPage() {
                       type="email"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
-                      placeholder="admin@carbazaar.com"
+                      placeholder="carbazar77@gmail.com"
                       className="w-full rounded-2xl border-2 border-slate-100 bg-slate-50/50 py-4 pl-12 pr-4 text-[16px] font-medium outline-none transition-all placeholder:text-slate-400 hover:border-slate-200 focus:border-gold-600 focus:bg-white focus:shadow-[0_0_0_4px_rgba(212,175,55,0.1)]"
                       required
                       disabled={isLoading}

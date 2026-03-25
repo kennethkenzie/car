@@ -67,7 +67,7 @@ export function ChatBot() {
           botResponse = "We are currently updating our digital showroom. Please check back in a few minutes, or contact us directly!";
         }
       } else if (currentInput.includes("contact") || currentInput.includes("phone") || currentInput.includes("email")) {
-        botResponse = "You can reach our sales team at sales@carbaazar.co.ug or visit our bond on Plot 12, Entebbe Road, Kampala. We're open 8 AM - 6 PM!";
+        botResponse = "You can reach our sales team at carbazar77@gmail.com or visit our bond on Plot 12, Entebbe Road, Kampala. We're open 8 AM - 6 PM!";
       } else {
         botResponse = "I'm not sure I understand that. Would you like to see our latest inventory or get our contact details?";
       }

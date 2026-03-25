@@ -3,12 +3,24 @@
 
 create schema if not exists admin_auth;
 
-create type admin_auth.admin_role as enum (
-  'SUPER_ADMIN',
-  'ADMIN',
-  'EDITOR',
-  'SUPPORT'
-);
+do $$
+begin
+  if not exists (
+    select 1
+    from pg_type t
+    join pg_namespace n on n.oid = t.typnamespace
+    where t.typname = 'admin_role'
+      and n.nspname = 'admin_auth'
+  ) then
+    create type admin_auth.admin_role as enum (
+      'SUPER_ADMIN',
+      'ADMIN',
+      'EDITOR',
+      'SUPPORT'
+    );
+  end if;
+end
+$$;
 
 create table if not exists admin_auth.admin_users (
   id uuid primary key references auth.users(id) on delete cascade,

@@ -15,7 +15,7 @@ export default function LatestProductsSection() {
     queryKey: ["latest-vehicles"],
     queryFn: async () => {
       try {
-        const fRes = await fetch("/api/vehicles/featured?limit=8");
+        const fRes = await fetch("/api/vehicles/featured?limit=8&listingCategory=SALE");
         if (!fRes.ok) throw new Error("Failed to fetch featured");
         const featuredVehicles = await fRes.json();
 
@@ -23,7 +23,7 @@ export default function LatestProductsSection() {
           return { vehicles: featuredVehicles as Vehicle[], showingFeatured: true };
         }
 
-        const pRes = await fetch("/api/vehicles/public");
+        const pRes = await fetch("/api/vehicles/public?listingCategory=SALE");
         if (!pRes.ok) throw new Error("Failed to fetch public");
         const liveVehicles = await pRes.json();
 

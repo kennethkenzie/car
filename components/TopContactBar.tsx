@@ -18,7 +18,7 @@ export default function TopContactBar() {
           </div>
           <div className="flex items-center gap-2">
             <Mail size={14} className="text-[#4228c4]" />
-            <span>info@carbazaar.co.ug</span>
+            <span>carbazar77@gmail.com</span>
           </div>
         </div>
       </div>
