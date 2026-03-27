@@ -6,35 +6,8 @@ import { Vehicle } from "@/lib/types";
 import { formatGBP } from "@/lib/utils";
 import {
   ArrowRight,
-  CarFront,
-  Check,
   MapPin,
-  ShieldCheck,
-  Users,
-  type LucideIcon,
 } from "lucide-react";
-
-function getFeatureIcon(feature: string): LucideIcon {
-  const normalized = feature.trim().toLowerCase();
-
-  if (
-    normalized.includes("4wd") ||
-    normalized.includes("4x4") ||
-    normalized.includes("awd")
-  ) {
-    return CarFront;
-  }
-
-  if (normalized.includes("insurance")) {
-    return ShieldCheck;
-  }
-
-  if (normalized.includes("seat")) {
-    return Users;
-  }
-
-  return Check;
-}
 
 export function VehicleCard({
   vehicle,
@@ -44,7 +17,6 @@ export function VehicleCard({
   view?: "grid" | "list";
 }) {
   const href = `/${vehicle.type === "VAN" ? "vans" : "cars"}/${vehicle.slug || vehicle.id}`;
-  const featureList = vehicle.features?.filter(Boolean).slice(0, 3) ?? [];
 
   return (
     <article
@@ -87,7 +59,6 @@ export function VehicleCard({
               {vehicle.make} {vehicle.model}
             </h3>
           </Link>
-          <p className="truncate text-sm font-medium text-gray-500">{vehicle.trim}</p>
         </div>
 
         <div className="mt-auto">
@@ -100,24 +71,6 @@ export function VehicleCard({
             <span className="text-black">&bull;</span>
             <span>{vehicle.transmission}</span>
           </div>
-
-          {featureList.length > 0 && (
-            <div className="mb-4 flex flex-wrap gap-2">
-              {featureList.map((feature) => {
-                const Icon = getFeatureIcon(feature);
-
-                return (
-                  <span
-                    key={feature}
-                    className="inline-flex items-center gap-1.5 rounded-full bg-[#f4f1ff] px-3 py-1 text-[11px] font-semibold text-[#4228c4]"
-                  >
-                    <Icon className="h-3.5 w-3.5" />
-                    {feature}
-                  </span>
-                );
-              })}
-            </div>
-          )}
 
           <div className="flex items-center justify-between border-t border-gray-50 pt-4">
             <div>

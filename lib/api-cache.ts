@@ -1,6 +1,9 @@
 import "server-only";
 import { unstable_cache } from "next/cache";
-import { getFeaturedVehicles as getFeaturedRaw, getPublicVehicles as getPublicRaw } from "./api";
+import {
+  getFeaturedVehicles as getFeaturedRaw,
+  getPublicVehicles as getPublicRaw,
+} from "./server-vehicle-api";
 
 export const getCachedFeaturedVehicles = (
   limit = 4,

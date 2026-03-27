@@ -138,7 +138,7 @@ export function SearchHero() {
 
           <div className="mt-8 flex flex-wrap items-center gap-6 px-4">
             <span className="text-sm font-semibold text-white/65">Popular:</span>
-            {["SUV", "Hybrid", "Electric", "Automatic", "Under UGX 10,000"].map((s) => (
+            {["SUV", "Hybrid", "Electric", "Automatic"].map((s) => (
               <button
                 key={s}
                 className="rounded-lg border border-white/15 bg-white/5 px-3 py-1.5 text-sm font-semibold text-white/85 transition hover:bg-white/15 hover:text-white"
