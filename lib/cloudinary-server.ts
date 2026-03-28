@@ -42,6 +42,7 @@ export function configureCloudinary() {
     api_key: config.apiKey,
     api_secret: config.apiSecret,
     secure: true,
+    timeout: 120000,
   });
 
   return cloudinary;

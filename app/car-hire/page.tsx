@@ -279,7 +279,7 @@ export default function CarHirePage() {
                           <div className="mb-3 flex flex-wrap gap-x-2 gap-y-1 text-[11px] font-bold text-gray-400">
                             <span>{v.year}</span>
                             <span className="text-gray-200">•</span>
-                            <span>{v.mileage.toLocaleString()} mi</span>
+                            <span>{v.mileage.toLocaleString()} km</span>
                             <span className="text-gray-200">•</span>
                             <span>{v.fuel}</span>
                             <span className="text-gray-200">•</span>

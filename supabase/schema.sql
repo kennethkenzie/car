@@ -130,6 +130,18 @@ CREATE TABLE "MakeModel" (
     UNIQUE("make", "model")
 );
 
+-- Create site content table for admin-managed storefront data
+CREATE TABLE IF NOT EXISTS public.site_content (
+    key TEXT PRIMARY KEY,
+    data JSONB NOT NULL,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+    updated_at TIMESTAMPTZ NOT NULL DEFAULT now()
+);
+
+INSERT INTO public.site_content (key, data)
+VALUES ('frontend', '{}'::jsonb)
+ON CONFLICT (key) DO NOTHING;
+
 -- Create Indexes
 CREATE INDEX "Vehicle_make_model_idx" ON "Vehicle"("make", "model");
 CREATE INDEX "Vehicle_price_idx" ON "Vehicle"("price");

@@ -4,6 +4,7 @@ import { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { createVehicleReal, updateVehicleReal, getDealers } from "@/lib/api";
 import { useQuery } from "@tanstack/react-query";
+import { useFrontendData } from "@/lib/use-frontend-data";
 import {
   ArrowLeft, Car, Upload, X, CheckCircle2,
   MapPin, Tag, Layers, ImageIcon,
@@ -116,6 +117,9 @@ export function VehicleWizard({ initialData, mode }: VehicleWizardProps) {
     queryKey: ["dealers"],
     queryFn: getDealers,
   });
+
+  const frontendData = useFrontendData();
+  const makes = frontendData.brands.filter(b => b.isActive).map(b => b.title);
 
   const fileRef = useRef<HTMLInputElement>(null);
 
@@ -362,7 +366,7 @@ export function VehicleWizard({ initialData, mode }: VehicleWizardProps) {
               <Field label="Make / Brand">
                 <select className={selectCls} value={form.make} onChange={e => set("make", e.target.value)}>
                   <option value="">Select make</option>
-                  {MAKES.map(m => <option key={m} value={m}>{m}</option>)}
+                  {makes.map(m => <option key={m} value={m}>{m}</option>)}
                 </select>
               </Field>
 
@@ -406,7 +410,7 @@ export function VehicleWizard({ initialData, mode }: VehicleWizardProps) {
                 </select>
               </Field>
 
-              <Field label="Mileage (miles)">
+              <Field label="Mileage (km)">
                 <input className={inputCls} type="number" placeholder="e.g. 25000" value={form.mileage} onChange={e => set("mileage", e.target.value)} />
               </Field>
 

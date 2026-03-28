@@ -65,7 +65,7 @@ export function VehicleCard({
           <div className="mb-4 flex flex-wrap gap-x-2 gap-y-1 text-xs font-bold text-black">
             <span>{vehicle.year}</span>
             <span className="text-black">&bull;</span>
-            <span>{vehicle.mileage.toLocaleString()} mi</span>
+            <span>{vehicle.mileage.toLocaleString()} km</span>
             <span className="text-black">&bull;</span>
             <span>{vehicle.fuel}</span>
             <span className="text-black">&bull;</span>

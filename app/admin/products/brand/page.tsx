@@ -5,6 +5,7 @@ import { useState, useRef, useEffect } from "react";
 import { useFrontendData } from "@/lib/use-frontend-data";
 import { writeFrontendData } from "@/lib/frontend-data-store";
 import { Brand } from "@/lib/frontend-data";
+import { uploadToCloudinary } from "@/lib/cloudinary-upload";
 
 function Toggle({ enabled = true, onToggle }: { enabled?: boolean; onToggle?: () => void }) {
     return (
@@ -72,34 +73,8 @@ export default function BrandsPage() {
         else setUploadingBanner(true);
 
         try {
-            const upData = new FormData();
-            upData.append("file", file);
-
-            const res = await fetch("/api/upload", {
-                method: "POST",
-                body: upData,
-            });
-
-            const raw = await res.text();
-            let result: { url?: string; error?: string } = {};
-
-            if (raw) {
-                try {
-                    result = JSON.parse(raw) as { url?: string; error?: string };
-                } catch {
-                    result = { error: raw };
-                }
-            }
-
-            if (!res.ok) {
-                throw new Error(result.error || `Upload failed with status ${res.status}`);
-            }
-
-            if (result.url) {
-                setFormData(prev => ({ ...prev, [type]: result.url }));
-            } else {
-                alert("Upload failed: " + (result.error || "Unknown error"));
-            }
+            const url = await uploadToCloudinary(file, "brands");
+            setFormData(prev => ({ ...prev, [type]: url }));
         } catch (err) {
             console.error(err);
             alert(err instanceof Error ? err.message : "Upload failed");

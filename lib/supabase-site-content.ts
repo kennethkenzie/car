@@ -1,5 +1,5 @@
 import { revalidateTag, unstable_cache } from "next/cache";
-import { mergeFrontendData, cloneDefaultFrontendData } from "@/lib/frontend-data-merge";
+import { mergeFrontendData } from "@/lib/frontend-data-merge";
 import type { FrontendData } from "@/lib/frontend-data";
 
 export const getCachedFrontendData = unstable_cache(
@@ -29,6 +29,10 @@ const SITE_CONTENT_CONFIGS: SiteContentConfig[] = [
   },
 ];
 
+function listSupportedSiteContentTables() {
+  return SITE_CONTENT_CONFIGS.map((config) => `${config.table}(key, ${config.valueColumn})`).join(" or ");
+}
+
 function getSupabaseUrl() {
   return process.env.SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL;
 }
@@ -39,6 +43,17 @@ function getReadKey() {
 
 function getWriteKey() {
   return process.env.SUPABASE_SERVICE_ROLE_KEY;
+}
+
+function getWriteTimeoutMs() {
+  const raw = process.env.SUPABASE_SITE_CONTENT_WRITE_TIMEOUT_MS?.trim();
+  const value = raw ? Number(raw) : NaN;
+
+  if (Number.isFinite(value) && value > 0) {
+    return value;
+  }
+
+  return 20000;
 }
 
 function buildHeaders(apiKey: string, extra?: HeadersInit): HeadersInit {
@@ -118,10 +133,11 @@ export async function writeFrontendDataToSupabase(data: FrontendData) {
       {
         method: "POST",
         headers: buildHeaders(apiKey, {
-          Prefer: "resolution=merge-duplicates,return=representation",
+          Prefer: "resolution=merge-duplicates,return=minimal",
         }),
         body: JSON.stringify([payload]),
         cache: "no-store",
+        signal: AbortSignal.timeout(getWriteTimeoutMs()),
       }
     );
 
@@ -134,22 +150,20 @@ export async function writeFrontendDataToSupabase(data: FrontendData) {
       continue;
     }
 
-    const rows = (await response.json()) as Record<string, unknown>[];
-    const value = rows[0]?.[config.valueColumn];
-    
-    // Invalidate Cache after successful write
     try {
       revalidateTag("site-data", { expire: 0 });
     } catch (e) {
       console.warn("[Cache] Failed to revalidateTag:", e);
     }
 
-    return value ? mergeFrontendData(value) : data;
+    return data;
   }
 
   if (lastError) {
     throw lastError;
   }
 
-  throw new Error("Supabase write failed because no supported site content table was found.");
+  throw new Error(
+    `Supabase write failed because no supported site content table was found. Create ${listSupportedSiteContentTables()} in your Supabase database.`
+  );
 }

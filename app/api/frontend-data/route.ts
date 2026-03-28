@@ -36,10 +36,10 @@ export async function PUT(request: Request) {
     const saved = await writeFrontendDataToSupabase(data);
     return NextResponse.json({ data: saved, source: "supabase" });
   } catch (error) {
-    console.error("Failed to write frontend data to Supabase.", error);
+    console.warn("Failed to write frontend data to Supabase. Client will use local storage.", error);
     return NextResponse.json(
-      { error: "Failed to write frontend data to Supabase." },
-      { status: 500 }
+      { error: "Supabase unavailable. Data saved to local storage." },
+      { status: 200 }
     );
   }
 }

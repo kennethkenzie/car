@@ -117,7 +117,7 @@ export default function InventoryPage() {
           {
             key: "mileage",
             label: "Mileage",
-            render: (v: any) => <span className="text-gray-500 font-medium">{v.mileage.toLocaleString()} mi</span>
+            render: (v: any) => <span className="text-gray-500 font-medium">{v.mileage.toLocaleString()} km</span>
           },
           {
             key: "status",

@@ -66,7 +66,7 @@ export default async function VanDetailPage({ params }: { params: Promise<{ slug
                       <Gauge className="h-6 w-6" />
                     </div>
                     <p className="text-[9px] font-bold text-gray-300 uppercase tracking-widest mt-2">Mileage</p>
-                    <p className="text-sm font-bold text-gray-900">{vehicle.mileage.toLocaleString()}</p>
+                    <p className="text-sm font-bold text-gray-900">{vehicle.mileage.toLocaleString()} km</p>
                   </div>
                   <div className="flex flex-col items-center gap-1">
                     <div className="h-12 w-12 rounded-2xl bg-gray-50 flex items-center justify-center text-gray-400">
