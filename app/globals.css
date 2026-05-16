@@ -193,6 +193,30 @@
   }
 }
 
+/* ── Toggle component CSS variables ── */
+:root {
+  --ds-blue-700: oklch(57.61% 0.2508 258.23);
+  --ds-red-600: oklch(71.12% 0.1881 21.22);
+  --ds-amber-700: oklch(81.87% 0.1969 76.46);
+  --ds-green-700: oklch(64.58% 0.1746 147.27);
+  --ds-teal-700: oklch(64.92% 0.1572 181.95);
+  --ds-purple-700: oklch(55.5% 0.3008 306.12);
+  --ds-pink-700: oklch(63.52% 0.238 1.01);
+  --ds-gray-100: hsla(0, 0%, 95%, 1);
+  --ds-gray-200: hsla(0, 0%, 92%, 1);
+  --ds-gray-700: hsla(0, 0%, 56%, 1);
+  --ds-gray-1000: hsla(0, 0%, 9%, 1);
+  --ds-gray-alpha-400: hsla(0, 0%, 0%, 0.08);
+  --ds-background-100: hsla(0, 0%, 100%, 1);
+  --ds-background-200: hsla(0, 0%, 98%, 1);
+  --geist-success: #22c55e;
+  --accents-1: #fafafa;
+  --accents-2: #eaeaea;
+  --accents-5: #666666;
+  --geist-secondary: var(--accents-5);
+  --ds-toggle-ring: 0 0 4px rgba(0,0,0,.12), 0 1px 1px rgba(0,0,0,.16);
+}
+
 ::-webkit-scrollbar {
   width: 8px;
 }

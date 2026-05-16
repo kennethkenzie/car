@@ -17,6 +17,7 @@ export function VehicleCard({
   view?: "grid" | "list";
 }) {
   const href = `/${vehicle.type === "VAN" ? "vans" : "cars"}/${vehicle.slug || vehicle.id}`;
+  const isSold = vehicle.status === "SOLD";
 
   return (
     <article
@@ -41,8 +42,15 @@ export function VehicleCard({
           alt={`${vehicle.make} ${vehicle.model}`}
           width={700}
           height={420}
-          className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+          className={`h-full w-full object-cover transition-transform duration-700 group-hover:scale-105 ${isSold ? "brightness-50" : ""}`}
         />
+        {isSold && (
+          <div className="absolute inset-0 flex items-center justify-center">
+            <span className="bg-red-600 text-white text-sm font-extrabold uppercase tracking-widest px-6 py-2 rounded-full shadow-xl rotate-[-15deg]">
+              SOLD
+            </span>
+          </div>
+        )}
       </Link>
 
       <div className="flex flex-1 flex-col p-6">
@@ -74,15 +82,15 @@ export function VehicleCard({
 
           <div className="flex items-center justify-between border-t border-gray-50 pt-4">
             <div>
-              <p className="text-lg font-bold text-gray-900">{formatGBP(vehicle.price)}</p>
+              <p className="text-sm font-bold text-gray-900 sm:text-base">{formatGBP(vehicle.price)}</p>
             </div>
 
             <Link
               href={href}
-              className="inline-flex h-12 items-center justify-center gap-2 rounded-md bg-[#ff6a00] px-5 text-xs font-semibold text-white shadow-md shadow-orange-500/20 transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#e65f00]"
+              className="inline-flex h-10 shrink-0 items-center justify-center gap-1.5 whitespace-nowrap rounded-md bg-[#ff6a00] px-4 text-xs font-semibold text-white shadow-md shadow-orange-500/20 transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#e65f00]"
             >
               <span>View Details</span>
-              <ArrowRight className="h-4 w-4" />
+              <ArrowRight className="h-3.5 w-3.5" />
             </Link>
           </div>
         </div>

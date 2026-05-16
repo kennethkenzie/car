@@ -255,10 +255,24 @@ export async function publishVehicleReal(id: string) {
 export async function archiveVehicleReal(id: string) {
   return apiRequest<{ success: true }>(`/api/admin/vehicles/${id}`, {
     method: "PATCH",
-    headers: {
-      "Content-Type": "application/json",
-    },
+    headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ action: "archive" }),
+  });
+}
+
+export async function markSoldVehicleReal(id: string) {
+  return apiRequest<{ success: true }>(`/api/admin/vehicles/${id}`, {
+    method: "PATCH",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ action: "sold" }),
+  });
+}
+
+export async function unmarkSoldVehicleReal(id: string) {
+  return apiRequest<{ success: true }>(`/api/admin/vehicles/${id}`, {
+    method: "PATCH",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ action: "unsold" }),
   });
 }
 

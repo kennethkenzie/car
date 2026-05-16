@@ -11,8 +11,8 @@ import {
   CarFront, Banknote, List
 } from "lucide-react";
 
-const MAKES = ["Audi", "BMW", "Ford", "Honda", "Hyundai", "Jaguar", "Kia", "Land Rover", "Lexus", "Mercedes-Benz", "Nissan", "Peugeot", "Porsche", "Renault", "SEAT", "Skoda", "Tesla", "Toyota", "Vauxhall", "Volkswagen", "Volvo"];
-const BODY_TYPES = ["Hatchback", "Saloon", "Estate", "SUV / 4x4", "Coupe", "Convertible", "MPV", "Pickup", "Van"];
+const MAKES = ["Audi", "BMW", "Ford", "Honda", "Hyundai", "Jaguar", "Jeep", "KIA", "Kia", "Land Rover", "Lexus", "Mercedes-Benz", "Nissan", "Peugeot", "Porsche", "Range Rover", "Renault", "SEAT", "Skoda", "Tesla", "Toyota", "Vauxhall", "Volkswagen", "Volvo"];
+const BODY_TYPES = ["Hatchback", "Saloon", "Estate", "SUV", "Coupe", "Convertible", "MPV", "Pickup", "Van"];
 const FUELS = ["Petrol", "Diesel", "Hybrid", "Plug-in Hybrid", "Electric", "LPG"];
 const TRANSMISSIONS = ["Manual", "Automatic", "Semi-Automatic"];
 const COLOURS = ["Black", "White", "Silver", "Grey", "Blue", "Red", "Green", "Orange", "Yellow", "Brown", "Purple", "Gold"];
@@ -108,6 +108,7 @@ export function VehicleWizard({ initialData, mode }: VehicleWizardProps) {
   const [step, setStep] = useState(0);
   const [form, setForm] = useState<VehicleData>({ ...EMPTY, ...initialData });
   const [thumbnail, setThumbnail] = useState<{ src: string; file?: File; id?: string } | null>(null);
+  const [thumbDragging, setThumbDragging] = useState(false);
   const [images, setImages] = useState<{ src: string; file?: File; id?: string }[]>([]);
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -139,13 +140,30 @@ export function VehicleWizard({ initialData, mode }: VehicleWizardProps) {
   const handleThumbnail = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
-
     const reader = new FileReader();
-    reader.onload = ev => {
-      const src = ev.target?.result as string;
-      setThumbnail({ src, file });
-    };
+    reader.onload = ev => setThumbnail({ src: ev.target?.result as string, file });
     reader.readAsDataURL(file);
+  };
+
+  const handleThumbDrop = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    setThumbDragging(false);
+    const file = e.dataTransfer.files?.[0];
+    if (!file || !file.type.startsWith("image/")) return;
+    const reader = new FileReader();
+    reader.onload = ev => setThumbnail({ src: ev.target?.result as string, file });
+    reader.readAsDataURL(file);
+  };
+
+  const promoteToThumbnail = (idx: number) => {
+    const promoted = images[idx];
+    const oldThumb = thumbnail;
+    setThumbnail(promoted);
+    setImages(imgs => {
+      const next = imgs.filter((_, i) => i !== idx);
+      if (oldThumb) return [oldThumb, ...next];
+      return next;
+    });
   };
 
   const handleImages = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -266,6 +284,12 @@ export function VehicleWizard({ initialData, mode }: VehicleWizardProps) {
             className={`px-5 py-3 text-sm font-bold rounded-2xl transition-all ${form.status === "PUBLISHED" ? "bg-[#4228c4] text-white shadow-lg shadow-[#4228c4]/20" : "bg-white text-gray-500 border border-gray-200 hover:border-[#4228c4] hover:text-[#4228c4]"}`}
           >
             Publish
+          </button>
+          <button
+            onClick={() => set("status", "SOLD")}
+            className={`px-5 py-3 text-sm font-bold rounded-2xl transition-all ${form.status === "SOLD" ? "bg-red-600 text-white shadow-lg shadow-red-600/20" : "bg-white text-gray-500 border border-gray-200 hover:border-red-500 hover:text-red-500"}`}
+          >
+            Sold
           </button>
         </div>
       </div>
@@ -543,22 +567,26 @@ export function VehicleWizard({ initialData, mode }: VehicleWizardProps) {
                   </div>
                 </div>
               ) : (
-                <>
-                  <button
-                    type="button"
-                    onClick={() => document.getElementById("vehicle-thumbnail-upload")?.click()}
-                    className="flex w-full flex-col items-center gap-4 rounded-2xl border-4 border-dashed border-gray-100 py-12 text-center hover:border-[#4228c4]/30 hover:bg-[#4228c4]/5 transition-all group"
-                  >
-                    <div className="h-16 w-16 bg-gray-50 rounded-[1.5rem] flex items-center justify-center group-hover:scale-110 transition-transform">
-                      <Upload className="h-8 w-8 text-gray-400 group-hover:text-[#4228c4]" />
-                    </div>
-                    <div>
-                      <p className="text-base font-bold text-gray-700">Upload thumbnail</p>
-                      <p className="text-sm text-gray-400 mt-1">Recommended for cards and listing previews</p>
-                    </div>
-                  </button>
+                <div
+                  onDragOver={e => { e.preventDefault(); setThumbDragging(true); }}
+                  onDragLeave={() => setThumbDragging(false)}
+                  onDrop={handleThumbDrop}
+                  className={`flex w-full flex-col items-center gap-4 rounded-2xl border-4 border-dashed py-12 text-center transition-all cursor-pointer group ${
+                    thumbDragging
+                      ? "border-[#4228c4] bg-[#4228c4]/10 scale-[1.01]"
+                      : "border-gray-100 hover:border-[#4228c4]/30 hover:bg-[#4228c4]/5"
+                  }`}
+                  onClick={() => document.getElementById("vehicle-thumbnail-upload")?.click()}
+                >
+                  <div className="h-16 w-16 bg-gray-50 rounded-[1.5rem] flex items-center justify-center group-hover:scale-110 transition-transform">
+                    <Upload className={`h-8 w-8 transition-colors ${thumbDragging ? "text-[#4228c4]" : "text-gray-400 group-hover:text-[#4228c4]"}`} />
+                  </div>
+                  <div>
+                    <p className="text-base font-bold text-gray-700">{thumbDragging ? "Drop to set as thumbnail" : "Drag & drop or click to upload thumbnail"}</p>
+                    <p className="text-sm text-gray-400 mt-1">Recommended for cards and listing previews</p>
+                  </div>
                   <input id="vehicle-thumbnail-upload" type="file" accept="image/*" className="hidden" onChange={handleThumbnail} />
-                </>
+                </div>
               )}
             </div>
 
@@ -582,8 +610,14 @@ export function VehicleWizard({ initialData, mode }: VehicleWizardProps) {
                 {images.map((img, i) => (
                   <div key={i} className="relative aspect-[4/3] group rounded-2xl overflow-hidden border border-gray-100">
                     <img src={img.src} alt={`Upload ${i + 1}`} className="h-full w-full object-cover" />
-                    <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                       <button
+                    <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center gap-2">
+                      <button
+                        onClick={() => promoteToThumbnail(i)}
+                        className="bg-[#4228c4] text-white text-[10px] font-bold px-3 py-1.5 rounded-lg hover:bg-[#3621a1] transition-colors"
+                      >
+                        Set as Primary
+                      </button>
+                      <button
                         onClick={() => removeImage(i)}
                         className="bg-white/20 backdrop-blur-md p-2 rounded-xl text-white hover:bg-red-500 transition-colors"
                       >

@@ -106,7 +106,7 @@ export async function getFeaturedVehicles(
   let query = supabase
     .from("Vehicle")
     .select("*, VehicleImage(*)")
-    .eq("status", "PUBLISHED")
+    .in("status", ["PUBLISHED", "SOLD"])
     .eq("isFeatured", true)
     .order("updatedAt", { ascending: false })
     .limit(limit);
@@ -135,7 +135,7 @@ export async function getPublicVehicles(
   let query = supabase
     .from("Vehicle")
     .select("*, VehicleImage(*)")
-    .eq("status", "PUBLISHED")
+    .in("status", ["PUBLISHED", "SOLD"])
     .order("createdAt", { ascending: false });
 
   if (type) {

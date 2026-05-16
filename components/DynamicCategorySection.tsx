@@ -4,13 +4,12 @@ import Link from "next/link";
 import { ChevronRight } from "lucide-react";
 import SafeImage from "@/components/SafeImage";
 import { useFrontendData } from "@/lib/use-frontend-data";
-import { defaultFrontendData } from "@/lib/frontend-data";
 
 export default function DynamicCategorySection() {
     const data = useFrontendData();
     const brands = data.brands || [];
 
-    const featuredBrands = (brands.length > 0 ? brands : defaultFrontendData.brands)
+    const featuredBrands = brands
         .filter((brand) => brand.isActive && brand.isFeatured)
         .sort((a, b) => (a.order ?? Number.MAX_SAFE_INTEGER) - (b.order ?? Number.MAX_SAFE_INTEGER));
 

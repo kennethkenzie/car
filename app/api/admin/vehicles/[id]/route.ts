@@ -125,11 +125,15 @@ export async function PATCH(
           ? { status: "PUBLISHED" }
           : body.action === "archive"
             ? { status: "ARCHIVED" }
-            : body.action === "feature"
-              ? { isFeatured: true }
-              : body.action === "unfeature"
-                ? { isFeatured: false }
-                : null;
+            : body.action === "sold"
+              ? { status: "SOLD" }
+              : body.action === "unsold"
+                ? { status: "PUBLISHED" }
+                : body.action === "feature"
+                  ? { isFeatured: true }
+                  : body.action === "unfeature"
+                    ? { isFeatured: false }
+                    : null;
 
       if (!updates) {
         return NextResponse.json({ error: "Unsupported action." }, { status: 400 });

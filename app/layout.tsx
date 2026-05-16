@@ -3,7 +3,7 @@ import "./globals.css";
 
 import { AuthProvider } from "@/components/providers/AuthProvider";
 import { QueryProvider } from "@/components/providers/QueryProvider";
-import { ChatBot } from "@/components/ChatBot";
+import { WhatsAppWidget } from "@/components/WhatsAppWidget";
 
 export const metadata: Metadata = {
   title: "Car Baazar | High-End Car Bond",
@@ -21,7 +21,7 @@ export default function RootLayout({
         <QueryProvider>
           <AuthProvider>
             {children}
-            <ChatBot />
+            <WhatsAppWidget />
           </AuthProvider>
         </QueryProvider>
       </body>
